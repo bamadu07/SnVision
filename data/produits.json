@@ -1,0 +1,504 @@
+{
+  "marques": [
+    {
+      "id": 1,
+      "nom": "Ray-Ban",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Ray-Ban_logo.svg/2560px-Ray-Ban_logo.svg.png",
+      "description": "Marque iconique de lunettes de soleil depuis 1937",
+      "categorie": "soleil"
+    },
+    {
+      "id": 2,
+      "nom": "Oakley",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Oakley_logo.svg/2560px-Oakley_logo.svg.png",
+      "description": "Innovation et performance pour les sports et la vie active",
+      "categorie": "sport"
+    },
+    {
+      "id": 3,
+      "nom": "Persol",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Persol_logo.svg/1200px-Persol_logo.svg.png",
+      "description": "Lunettes de soleil italiennes au design intemporel",
+      "categorie": "soleil"
+    },
+    {
+      "id": 4,
+      "nom": "Maui Jim",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Maui_Jim_logo.svg/1200px-Maui_Jim_logo.svg.png",
+      "description": "Technologie de pointe pour une protection optimale",
+      "categorie": "soleil"
+    },
+    {
+      "id": 5,
+      "nom": "Prada",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Prada_logo.svg/2560px-Prada_logo.svg.png",
+      "description": "Luxe et élégance dans chaque détail",
+      "categorie": "vue"
+    },
+    {
+      "id": 6,
+      "nom": "Gucci",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gucci_Logo.svg/2560px-Gucci_Logo.svg.png",
+      "description": "Design audacieux et signature distinctive",
+      "categorie": "vue"
+    },
+    {
+      "id": 7,
+      "nom": "Essilor",
+      "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/2/2b/Essilor_Logo.svg/1280px-Essilor_Logo.svg.png",
+      "description": "Leader mondial des verres correcteurs",
+      "categorie": "vue"
+    },
+    {
+      "id": 8,
+      "nom": "Nike",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1200px-Logo_NIKE.svg.png",
+      "description": "Confort et performance pour les sportifs",
+      "categorie": "sport"
+    },
+    {
+      "id": 9,
+      "nom": "Tom Ford",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Tom_Ford_logo.svg/2560px-Tom_Ford_logo.svg.png",
+      "description": "Lunettes de luxe au design sophistiqué",
+      "categorie": "vue"
+    },
+    {
+      "id": 10,
+      "nom": "Dior",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Dior_logo.svg/2560px-Dior_logo.svg.png",
+      "description": "Élégance française et créativité",
+      "categorie": "soleil"
+    },
+    {
+      "id": 11,
+      "nom": "Chanel",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Chanel_logo.svg/2560px-Chanel_logo.svg.png",
+      "description": "Icône de mode et de sophistication",
+      "categorie": "soleil"
+    },
+    {
+      "id": 12,
+      "nom": "Cartier",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Cartier_logo.svg/2560px-Cartier_logo.svg.png",
+      "description": "Excellence et savoir-faire horloger",
+      "categorie": "vue"
+    }
+  ],
+  "produits": [
+    {
+      "id": 1,
+      "nom": "Ray-Ban Aviator Classic",
+      "marque": "Ray-Ban",
+      "prix": "45 000",
+      "description_courte": "Lunettes de soleil iconiques avec verres teintés G-15",
+      "description_longue": "Les lunettes Aviator de Ray-Ban sont un classique intemporel. Avec leur design en forme de larme et leurs branches doubles, elles offrent un style unique et une protection optimale contre les UV. Les verres G-15 réduisent l'éblouissement sans altérer la perception des couleurs. Fabriquées avec des matériaux de haute qualité pour une durabilité exceptionnelle.",
+      "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 9,
+      "nouveau": false,
+      "promotion": 10,
+      "disponible": true,
+      "stock": 15,
+      "caracteristiques": [
+        "Verres G-15 anti-reflets",
+        "Protection UV 100%",
+        "Monture métal doré",
+        "Branches doubles",
+        "Poids: 28g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "Oakley Radar EV Path",
+      "marque": "Oakley",
+      "prix": "52 000",
+      "description_courte": "Lunettes de sport hautes performances avec écran large",
+      "description_longue": "Conçues pour les athlètes exigeants, les Radar EV Path offrent une vision panoramique et une protection optimale. La technologie Prizm™ améliore les contrastes et la perception des détails pour une performance visuelle maximale. Légères et résistantes, elles sont parfaites pour le sport et les activités extérieures.",
+      "image": "https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "sport",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 15,
+      "disponible": true,
+      "stock": 8,
+      "caracteristiques": [
+        "Technologie Prizm™",
+        "Écran large panoramique",
+        "Protection UV 100%",
+        "Monture O Matter™",
+        "Poids: 26g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 3,
+      "nom": "Gucci GG0284O",
+      "marque": "Gucci",
+      "prix": "78 000",
+      "description_courte": "Monture rectangulaire avec logo GG signature",
+      "description_longue": "Cette monture Gucci allie élégance et modernité avec son design rectangulaire et ses branches ornées du logo GG emblématique. Parfaite pour les verres de vue comme pour les verres solaires. L'acétate de haute qualité assure confort et durabilité, tandis que les charnières à ressort offrent une ouverture fluide et robuste.",
+      "image": "https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 7,
+      "nouveau": false,
+      "promotion": 20,
+      "disponible": true,
+      "stock": 5,
+      "caracteristiques": [
+        "Monture acétate de haute qualité",
+        "Logo GG sur les branches",
+        "Charnières ressort",
+        "Forme rectangulaire moderne",
+        "Poids: 24g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 4,
+      "nom": "Prada Linea Rossa",
+      "marque": "Prada",
+      "prix": "65 000",
+      "description_courte": "Design sportif avec ligne rouge signature",
+      "description_longue": "La collection Linea Rossa de Prada combine technologie et style avec une ligne rouge distinctive. Ces lunettes sont conçues pour les personnes actives qui ne veulent pas sacrifier l'élégance. Les verres polarisés offrent une protection optimale contre les reflets, tandis que la monture légère en TR90 assure un confort maximal toute la journée.",
+      "image": "https://images.unsplash.com/photo-1583339793403-3d9b001b6008?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "sport",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 0,
+      "disponible": true,
+      "stock": 12,
+      "caracteristiques": [
+        "Ligne rouge signature",
+        "Verres polarisés",
+        "Monture légère en TR90",
+        "Protection UV400",
+        "Poids: 22g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 5,
+      "nom": "Persol PO3249S",
+      "marque": "Persol",
+      "prix": "58 000",
+      "description_courte": "Design italien classique avec charnière à flèche",
+      "description_longue": "Les lunettes Persol sont réputées pour leur qualité artisanale et leur design intemporel. Ce modèle présente la célèbre charnière à flèche et des verres teintés gradés pour un style sophistiqué. L'acétate Meflecto s'adapte parfaitement à la morphologie du visage pour un confort exceptionnel.",
+      "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 9,
+      "nouveau": false,
+      "promotion": 25,
+      "disponible": true,
+      "stock": 7,
+      "caracteristiques": [
+        "Charnière à flèche signature",
+        "Verres teintés gradés",
+        "Monture acétate Meflecto",
+        "Protection UV 100%",
+        "Poids: 30g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 6,
+      "nom": "Maui Jim Peahi",
+      "marque": "Maui Jim",
+      "prix": "72 000",
+      "description_courte": "Verres polarisés SuperThin Glass pour une clarté exceptionnelle",
+      "description_longue": "Les lunettes Maui Jim Peahi offrent une clarté et une protection incomparables grâce à la technologie PolarizedPlus2. Les verres SuperThin Glass éliminent les reflets tout en préservant les couleurs naturelles. La monture légère en nylon offre un confort optimal pour les longues journées ensoleillées.",
+      "image": "https://images.unsplash.com/photo-1556306535-0f09a537f0a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 7,
+      "nouveau": true,
+      "promotion": 0,
+      "disponible": true,
+      "stock": 10,
+      "caracteristiques": [
+        "Technologie PolarizedPlus2",
+        "Verres SuperThin Glass",
+        "Protection 100% UV",
+        "Monture légère en nylon",
+        "Poids: 23g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 7,
+      "nom": "Essilor Varilux X",
+      "marque": "Essilor",
+      "prix": "95 000",
+      "description_courte": "Verres progressifs haut de gamme avec technologie Eyezen",
+      "description_longue": "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide. La technologie Eyezen protège contre la lumière bleue nocive des écrans. Ces verres sont spécialement conçus pour les personnes presbytes qui recherchent confort et performance visuelle optimale.",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 6,
+      "nouveau": false,
+      "promotion": 0,
+      "disponible": true,
+      "stock": 20,
+      "caracteristiques": [
+        "Technologie Varilux X",
+        "Protection lumière bleue",
+        "Champ de vision étendu",
+        "Traitement anti-reflets",
+        "Adaptation rapide",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 8,
+      "nom": "Lunettes enfant Nike Flex",
+      "marque": "Nike",
+      "prix": "32 000",
+      "description_courte": "Monture flexible et incassable pour enfants",
+      "description_longue": "Spécialement conçues pour les enfants, ces lunettes Nike Flex sont ultra-flexibles et résistantes aux chocs. Le design coloré et les branches ajustables assurent confort et sécurité. Les verres en polycarbonate offrent une protection UV 100% tout en étant incassables, parfaits pour les activités des enfants.",
+      "image": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "enfant",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 30,
+      "disponible": true,
+      "stock": 25,
+      "caracteristiques": [
+        "Monture flexible TR90",
+        "Branches ajustables",
+        "Verres polycarbonate incassables",
+        "Protection UV 100%",
+        "Design coloré pour enfants",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 9,
+      "nom": "Tom Ford FT5625",
+      "marque": "Tom Ford",
+      "prix": "85 000",
+      "description_courte": "Lunettes de vue élégantes avec finitions dorées",
+      "description_longue": "Ces lunettes Tom Ford incarnent le luxe et la sophistication. Avec leurs finitions dorées et leur design raffiné, elles ajoutent une touche d'élégance à toute tenue. Parfaites pour un usage quotidien ou pour des occasions spéciales, elles offrent un confort exceptionnel grâce à leur conception ergonomique.",
+      "image": "https://images.unsplash.com/photo-1556306510-31ca015374b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 15,
+      "disponible": true,
+      "stock": 6,
+      "caracteristiques": [
+        "Finitions dorées",
+        "Monture acétate",
+        "Design élégant",
+        "Confort optimal",
+        "Poids: 26g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 10,
+      "nom": "Dior So Real",
+      "marque": "Dior",
+      "prix": "68 000",
+      "description_courte": "Lunettes de soleil futuristes avec verres miroir",
+      "description_longue": "La collection So Real de Dior revisite le style rétro avec une touche futuriste. Ces lunettes de soleil avec verres miroir offrent une protection maximale tout en faisant une déclaration de mode. Le design unique et les finitions métalliques en font un accessoire incontournable pour les amateurs de mode.",
+      "image": "https://images.unsplash.com/photo-1556306535-31ca6c2c5ee9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 7,
+      "nouveau": false,
+      "promotion": 20,
+      "disponible": true,
+      "stock": 9,
+      "caracteristiques": [
+        "Verres miroir",
+        "Design futuriste",
+        "Finitions métalliques",
+        "Protection UV 100%",
+        "Poids: 29g",
+        "Garantie 1 an"
+      ]
+    },
+    {
+      "id": 11,
+      "nom": "Chanel 5281",
+      "marque": "Chanel",
+      "prix": "92 000",
+      "description_courte": "Lunettes de luxe avec logo CC emblématique",
+      "description_longue": "Ces lunettes Chanel incarnent l'élégance française avec leur design raffiné et leur logo CC emblématique. Parfaites pour les femmes sophistiquées, elles allient confort et style. La monture en acétate de haute qualité et les charnières dorées témoignent du savoir-faire exceptionnel de la maison Chanel.",
+      "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 9,
+      "nouveau": true,
+      "promotion": 0,
+      "disponible": true,
+      "stock": 4,
+      "caracteristiques": [
+        "Logo CC signature",
+        "Monture acétate premium",
+        "Charnières dorées",
+        "Design féminin élégant",
+        "Poids: 25g",
+        "Garantie 6mois"
+      ]
+    },
+    {
+      "id": 12,
+      "nom": "Cartier Santos",
+      "marque": "Cartier",
+      "prix": "120 000",
+      "description_courte": "Lunettes de luxe inspirées de la montre Santos",
+      "description_longue": "Inspirées de la célèbre montre Santos, ces lunettes Cartier allient horlogerie de précision et lunetterie de luxe. Les détails visibles et les finitions précieuses reflètent l'excellence du savoir-faire Cartier. Un investissement pour les amateurs de produits de luxe exceptionnels.",
+      "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 6,
+      "nouveau": false,
+      "promotion": 10,
+      "disponible": true,
+      "stock": 3,
+      "caracteristiques": [
+        "Inspiré de la montre Santos",
+        "Finitions précieuses",
+        "Monture métal précieux",
+        "Design exclusif",
+        "Poids: 31g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 13,
+      "nom": "Ray-Ban Wayfarer Classic",
+      "marque": "Ray-Ban",
+      "prix": "42 000",
+      "description_courte": "Lunettes de soleil classiques au design intemporel",
+      "description_longue": "Les Wayfarer de Ray-Ban sont devenues une icône de la mode depuis leur création en 1952. Avec leur monture en acétate distinctive et leur design triangulaire, elles conviennent à toutes les formes de visage. Ces lunettes de soleil offrent une protection UV 100% et un style rétro intemporel.",
+      "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 9,
+      "nouveau": false,
+      "promotion": 15,
+      "disponible": true,
+      "stock": 18,
+      "caracteristiques": [
+        "Monture acétate classique",
+        "Protection UV 100%",
+        "Verres teintés gris",
+        "Design wayfarer",
+        "Poids: 25g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 14,
+      "nom": "Oakley Flak 2.0 XL",
+      "marque": "Oakley",
+      "prix": "48 000",
+      "description_courte": "Lunettes de sport avec verres interchangeables",
+      "description_longue": "Les Flak 2.0 XL d'Oakley sont conçues pour les athlètes qui recherchent performance et polyvalence. Le système de verres interchangeables permet d'adapter la teinte en fonction des conditions lumineuses. La technologie Prizm™ améliore les contrastes pour une vision optimale pendant l'effort.",
+      "image": "https://images.unsplash.com/photo-1556306535-0f09a537f0a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "sport",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 10,
+      "disponible": true,
+      "stock": 12,
+      "caracteristiques": [
+        "Verres interchangeables Prizm™",
+        "Monture O Matter™",
+        "Protection UV 100%",
+        "Système de ventilation",
+        "Poids: 24g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 15,
+      "nom": "Prada PR 16WS",
+      "marque": "Prada",
+      "prix": "68 000",
+      "description_courte": "Lunettes de vue élégantes avec logo signature",
+      "description_longue": "Cette monture Prada combine élégance et modernité avec son design sobre et son logo discret. Parfaite pour un usage quotidien au bureau ou en ville, elle s'adapte à tous les styles. L'acétate de haute qualité assure confort et durabilité.",
+      "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "vue",
+      "popularite": 7,
+      "nouveau": false,
+      "promotion": 20,
+      "disponible": true,
+      "stock": 9,
+      "caracteristiques": [
+        "Logo Prada discret",
+        "Monture acétate",
+        "Charnières métalliques",
+        "Design rectangulaire",
+        "Poids: 23g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 16,
+      "nom": "Lunettes enfant FlexiSafe",
+      "marque": "Essilor",
+      "prix": "28 000",
+      "description_courte": "Lunettes incassables et ajustables pour enfants",
+      "description_longue": "Conçues spécialement pour les enfants de 3 à 10 ans, ces lunettes sont ultra-résistantes aux chocs et flexibles. Les branches ajustables s'adaptent à la croissance de l'enfant, et les verres en polycarbonate offrent une protection optimale contre les UV. Design coloré et amusant.",
+      "image": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "enfant",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 25,
+      "disponible": true,
+      "stock": 22,
+      "caracteristiques": [
+        "Monture flexible TR90",
+        "Branches ajustables",
+        "Verres polycarbonate incassables",
+        "Protection UV 100%",
+        "Design enfant coloré",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 17,
+      "nom": "Maui Jim Ho'okipa",
+      "marque": "Maui Jim",
+      "prix": "75 000",
+      "description_courte": "Lunettes de soleil polarisées haut de gamme",
+      "description_longue": "Les Ho'okipa de Maui Jim offrent une clarté exceptionnelle grâce à la technologie PolarizedPlus2. Les verres en verre mince SuperThin Glass éliminent les reflets tout en préservant les couleurs naturelles. Design élégant pour un usage quotidien ou les occasions spéciales.",
+      "image": "https://images.unsplash.com/photo-1556306535-31ca6c2c5ee9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 9,
+      "nouveau": false,
+      "promotion": 0,
+      "disponible": true,
+      "stock": 7,
+      "caracteristiques": [
+        "Technologie PolarizedPlus2",
+        "Verres SuperThin Glass",
+        "Protection 100% UV",
+        "Monture légère",
+        "Poids: 26g",
+        "Garantie 2 ans"
+      ]
+    },
+    {
+      "id": 18,
+      "nom": "Gucci GG0398O",
+      "marque": "Gucci",
+      "prix": "82 000",
+      "description_courte": "Lunettes de soleil avec motif Web",
+      "description_longue": "Ces lunettes de soleil Gucci présentent le motif Web emblématique de la maison sur les branches. Design sophistiqué qui allie tradition et modernité. Parfaites pour les femmes qui recherchent un accessoire de mode distinctif et élégant.",
+      "image": "https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "categorie": "soleil",
+      "popularite": 8,
+      "nouveau": true,
+      "promotion": 15,
+      "disponible": true,
+      "stock": 5,
+      "caracteristiques": [
+        "Motif Web Gucci",
+        "Monture acétate",
+        "Verres teintés gradés",
+        "Protection UV 100%",
+        "Poids: 28g",
+        "Garantie 2 ans"
+      ]
+    }
+  ]
+}

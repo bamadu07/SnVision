@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - SenVision | Votre vision, notre passion</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- CSS Personnalisé -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Styles personnalisés supplémentaires */
+        
+        /* Navigation améliorée */
+        .navbar {
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 5px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50 !important;
+        }
+        
+        .navbar-brand span {
+            color: #3498db;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            margin: 0 8px;
+            padding: 8px 15px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: #3498db !important;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-toggler {
+            border: none;
+            padding: 8px;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        /* Header avec image de fond réduit */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), 
+                        url('images/lunettes/lunett2.jpg') no-repeat center center;
+            background-size: cover;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 80px 0 40px;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        /* Styles pour les logos ronds des marques */
+        .brand-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .brand-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #f8f9fa;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 10px;
+        }
+        
+        .brand-card:hover .brand-logo {
+            transform: scale(1.05);
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 50vh;
+                min-height: 350px;
+                padding: 70px 0 30px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .navbar {
+                padding: 8px 0;
+            }
+            
+            .nav-link {
+                margin: 5px 0;
+                padding: 10px 15px !important;
+            }
+            
+            .brand-logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                height: 45vh;
+                min-height: 300px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .morphing-btn, .btn-outline-light {
+                padding: 10px 20px !important;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div id="preloader">
+        <div class="text-center">
+            <div class="loader"></div>
+            <h4 class="mt-3">Sen<span>Vision</span></h4>
+            <p class="text-muted">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Barre de progression de défilement -->
+    <div class="progress-container">
+        <div class="progress-bar-scroll"></div>
+    </div>
+
+    <!-- Navigation améliorée -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-eyeglasses me-2"></i>Sen<span>Vision</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <i class="bi bi-house-door me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">
+                            <i class="bi bi-gear me-1"></i>Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="marques.html">
+                            <i class="bi bi-tags me-1"></i>Marques
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">
+                            <i class="bi bi-telephone me-1"></i>Contact
+                        </a>
+                    </li>
+                    
+                    <!-- Panier avec badge -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCart" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart3"></i>
+                            <span class="badge bg-danger cart-badge">0</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end cart-dropdown" aria-labelledby="navbarDropdownCart">
+                            <div class="cart-dropdown-content">
+                                <h6 class="dropdown-header">Votre Panier</h6>
+                                <div class="cart-items" id="cart-items">
+                                    <div class="text-center p-3">
+                                        <p class="text-muted mb-0">Votre panier est vide</p>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="px-3 py-2">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total:</span>
+                                        <strong id="cart-total">0 FCFA</strong>
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-sm w-100" id="checkout-btn">Commander</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- Bouton thème -->
+                    <li class="nav-item ms-2">
+                        <button id="themeToggle" class="btn btn-outline-secondary btn-sm" title="Changer le thème">
+                            <i class="bi bi-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section réduit -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="hero-content">
+                        <h1 class="hero-title animate-fade-in-up">Votre Vision, <span class="text-warning">Notre Passion</span></h1>
+                        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Découvrez notre collection exclusive de lunettes à Saint-Louis. Qualité, style et expertise au service de votre vision.</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4 animate-fade-in-up animate-delay-2">
+                            <a href="#featured-products" class="btn btn-primary morphing-btn">
+                                <i class="bi bi-eye me-2"></i>Découvrir
+                            </a>
+                            <a href="contact.html" class="btn btn-outline-light">
+                                <i class="bi bi-calendar-check me-2"></i>Rendez-vous
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marques partenaires -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 animate-on-scroll">Nos Marques Prestigieuses</h2>
+            <p class="text-center text-muted mb-5">Nous collaborons avec les plus grandes marques mondiales pour vous offrir des produits d'excellence</p>
+            <div class="row g-4 justify-content-center" id="featured-brands">
+                <!-- Les marques seront chargées via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits phares -->
+    <section class="py-5 bg-light" id="featured-products">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h2 class="animate-on-scroll">Produits Phares</h2>
+                <a href="marques.html" class="btn btn-outline-primary animate-on-scroll animate-delay-1">
+                    Voir toute la collection <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+            
+            <div class="row g-4" id="featured-products-grid">
+                <!-- Les produits seront chargées via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 animate-on-scroll">Nos Services</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card service-card h-100 text-center p-4 animate-on-scroll">
+                        <div class="service-icon">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <h5 class="mb-3">Examen de la vue</h5>
+                        <p>Examen complet avec des optométristes qualifiés utilisant des équipements de pointe.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 text-center p-4 animate-on-scroll animate-delay-1">
+                        <div class="service-icon">
+                            <i class="bi bi-gear"></i>
+                        </div>
+                        <h5 class="mb-3">Réparation</h5>
+                        <p>Réparation rapide et professionnelle de toutes marques de lunettes.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 text-center p-4 animate-on-scroll animate-delay-2">
+                        <div class="service-icon">
+                            <i class="bi bi-droplet"></i>
+                        </div>
+                        <h5 class="mb-3">Traitements</h5>
+                        <p>Verres anti-reflets, anti-rayures, photochromiques et protection lumière bleue.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistiques -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stats-card text-center animate-on-scroll">
+                        <div class="stats-number counter" data-target="1500">0</div>
+                        <h6>Clients satisfaits</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card text-center animate-on-scroll animate-delay-1">
+                        <div class="stats-number counter" data-target="12">0</div>
+                        <h6>Marques prestigieuses</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card text-center animate-on-scroll animate-delay-2">
+                        <div class="stats-number counter" data-target="24">0</div>
+                        <h6>Mois de garantie</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card text-center animate-on-scroll animate-delay-3">
+                        <div class="stats-number counter" data-target="500">0</div>
+                        <h6>Produits disponibles</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 animate-on-scroll">Ce que disent nos clients</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 p-4 animate-on-scroll">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="images/" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h6 class="mb-0">Moussa Diallo</h6>
+                                <small class="text-muted">Professeur</small>
+                            </div>
+                        </div>
+                        <p>"Service excellent et professionnel. Mes lunettes sont parfaites et le suivi après-vente est remarquable."</p>
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-4 animate-on-scroll animate-delay-1">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d4?w=100&h=100&fit=crop" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h6 class="mb-0">Amina Sow</h6>
+                                <small class="text-muted">Étudiante</small>
+                            </div>
+                        </div>
+                        <p>"J'ai trouvé des lunettes de soleil parfaites pour mes études à l'extérieur. Le rapport qualité-prix est excellent."</p>
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-4 animate-on-scroll animate-delay-2">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h6 class="mb-0">Ibrahim Ndiaye</h6>
+                                <small class="text-muted">Entrepreneur</small>
+                            </div>
+                        </div>
+                        <p>"L'équipe de SenVision a su me conseiller les lunettes parfaites pour mes besoins professionnels. Très satisfait."</p>
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">Sen<span>Vision</span></h4>
+                    <p>Votre boutique de lunettes à Saint-Louis, Sénégal. Nous vous proposons des lunettes de qualité, un service personnalisé et des conseils d'experts.</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">Liens rapides</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html">Accueil</a></li>
+                        <li class="mb-2"><a href="services.html">Services</a></li>
+                        <li class="mb-2"><a href="marques.html">Marques</a></li>
+                        <li class="mb-2"><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">Contact</h4>
+                    <p><i class="bi bi-geo-alt me-2"></i> Saint-Louis, Sénégal</p>
+                    <p><i class="bi bi-telephone me-2"></i> 78 197 08 44</p>
+                    <p><i class="bi bi-envelope me-2"></i> ambarhama07@gmail.com</p>
+                    
+                    <div class="mt-4 social-icons">
+                        <a href="#" class="animate-float"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="animate-float" style="animation-delay: 0.2s"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="animate-float" style="animation-delay: 0.4s"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="animate-float" style="animation-delay: 0.6s"><i class="bi bi-whatsapp fs-5"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12 text-center copyright">
+                    <p>&copy; 2025 SenVision</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton retour en haut -->
+    <button id="backToTop" class="btn btn-primary">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Données intégrées pour la page d'accueil
+        const featuredBrands = [
+            {
+                id: 1,
+                nom: "Ray-Ban",
+                logo: "images/lunettes/lunett1.jpg",
+                description: "Marque iconique"
+            },
+            {
+                id: 2,
+                nom: "Oakley",
+                logo: "images/lunettes/lunett2.jpg",
+                description: "Performance sportive"
+            },
+            {
+                id: 3,
+                nom: "Prada",
+                logo: "images/lunettes/lunett3.jpg",
+                description: "Luxe et élégance"
+            },
+            {
+                id: 4,
+                nom: "Gucci",
+                logo: "images/lunettes/lunett4.jpg",
+                description: "Design audacieux"
+            },
+            {
+                id: 5,
+                nom: "Dior",
+                logo: "images/lunettes/lunett5.jpg",
+                description: "Élégance française"
+            },
+            {
+                id: 6,
+                nom: "Chanel",
+                logo: "images/lunettes/lunett6.jpg",
+                description: "Icône de mode"
+            }
+        ];
+
+        const featuredProducts = [
+            {
+                id: 1,
+                nom: "Ray-Ban Aviator Classic",
+                marque: "Ray-Ban",
+                prix: "45 000",
+                description_courte: "Lunettes de soleil iconiques",
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop",
+                categorie: "soleil",
+                promotion: 10,
+                nouveau: false
+            },
+            {
+                id: 2,
+                nom: "Oakley Radar EV Path",
+                marque: "Oakley",
+                prix: "52 000",
+                description_courte: "Lunettes de sport hautes performances",
+                image: "https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?w=400&h=300&fit=crop",
+                categorie: "sport",
+                promotion: 15,
+                nouveau: true
+            },
+            {
+                id: 3,
+                nom: "Gucci GG0284O",
+                marque: "Gucci",
+                prix: "78 000",
+                description_courte: "Monture rectangulaire élégante",
+                image: "images/lunettes/lunett7.jpg",
+                categorie: "vue",
+                promotion: 20,
+                nouveau: false
+            },
+            {
+                id: 4,
+                nom: "Chanel 5281",
+                marque: "Chanel",
+                prix: "92 000",
+                description_courte: "Lunettes de luxe signature",
+                image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?w=400&h=300&fit=crop",
+                categorie: "vue",
+                promotion: 0,
+                nouveau: true
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('senvision-cart')) || [];
+
+        // Initialiser la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cacher le préchargeur
+            setTimeout(() => {
+                document.getElementById('preloader').style.display = 'none';
+            }, 1000);
+            
+            updateCartDisplay();
+            loadFeaturedBrands();
+            loadFeaturedProducts();
+            setupEventListeners();
+            initAnimations();
+            initNavbarScroll();
+            
+            // Restaurer le thème
+            const savedTheme = localStorage.getItem('senvision-theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.querySelector('#themeToggle i');
+                if (icon) {
+                    icon.classList.remove('bi-moon');
+                    icon.classList.add('bi-sun');
+                }
+            }
+        });
+
+        function initNavbarScroll() {
+            const navbar = document.getElementById('mainNavbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        function loadFeaturedBrands() {
+            const brandsGrid = document.getElementById('featured-brands');
+            brandsGrid.innerHTML = '';
+            
+            featuredBrands.forEach((brand, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-lg-2 col-md-4 col-sm-4 col-6';
+                col.innerHTML = `
+                    <div class="text-center animate-on-scroll" style="animation-delay: ${index * 0.1}s">
+                        <div class="brand-card">
+                            <img src="${brand.logo}" alt="${brand.nom}" class="brand-logo mb-3" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300/2c3e50/ffffff?text=${brand.nom}';">
+                            <h6 class="mb-1 fw-bold">${brand.nom}</h6>
+                            <p class="small text-muted mb-0">${brand.description}</p>
+                        </div>
+                    </div>
+                `;
+                brandsGrid.appendChild(col);
+            });
+        }
+
+        function loadFeaturedProducts() {
+            const productsGrid = document.getElementById('featured-products-grid');
+            productsGrid.innerHTML = '';
+            
+            featuredProducts.forEach((product, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-sm-6';
+                col.innerHTML = `
+                    <div class="card product-card h-100 animate-on-scroll" style="animation-delay: ${index * 0.1}s">
+                        <div class="card-img-container">
+                            <img src="${product.image}" class="card-img-top" alt="${product.nom}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop';">
+                            ${product.nouveau ? '<span class="badge-new">Nouveau</span>' : ''}
+                            ${product.promotion > 0 ? `<span class="badge-promo">-${product.promotion}%</span>` : ''}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">${product.nom}</h6>
+                            <p class="card-text small text-muted mb-2">
+                                <i class="bi bi-tag me-1"></i>${product.marque}
+                            </p>
+                            <p class="card-text small">${product.description_courte}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <span class="product-price fw-bold">${product.prix} FCFA</span>
+                                    ${product.promotion > 0 ? 
+                                        `<span class="text-muted small text-decoration-line-through ms-2">${Math.round(parseInt(product.prix.replace(/\s/g, '')) / (1 - product.promotion/100))} FCFA</span>` 
+                                        : ''}
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary add-to-cart" data-id="${product.id}">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(col);
+            });
+            
+            // Ajouter les événements pour les boutons "Ajouter au panier"
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+
+        function addToCart(productId) {
+            const product = featuredProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.nom,
+                    price: parseInt(product.prix.replace(/\s/g, '')),
+                    promotion: product.promotion,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('senvision-cart', JSON.stringify(cart));
+            updateCartDisplay();
+            
+            // Animation de confirmation
+            const button = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
+            button.innerHTML = '<i class="bi bi-check"></i>';
+            button.classList.add('btn-success');
+            button.classList.remove('btn-outline-primary');
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="bi bi-cart-plus"></i>';
+                button.classList.remove('btn-success');
+                button.classList.add('btn-outline-primary');
+            }, 1000);
+        }
+
+        function updateCartDisplay() {
+            let itemCount = 0;
+            let total = 0;
+            
+            cart.forEach(item => {
+                itemCount += item.quantity;
+                const itemPrice = item.promotion > 0 ? 
+                    item.price * (1 - item.promotion/100) : 
+                    item.price;
+                total += itemPrice * item.quantity;
+            });
+            
+            // Mettre à jour les badges
+            document.querySelectorAll('.cart-badge').forEach(badge => {
+                badge.textContent = itemCount;
+            });
+            
+            // Mettre à jour le total
+            const cartTotal = document.getElementById('cart-total');
+            if (cartTotal) cartTotal.textContent = `${Math.round(total).toLocaleString()} FCFA`;
+        }
+
+        function setupEventListeners() {
+            // Gestion du thème
+            document.getElementById('themeToggle')?.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = this.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('bi-moon');
+                    icon.classList.add('bi-sun');
+                    localStorage.setItem('senvision-theme', 'dark');
+                } else {
+                    icon.classList.remove('bi-sun');
+                    icon.classList.add('bi-moon');
+                    localStorage.setItem('senvision-theme', 'light');
+                }
+            });
+            
+            // Bouton retour en haut
+            document.getElementById('backToTop')?.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Barre de progression de défilement
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                const progressBar = document.querySelector('.progress-bar-scroll');
+                if (progressBar) {
+                    progressBar.style.width = scrolled + '%';
+                }
+                
+                // Afficher/masquer le bouton retour en haut
+                const backToTop = document.getElementById('backToTop');
+                if (backToTop) {
+                    if (window.pageYOffset > 300) {
+                        backToTop.style.display = 'flex';
+                    } else {
+                        backToTop.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Lien vers la section produits
+            document.querySelectorAll('a[href="#featured-products"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.getElementById('featured-products');
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        function initAnimations() {
+            // Animation des compteurs
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 200;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current).toLocaleString();
+                        setTimeout(updateCounter, 1);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+                
+                // Lancer l'animation quand visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(counter);
+            });
+            
+            // Animation au scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        }
+    </script>
+</body>
+</html>

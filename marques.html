@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Marques - SenVision | Votre vision, notre passion</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Personnalisé -->
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-light: #6d8cc4;
+            --primary-dark: #2c3e70;
+            --secondary-color: #166088;
+            --accent-color: #ff6b6b;
+            --accent-light: #ff8e8e;
+            --success-color: #25D366;
+            --success-dark: #128C7E;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --light-gray: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+            --box-shadow-hover: 0 24px 48px rgba(0,0,0,0.15);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), #ff8e53);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #5d8cc8;
+            --primary-light: #7aa6e6;
+            --primary-dark: #4a6fa5;
+            --secondary-color: #1a7bb9;
+            --accent-color: #ff8585;
+            --accent-light: #ffa8a8;
+            --dark-color: #0f1419;
+            --light-color: #1e2a3a;
+            --light-gray: #2c3e50;
+            --card-bg: #2c3e50;
+            --text-color: #f8f9fa;
+            --text-light: #adb5bd;
+            --box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+            --box-shadow-hover: 0 24px 48px rgba(0,0,0,0.4);
+        }
+
+        /* Styles généraux */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            padding-top: 76px;
+            transition: var(--transition);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f1419 0%, #1e2a3a 100%);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 25px;
+            margin-bottom: 50px;
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        /* Navigation */
+        .navbar {
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 8px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-color) !important;
+        }
+        
+        .navbar-brand span {
+            color: var(--primary-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            color: var(--dark-color) !important;
+            margin: 0 5px;
+            padding: 10px 20px !important;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .nav-link:hover::before, .nav-link.active::before {
+            left: 0;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        /* Bouton WhatsApp flottant */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.2rem;
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            z-index: 1000;
+            transition: var(--transition);
+            text-decoration: none;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            background: var(--success-dark);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
+            50% { box-shadow: 0 6px 35px rgba(37, 211, 102, 0.8); }
+            100% { box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
+        }
+
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.9)), 
+                        url('https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(74, 111, 165, 0.3), rgba(255, 107, 107, 0.3));
+            z-index: 1;
+        }
+
+        .page-hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-hero .lead {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+
+        /* SECTION MARQUES PARTENAIRES - DESIGN AMÉLIORÉ */
+        .brands-section {
+            padding: 100px 0;
+            background: var(--light-gray);
+            position: relative;
+        }
+
+        .brands-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(74, 111, 165, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
+            z-index: 1;
+        }
+
+        .brands-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 35px 25px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--box-shadow-hover);
+            border-color: transparent;
+        }
+
+        .brand-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .brand-logo-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: white;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-card:hover .brand-logo-container {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 40px rgba(74, 111, 165, 0.3);
+        }
+
+        .brand-logo-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .brand-card:hover .brand-logo-container::before {
+            opacity: 1;
+        }
+
+        .brand-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .brand-card:hover .brand-logo {
+            transform: scale(1.05);
+        }
+
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .brand-card:hover .brand-name {
+            color: var(--primary-color);
+        }
+
+        .brand-description {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .brand-category {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+            transition: var(--transition);
+        }
+
+        .brand-card:hover .brand-category {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
+        }
+
+        /* SECTION COLLECTION EXCLUSIVE - DESIGN AMÉLIORÉ */
+        .collection-section {
+            padding: 100px 0;
+            background: var(--light-color);
+            position: relative;
+        }
+
+        .collection-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="%234a6fa5" opacity="0.05" d="M0,0 L1000,0 L1000,1000 L0,1000 Z"/></svg>');
+            background-size: 300px;
+            z-index: 1;
+        }
+
+        .collection-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-filters {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            margin-bottom: 50px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            background: transparent;
+            color: var(--text-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        .filter-btn:hover::before, .filter-btn.active::before {
+            opacity: 1;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            height: 100%;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--box-shadow-hover);
+            border-color: transparent;
+        }
+
+        .product-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .product-image-container {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .product-card:hover .product-image-container img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .badge-new {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .badge-promo {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .product-card-body {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-title {
+            color: var(--primary-color);
+        }
+
+        .product-brand {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .original-price {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-details {
+            flex: 1;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-details:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-cart {
+            flex: 1;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn-cart.in-cart {
+            background: var(--success-color);
+        }
+
+        .btn-whatsapp-order {
+            background: var(--success-color);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-whatsapp-order:hover {
+            background: var(--success-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Modal de commande WhatsApp */
+        .whatsapp-modal .modal-content {
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: none;
+        }
+
+        .whatsapp-modal .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+        }
+
+        .whatsapp-modal .modal-body {
+            padding: 30px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(74, 111, 165, 0.1), rgba(255, 107, 107, 0.1));
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .animate-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .brand-logo-container {
+                width: 120px;
+                height: 120px;
+                padding: 20px;
+            }
+            
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-hero {
+                padding: 120px 0 60px;
+            }
+            
+            .page-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .brand-logo-container {
+                width: 100px;
+                height: 100px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div id="preloader">
+        <div class="text-center">
+            <div class="loader"></div>
+            <h4 class="mt-3">Sen<span>Vision</span></h4>
+            <p class="text-muted">Chargement de nos marques...</p>
+        </div>
+    </div>
+
+    <!-- Barre de progression de défilement -->
+    <div class="progress-container">
+        <div class="progress-bar-scroll"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-eyeglasses me-2"></i>Sen<span>Vision</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-door me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">
+                            <i class="bi bi-gear me-1"></i>Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="marques.html">
+                            <i class="bi bi-tags me-1"></i>Marques
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">
+                            <i class="bi bi-telephone me-1"></i>Contact
+                        </a>
+                    </li>
+                    
+                    <!-- Panier -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCart" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart3"></i>
+                            <span class="badge bg-danger cart-badge">0</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end cart-dropdown" aria-labelledby="navbarDropdownCart">
+                            <div class="cart-dropdown-content">
+                                <h6 class="dropdown-header">Votre Panier</h6>
+                                <div class="cart-items" id="cart-items">
+                                    <div class="text-center p-3">
+                                        <p class="text-muted mb-0">Votre panier est vide</p>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="px-3 py-2">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total:</span>
+                                        <strong id="cart-total">0 FCFA</strong>
+                                    </div>
+                                    <button class="btn btn-success btn-sm w-100" onclick="orderViaWhatsApp()">
+                                        <i class="bi bi-whatsapp me-1"></i>Commander via WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- Bouton thème -->
+                    <li class="nav-item ms-2">
+                        <button id="themeToggle" class="btn btn-outline-secondary btn-sm" title="Changer le thème">
+                            <i class="bi bi-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bouton WhatsApp flottant -->
+    <a href="https://wa.me/781970844" class="whatsapp-float" target="_blank" title="Commander via WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <h1 class="mb-4 animate-fade-in-up">Nos Marques & Collections</h1>
+                    <p class="lead animate-fade-in-up animate-delay-1">Découvrez notre sélection exclusive de marques prestigieuses pour des lunettes qui allient style, confort et performance.</p>
+                    <button class="btn btn-primary btn-lg animate-fade-in-up animate-delay-2" onclick="scrollToCollection()">
+                        <i class="bi bi-arrow-down me-2"></i>Découvrir la collection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION MARQUES PARTENAIRES - DESIGN AMÉLIORÉ -->
+    <section class="brands-section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Nos Marques Partenaires</h2>
+            <p class="text-center mb-5 animate-on-scroll animate-delay-1" style="max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                Nous collaborons avec les plus grandes marques mondiales pour vous offrir des lunettes de qualité exceptionnelle
+            </p>
+            
+            <div class="row g-4 justify-content-center" id="brands-list">
+                <!-- Les marques seront chargées via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION COLLECTION EXCLUSIVE - DESIGN AMÉLIORÉ -->
+    <section class="collection-section" id="collection">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Notre Collection Exclusive</h2>
+            
+            <div class="product-filters animate-on-scroll">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-8">
+                        <div class="d-flex flex-wrap justify-content-center">
+                            <button class="btn filter-btn m-1 active" data-filter="all">
+                                <i class="bi bi-grid me-2"></i>Toutes les collections
+                            </button>
+                            <button class="btn filter-btn m-1" data-filter="soleil">
+                                <i class="bi bi-sun me-2"></i>Lunettes de soleil
+                            </button>
+                            <button class="btn filter-btn m-1" data-filter="vue">
+                                <i class="bi bi-eye me-2"></i>Lunettes de vue
+                            </button>
+                            <button class="btn filter-btn m-1" data-filter="sport">
+                                <i class="bi bi-lightning me-2"></i>Lunettes sport
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Rechercher un produit..." id="search-product">
+                            <button class="btn btn-primary" type="button" id="search-btn">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4" id="products-catalog">
+                <!-- Les produits seront chargés via JavaScript -->
+            </div>
+            
+            <!-- Bouton Commander via WhatsApp -->
+            <div class="text-center mt-5 animate-on-scroll">
+                <button class="btn btn-whatsapp-order" onclick="orderViaWhatsApp()">
+                    <i class="bi bi-whatsapp"></i> Commander via WhatsApp
+                </button>
+                <p class="text-muted mt-2">Cliquez pour commander directement via WhatsApp</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de commande WhatsApp -->
+    <div class="modal fade whatsapp-modal" id="whatsappOrderModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Commander via WhatsApp</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="whatsapp-order-content">
+                        <!-- Contenu généré dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-4">Sen<span style="color: #3498db">Vision</span></h3>
+                    <p>Votre boutique de lunettes à Saint-Louis, Sénégal. Nous vous proposons des lunettes de qualité, un service personnalisé et des conseils d'experts.</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">Liens rapides</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html">Accueil</a></li>
+                        <li class="mb-2"><a href="services.html">Services</a></li>
+                        <li class="mb-2"><a href="marques.html">Marques</a></li>
+                        <li class="mb-2"><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">Contact</h4>
+                    <p><i class="bi bi-geo-alt me-2"></i> Saint-Louis, Sénégal</p>
+                    <p><i class="bi bi-telephone me-2"></i> 78 197 08 44</p>
+                    <p><i class="bi bi-envelope me-2"></i> ambarhama07@gmail.com</p>
+                    
+                    <div class="mt-4">
+                        <a href="https://wa.me/781970844" class="btn btn-success me-2" target="_blank">
+                            <i class="bi bi-whatsapp me-1"></i>WhatsApp
+                        </a>
+                        <a href="tel:781970844" class="btn btn-primary">
+                            <i class="bi bi-telephone me-1"></i>Appeler
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12 text-center copyright">
+                    <p>&copy; 2023 SenVision. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Données des marques avec logos réels
+        const allBrands = [
+            {
+                id: 1,
+                nom: "Ray-Ban",
+                logo: "",
+                description: "Marque iconique de lunettes de soleil depuis 1937",
+                categorie: "soleil"
+            },
+            {
+                id: 2,
+                nom: "Oakley",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Oakley_logo.svg/1280px-Oakley_logo.svg.png",
+                description: "Innovation et performance pour les sports et la vie active",
+                categorie: "sport"
+            },
+            {
+                id: 3,
+                nom: "Persol",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Persol_logo.svg/1280px-Persol_logo.svg.png",
+                description: "Lunettes de soleil italiennes au design intemporel",
+                categorie: "soleil"
+            },
+            {
+                id: 4,
+                nom: "Prada",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Prada_logo.svg/1280px-Prada_logo.svg.png",
+                description: "Luxe et élégance dans chaque détail",
+                categorie: "vue"
+            },
+            {
+                id: 5,
+                nom: "Gucci",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Gucci_logo.svg/1280px-Gucci_logo.svg.png",
+                description: "Design audacieux et signature distinctive",
+                categorie: "vue"
+            },
+            {
+                id: 6,
+                nom: "Essilor",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Essilor.svg/1280px-Essilor.svg.png",
+                description: "Leader mondial des verres correcteurs",
+                categorie: "vue"
+            },
+            {
+                id: 7,
+                nom: "Nike",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1280px-Logo_NIKE.svg.png",
+                description: "Confort et performance pour les sportifs",
+                categorie: "sport"
+            },
+            {
+                id: 8,
+                nom: "Dior",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Dior_logo.svg/1280px-Dior_logo.svg.png",
+                description: "Élégance française et créativité",
+                categorie: "soleil"
+            }
+        ];
+
+        const allProducts = [
+            {
+                id: 1,
+                nom: "Ray-Ban Aviator Classic Gold",
+                marque: "Ray-Ban",
+                prix: "65 000",
+                description_courte: "Lunettes de soleil iconiques avec verres teintés G-15",
+                description_longue: "Les lunettes Aviator de Ray-Ban sont un classique intemporel. Avec leur design en forme de larme et leurs branches doubles, elles offrent un style unique et une protection optimale contre les UV.",
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&h=600&fit=crop",
+                categorie: "soleil",
+                popularite: 9,
+                nouveau: true,
+                promotion: 15,
+                disponible: true,
+                stock: 12,
+                caracteristiques: [
+                    "Verres G-15 anti-reflets",
+                    "Protection UV 100%",
+                    "Monture métal doré",
+                    "Branches doubles",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 2,
+                nom: "Oakley Radar EV Path Prizm",
+                marque: "Oakley",
+                prix: "85 000",
+                description_courte: "Lunettes de sport hautes performances avec écran large",
+                description_longue: "Conçues pour les athlètes exigeants, les Radar EV Path offrent une vision panoramique et une protection optimale. La technologie Prizm™ améliore les contrastes.",
+                image: "images/lunettes/lunett2.jpg",
+                categorie: "sport",
+                popularite: 8,
+                nouveau: true,
+                promotion: 20,
+                disponible: true,
+                stock: 8,
+                caracteristiques: [
+                    "Technologie Prizm™",
+                    "Écran large panoramique",
+                    "Protection UV 100%",
+                    "Monture O Matter™",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 3,
+                nom: "Gucci GG0284O Gold",
+                marque: "Gucci",
+                prix: "120 000",
+                description_courte: "Monture rectangulaire avec logo GG signature",
+                description_longue: "Cette monture Gucci allie élégance et modernité avec son design rectangulaire et ses branches ornées du logo GG emblématique.",
+                image: "images/lunettes/lunett3.jpg",
+                categorie: "vue",
+                popularite: 7,
+                nouveau: false,
+                promotion: 25,
+                disponible: true,
+                stock: 5,
+                caracteristiques: [
+                    "Monture acétate de haute qualité",
+                    "Logo GG sur les branches",
+                    "Charnières ressort",
+                    "Forme rectangulaire moderne",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 4,
+                nom: "Prada Linea Rossa Sport",
+                marque: "Prada",
+                prix: "95 000",
+                description_courte: "Design sportif avec ligne rouge signature",
+                description_longue: "La collection Linea Rossa de Prada combine technologie et style avec une ligne rouge distinctive.",
+                image: "images/lunettes/lunett4.jpg",
+                categorie: "sport",
+                popularite: 8,
+                nouveau: true,
+                promotion: 0,
+                disponible: true,
+                stock: 10,
+                caracteristiques: [
+                    "Ligne rouge signature",
+                    "Verres polarisés",
+                    "Monture légère en TR90",
+                    "Protection UV400",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 5,
+                nom: "Persol PO3249S Vintage",
+                marque: "Persol",
+                prix: "78 000",
+                description_courte: "Design italien classique avec charnière à flèche",
+                description_longue: "Les lunettes Persol sont réputées pour leur qualité artisanale et leur design intemporel.",
+                image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&h=600&fit=crop",
+                categorie: "soleil",
+                popularite: 9,
+                nouveau: false,
+                promotion: 30,
+                disponible: true,
+                stock: 7,
+                caracteristiques: [
+                    "Charnière à flèche signature",
+                    "Verres teintés gradés",
+                    "Monture acétate Meflecto",
+                    "Protection UV 100%",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 6,
+                nom: "Essilor Varilux X Series",
+                marque: "Essilor",
+                prix: "150 000",
+                description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
+                description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
+                image: "images/lunettes/lunett5.jpg",
+                categorie: "vue",
+                popularite: 6,
+                nouveau: true,
+                promotion: 0,
+                disponible: true,
+                stock: 15,
+                caracteristiques: [
+                    "Technologie Varilux X",
+                    "Protection lumière bleue",
+                    "Champ de vision étendu",
+                    "Traitement anti-reflets",
+                    "Adaptation rapide"
+                ]
+            },
+            {
+                id: 6,
+                nom: "Essilor Varilux X Series",
+                marque: "Essilor",
+                prix: "150 000",
+                description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
+                description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
+                image: "images/lunettes/lunett7.jpg",
+                categorie: "vue",
+                popularite: 6,
+                nouveau: true,
+                promotion: 0,
+                disponible: true,
+                stock: 15,
+                caracteristiques: [
+                    "Technologie Varilux X",
+                    "Protection lumière bleue",
+                    "Champ de vision étendu",
+                    "Traitement anti-reflets",
+                    "Adaptation rapide"
+                ]
+            },
+            {
+                id: 7,
+                nom: "Dior So Real Pop",
+                marque: "Dior",
+                prix: "130 000",
+                description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
+                description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
+                image: "images/lunettes/lunett9.jpg",
+                categorie: "soleil",
+                popularite: 8,
+                nouveau: true,
+                promotion: 10,
+                disponible: true,
+                stock: 9,
+                caracteristiques: [
+                    "Design géométrique unique",
+                    "Verres miroir haute définition",
+                    "Monture métal légère",
+                    "Protection UV400",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 6,
+                nom: "Essilor Varilux X Series",
+                marque: "Essilor",
+                prix: "150 000",
+                description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
+                description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
+                image: "images/lunettes/lunett8.jpg",
+                categorie: "vue",
+                popularite: 6,
+                nouveau: true,
+                promotion: 0,
+                disponible: true,
+                stock: 15,
+                caracteristiques: [
+                    "Technologie Varilux X",
+                    "Protection lumière bleue",
+                    "Champ de vision étendu",
+                    "Traitement anti-reflets",
+                    "Adaptation rapide"
+                ]
+            }
+            
+        ];
+
+        // Variables globales
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let cart = JSON.parse(localStorage.getItem('senvision-cart')) || [];
+
+        // Initialiser la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cacher le préchargeur
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1000);
+            
+            // Initialiser
+            updateCartDisplay();
+            loadBrands(allBrands);
+            loadProducts(allProducts);
+            setupEventListeners();
+            initNavbarScroll();
+            initAnimations();
+            loadTheme();
+        });
+        
+        function initNavbarScroll() {
+            const navbar = document.getElementById('mainNavbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+        
+        function setupEventListeners() {
+            // Filtres
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    filterProducts(currentFilter);
+                });
+            });
+            
+            // Recherche
+            const searchInput = document.getElementById('search-product');
+            const searchBtn = document.getElementById('search-btn');
+            
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value.toLowerCase();
+                filterProducts(currentFilter);
+            });
+            
+            searchBtn.addEventListener('click', function() {
+                currentSearch = searchInput.value.toLowerCase();
+                filterProducts(currentFilter);
+            });
+            
+            // Gestion du thème
+            document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+            
+            // Scroll vers la collection
+            window.scrollToCollection = function() {
+                document.getElementById('collection').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            };
+        }
+        
+        function loadBrands(brands) {
+            const brandsList = document.getElementById('brands-list');
+            brandsList.innerHTML = '';
+            
+            brands.forEach((brand, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-6 animate-on-scroll';
+                col.style.animationDelay = `${index * 0.1}s`;
+                
+                col.innerHTML = `
+                    <div class="brand-card">
+                        <div class="brand-logo-container">
+                            <img src="${brand.logo}" 
+                                 alt="${brand.nom}" 
+                                 class="brand-logo"
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold;font-size:1.2rem\'>${brand.nom}</div>'">
+                        </div>
+                        <h4 class="brand-name">${brand.nom}</h4>
+                        <p class="brand-description">${brand.description}</p>
+                        <span class="brand-category">${brand.categorie}</span>
+                    </div>
+                `;
+                
+                brandsList.appendChild(col);
+            });
+        }
+        
+        function loadProducts(products) {
+            const catalog = document.getElementById('products-catalog');
+            catalog.innerHTML = '';
+            
+            const filteredProducts = products.filter(product => 
+                (currentFilter === 'all' || product.categorie === currentFilter) &&
+                (currentSearch === '' || 
+                 product.nom.toLowerCase().includes(currentSearch) ||
+                 product.marque.toLowerCase().includes(currentSearch))
+            );
+            
+            if (filteredProducts.length === 0) {
+                catalog.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-search display-4 text-muted mb-3"></i>
+                        <h4>Aucun produit trouvé</h4>
+                        <p>Essayez d'autres critères de recherche</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProducts.forEach((product, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-xl-4 col-lg-6 col-md-6 animate-on-scroll';
+                col.style.animationDelay = `${index * 0.1}s`;
+                
+                const inCart = cart.find(item => item.id === product.id);
+                const originalPrice = product.promotion > 0 ? 
+                    Math.round(parseInt(product.prix.replace(/\s/g, '')) / (1 - product.promotion/100)) : 
+                    null;
+                
+                col.innerHTML = `
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="${product.image}" 
+                                 class="card-img-top" 
+                                 alt="${product.nom}"
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:280px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold\'>${product.nom}</div>'">
+                            ${product.nouveau ? '<span class="product-badge badge-new">Nouveau</span>' : ''}
+                            ${product.promotion > 0 ? `<span class="product-badge badge-promo">-${product.promotion}%</span>` : ''}
+                        </div>
+                        <div class="product-card-body">
+                            <h4 class="product-title">${product.nom}</h4>
+                            <p class="product-brand">
+                                <i class="bi bi-tag me-1"></i>${product.marque}
+                            </p>
+                            <p class="product-description">${product.description_courte}</p>
+                            <div class="product-price">
+                                ${product.prix} FCFA
+                                ${originalPrice ? `<span class="original-price">${originalPrice.toLocaleString()} FCFA</span>` : ''}
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-details" onclick="showProductDetails(${product.id})">
+                                    <i class="bi bi-eye me-1"></i>Détails
+                                </button>
+                                <button class="btn btn-cart ${inCart ? 'in-cart' : ''}" 
+                                        onclick="addToCart(${product.id})"
+                                        ${inCart ? 'disabled' : ''}>
+                                    <i class="bi ${inCart ? 'bi-check' : 'bi-cart-plus'} me-1"></i>
+                                    ${inCart ? 'Au panier' : 'Ajouter'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                catalog.appendChild(col);
+            });
+        }
+        
+        function filterProducts(filter) {
+            currentFilter = filter;
+            loadProducts(allProducts);
+        }
+        
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.nom,
+                    price: parseInt(product.prix.replace(/\s/g, '')),
+                    image: product.image,
+                    quantity: 1,
+                    promotion: product.promotion || 0
+                });
+            }
+            
+            localStorage.setItem('senvision-cart', JSON.stringify(cart));
+            updateCartDisplay();
+            
+            // Mettre à jour le bouton
+            const buttons = document.querySelectorAll(`.btn-cart[onclick="addToCart(${productId})"]`);
+            buttons.forEach(button => {
+                button.classList.add('in-cart');
+                button.innerHTML = '<i class="bi bi-check me-1"></i>Au panier';
+                button.disabled = true;
+            });
+            
+            showNotification(`${product.nom} ajouté au panier !`, 'success');
+        }
+        
+        function updateCartDisplay() {
+            let total = 0;
+            let itemCount = 0;
+            
+            cart.forEach(item => {
+                const itemPrice = item.promotion > 0 ? 
+                    item.price * (1 - item.promotion/100) : 
+                    item.price;
+                total += itemPrice * item.quantity;
+                itemCount += item.quantity;
+            });
+            
+            // Mettre à jour les badges
+            document.querySelectorAll('.cart-badge').forEach(badge => {
+                badge.textContent = itemCount;
+            });
+            
+            // Mettre à jour le total dans le dropdown
+            const cartTotal = document.getElementById('cart-total');
+            if (cartTotal) cartTotal.textContent = `${Math.round(total).toLocaleString()} FCFA`;
+            
+            // Mettre à jour le contenu du panier dropdown
+            updateCartDropdown();
+        }
+        
+        function updateCartDropdown() {
+            const cartItems = document.getElementById('cart-items');
+            if (!cartItems) return;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center p-3">
+                        <p class="text-muted mb-0">Votre panier est vide</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let itemsHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemPrice = item.promotion > 0 ? 
+                    item.price * (1 - item.promotion/100) : 
+                    item.price;
+                const itemTotal = itemPrice * item.quantity;
+                subtotal += itemTotal;
+                
+                itemsHTML += `
+                    <div class="cart-dropdown-item p-2 border-bottom">
+                        <div class="d-flex align-items-center">
+                            <div style="width: 40px; height: 40px; overflow: hidden; border-radius: 6px; margin-right: 10px;">
+                                <img src="${item.image}" 
+                                     alt="${item.name}" 
+                                     style="width: 100%; height: 100%; object-fit: cover;"
+                                     onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:#f5f7fa;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#666\'>${item.name.substring(0,5)}</div>'">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-0" style="font-size: 0.85rem;">${item.name}</h6>
+                                    <small class="text-muted">x${item.quantity}</small>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">${Math.round(itemPrice).toLocaleString()} FCFA</small>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = itemsHTML;
+        }
+        
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('senvision-cart', JSON.stringify(cart));
+            updateCartDisplay();
+            
+            // Mettre à jour les boutons
+            const buttons = document.querySelectorAll(`.btn-cart[onclick="addToCart(${productId})"]`);
+            buttons.forEach(button => {
+                button.classList.remove('in-cart');
+                button.innerHTML = '<i class="bi bi-cart-plus me-1"></i>Ajouter';
+                button.disabled = false;
+            });
+            
+            showNotification('Article retiré du panier', 'info');
+        }
+        
+        // FONCTIONNALITÉ WHATSAPP - AMÉLIORÉE
+        function orderViaWhatsApp() {
+            if (cart.length === 0) {
+                showNotification('Votre panier est vide. Ajoutez des articles avant de commander.', 'warning');
+                return;
+            }
+            
+            // Calculer le total
+            let total = 0;
+            let orderDetails = '';
+            
+            cart.forEach((item, index) => {
+                const itemPrice = item.promotion > 0 ? 
+                    Math.round(item.price * (1 - item.promotion/100)) : 
+                    item.price;
+                const itemTotal = itemPrice * item.quantity;
+                total += itemTotal;
+                
+                orderDetails += `${index + 1}. ${item.name} (x${item.quantity}) - ${itemTotal.toLocaleString()} FCFA\n`;
+            });
+            
+            // Message WhatsApp formaté
+            const message = `Bonjour SenVision ! 👓\n\nJe souhaite commander les articles suivants :\n\n${orderDetails}\n──────────────\n💰 Total: ${total.toLocaleString()} FCFA\n\n📋 Mes informations :\n• Nom : _________\n• Téléphone : _________\n• Adresse : _________\n\n📝 Notes : _________\n\nMerci !`;
+            
+            // Encoder le message pour URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Ouvrir WhatsApp
+            window.open(`https://wa.me/781970844?text=${encodedMessage}`, '_blank');
+            
+            // Afficher une confirmation
+            showNotification('WhatsApp ouvert ! Remplissez vos informations et envoyez le message.', 'success');
+        }
+        
+        function showProductDetails(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const inCart = cart.find(item => item.id === product.id);
+            const originalPrice = product.promotion > 0 ? 
+                Math.round(parseInt(product.prix.replace(/\s/g, '')) / (1 - product.promotion/100)) : 
+                null;
+            
+            const modalContent = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="border-radius: var(--border-radius); overflow: hidden; margin-bottom: 20px;">
+                            <img src="${product.image}" 
+                                 class="img-fluid" 
+                                 alt="${product.nom}"
+                                 style="width: 100%; height: 300px; object-fit: cover;"
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:300px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold\'>${product.nom}</div>'">
+                        </div>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge bg-primary">${product.marque}</span>
+                            <span class="badge bg-secondary">${product.categorie}</span>
+                            ${product.nouveau ? '<span class="badge bg-success">Nouveau</span>' : ''}
+                            ${product.promotion > 0 ? `<span class="badge bg-danger">Promotion -${product.promotion}%</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-3">${product.nom}</h3>
+                        <div class="mb-4">
+                            <h2 class="text-primary fw-bold">${product.prix} FCFA</h2>
+                            ${originalPrice ? `<p class="text-muted"><del>${originalPrice.toLocaleString()} FCFA</del></p>` : ''}
+                        </div>
+                        <p class="mb-4">${product.description_longue}</p>
+                        <div class="mb-4">
+                            <h5>Caractéristiques :</h5>
+                            <ul class="list-unstyled">
+                                ${product.caracteristiques.map(c => `<li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h5>Disponibilité :</h5>
+                            <p class="${product.disponible ? 'text-success' : 'text-danger'}">
+                                <i class="bi ${product.disponible ? 'bi-check-circle' : 'bi-x-circle'} me-2"></i>
+                                ${product.disponible ? 'En stock' : 'Rupture de stock'}
+                                ${product.disponible && product.stock ? `(${product.stock} disponibles)` : ''}
+                            </p>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn ${inCart ? 'btn-success' : 'btn-primary'} btn-lg" 
+                                    onclick="addToCart(${product.id}); bootstrap.Modal.getInstance(document.querySelector('#productModal')).hide();">
+                                <i class="bi ${inCart ? 'bi-check' : 'bi-cart-plus'} me-2"></i>
+                                ${inCart ? 'Déjà au panier' : 'Ajouter au panier'}
+                            </button>
+                            <button class="btn btn-success btn-lg" onclick="orderSingleProduct(${product.id})">
+                                <i class="bi bi-whatsapp me-2"></i>Commander via WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Créer et afficher la modal
+            const modal = new bootstrap.Modal(document.createElement('div'));
+            modal._element.className = 'modal fade';
+            modal._element.id = 'productModal';
+            modal._element.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">${product.nom}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            ${modalContent}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal._element);
+            modal.show();
+            
+            modal._element.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal._element);
+            });
+        }
+        
+        function orderSingleProduct(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const message = `Bonjour SenVision ! 👓\n\nJe souhaite commander :\n\n1. ${product.nom} - ${product.prix} FCFA\n\n──────────────\n💰 Total: ${product.prix}\n\n📋 Mes informations :\n• Nom : _________\n• Téléphone : _________\n• Adresse : _________\n\n📝 Notes : _________\n\nMerci !`;
+            const encodedMessage = encodeURIComponent(message);
+            
+            window.open(`https://wa.me/781970844?text=${encodedMessage}`, '_blank');
+            showNotification('WhatsApp ouvert ! Commandez directement.', 'success');
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 90px; right: 20px; z-index: 9999; max-width: 350px; border-radius: var(--border-radius);';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        function initAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const icon = document.querySelector('#themeToggle i');
+            
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                icon.classList.remove('bi-sun');
+                icon.classList.add('bi-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.classList.remove('bi-moon');
+                icon.classList.add('bi-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const icon = document.querySelector('#themeToggle i');
+                if (icon) {
+                    icon.classList.remove('bi-moon');
+                    icon.classList.add('bi-sun');
+                }
+            }
+        }
+        
+        // Initialiser le panier
+        if (!localStorage.getItem('senvision-cart')) {
+            localStorage.setItem('senvision-cart', JSON.stringify([]));
+        }
+    </script>
+</body>
+</html>
