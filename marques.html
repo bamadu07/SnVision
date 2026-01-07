@@ -159,6 +159,34 @@
             transform: translateY(-2px);
         }
 
+        /* Préchargeur */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--light-gray);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Bouton WhatsApp flottant */
         .whatsapp-float {
             position: fixed;
@@ -243,7 +271,7 @@
             opacity: 0.9;
         }
 
-        /* SECTION MARQUES PARTENAIRES - DESIGN AMÉLIORÉ */
+        /* SECTION MARQUES PARTENAIRES */
         .brands-section {
             padding: 100px 0;
             background: var(--light-gray);
@@ -308,7 +336,7 @@
             margin: 0 auto 25px;
             border-radius: 50%;
             background: white;
-            padding: 25px;
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -347,7 +375,8 @@
         .brand-logo {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            border-radius: 50%;
             transition: var(--transition);
         }
 
@@ -394,7 +423,7 @@
             box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
         }
 
-        /* SECTION COLLECTION EXCLUSIVE - DESIGN AMÉLIORÉ */
+        /* SECTION COLLECTION EXCLUSIVE */
         .collection-section {
             padding: 100px 0;
             background: var(--light-color);
@@ -640,23 +669,6 @@
             box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
         }
 
-        /* Modal de commande WhatsApp */
-        .whatsapp-modal .modal-content {
-            border-radius: var(--border-radius-lg);
-            overflow: hidden;
-            border: none;
-        }
-
-        .whatsapp-modal .modal-header {
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-        }
-
-        .whatsapp-modal .modal-body {
-            padding: 30px;
-        }
-
         /* Footer */
         .footer {
             background: var(--dark-color);
@@ -674,6 +686,410 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(45deg, rgba(74, 111, 165, 0.1), rgba(255, 107, 107, 0.1));
+        }
+
+        /* MODAL DU PANIER AMÉLIORÉ */
+        .cart-modal .modal-content {
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: none;
+            background: var(--card-bg);
+        }
+
+        .cart-modal .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .cart-modal .modal-body {
+            padding: 0;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .cart-modal .modal-footer {
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            background: var(--light-gray);
+        }
+
+        .cart-items-container {
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item:hover {
+            background: rgba(var(--primary-color-rgb), 0.05);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-promo {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-gray);
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .quantity-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cart-item-remove {
+            background: transparent;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: var(--transition);
+            border-radius: 4px;
+        }
+
+        .cart-item-remove:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .cart-summary {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .summary-row.total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: none;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .cart-empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-light);
+        }
+
+        .cart-empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Formulaire de commande */
+        .order-form {
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+
+        .form-floating label {
+            color: var(--text-light);
+        }
+
+        .form-floating .form-control {
+            background: var(--light-gray);
+            border: 1px solid rgba(0,0,0,0.1);
+            color: var(--text-color);
+        }
+
+        .form-floating .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+        }
+
+        .form-check {
+            margin-bottom: 0.5rem;
+        }
+
+        .order-notes {
+            margin-top: 1rem;
+        }
+
+        .notes-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--light-gray);
+            color: var(--text-color);
+            resize: vertical;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.1);
+        }
+
+        /* Boutons d'action */
+        .cart-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-continue-shopping {
+            flex: 1;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-continue-shopping:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-checkout {
+            flex: 2;
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-checkout:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-checkout.whatsapp {
+            background: var(--success-color);
+        }
+
+        .btn-checkout.whatsapp:hover {
+            background: var(--success-dark);
+        }
+
+        /* Dropdown panier amélioré */
+        .cart-dropdown {
+            min-width: 350px;
+            border: none;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: var(--card-bg);
+        }
+
+        .cart-dropdown-content {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dropdown-cart-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .dropdown-cart-item:hover {
+            background: rgba(var(--primary-color-rgb), 0.05);
+        }
+
+        .dropdown-cart-item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .dropdown-cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dropdown-cart-item-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dropdown-cart-item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dropdown-cart-item-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .dropdown-cart-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .dropdown-cart-item-quantity {
+            color: var(--text-light);
+        }
+
+        .cart-dropdown-footer {
+            padding: 1rem;
+            background: var(--light-gray);
+        }
+
+        /* Notification */
+        .cart-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            max-width: 400px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .cart-notification.show {
+            transform: translateX(0);
+        }
+
+        .cart-notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--success-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .cart-notification-content {
+            flex: 1;
+        }
+
+        .cart-notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-color);
+        }
+
+        .cart-notification-message {
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
 
         /* Animations */
@@ -727,7 +1143,6 @@
             .brand-logo-container {
                 width: 120px;
                 height: 120px;
-                padding: 20px;
             }
             
             .whatsapp-float {
@@ -736,6 +1151,35 @@
                 bottom: 20px;
                 right: 20px;
                 font-size: 1.8rem;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                width: 120px;
+                height: 120px;
+            }
+
+            .cart-item-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+
+            .cart-modal .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            .cart-dropdown {
+                min-width: 300px;
             }
         }
 
@@ -755,7 +1199,11 @@
             .brand-logo-container {
                 width: 100px;
                 height: 100px;
-                padding: 15px;
+            }
+            
+            .cart-dropdown {
+                min-width: 280px;
+                margin-right: 0.5rem;
             }
         }
     </style>
@@ -765,14 +1213,9 @@
     <div id="preloader">
         <div class="text-center">
             <div class="loader"></div>
-            <h4 class="mt-3">Sen<span>Vision</span></h4>
+            <h4 class="mt-3">Sen<span style="color: #4a6fa5">Vision</span></h4>
             <p class="text-muted">Chargement de nos marques...</p>
         </div>
-    </div>
-
-    <!-- Barre de progression de défilement -->
-    <div class="progress-container">
-        <div class="progress-bar-scroll"></div>
     </div>
 
     <!-- Navigation -->
@@ -814,23 +1257,11 @@
                             <span class="badge bg-danger cart-badge">0</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end cart-dropdown" aria-labelledby="navbarDropdownCart">
-                            <div class="cart-dropdown-content">
-                                <h6 class="dropdown-header">Votre Panier</h6>
-                                <div class="cart-items" id="cart-items">
-                                    <div class="text-center p-3">
-                                        <p class="text-muted mb-0">Votre panier est vide</p>
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="px-3 py-2">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Total:</span>
-                                        <strong id="cart-total">0 FCFA</strong>
-                                    </div>
-                                    <button class="btn btn-success btn-sm w-100" onclick="orderViaWhatsApp()">
-                                        <i class="bi bi-whatsapp me-1"></i>Commander via WhatsApp
-                                    </button>
-                                </div>
+                            <div class="cart-dropdown-content" id="cart-items">
+                                <!-- Contenu du dropdown panier -->
+                            </div>
+                            <div class="cart-dropdown-footer">
+                                <!-- Footer du dropdown panier -->
                             </div>
                         </div>
                     </li>
@@ -866,7 +1297,7 @@
         </div>
     </section>
 
-    <!-- SECTION MARQUES PARTENAIRES - DESIGN AMÉLIORÉ -->
+    <!-- SECTION MARQUES PARTENAIRES -->
     <section class="brands-section">
         <div class="container">
             <h2 class="section-title animate-on-scroll">Nos Marques Partenaires</h2>
@@ -880,7 +1311,7 @@
         </div>
     </section>
 
-    <!-- SECTION COLLECTION EXCLUSIVE - DESIGN AMÉLIORÉ -->
+    <!-- SECTION COLLECTION EXCLUSIVE -->
     <section class="collection-section" id="collection">
         <div class="container">
             <h2 class="section-title animate-on-scroll">Notre Collection Exclusive</h2>
@@ -928,21 +1359,170 @@
         </div>
     </section>
 
-    <!-- Modal de commande WhatsApp -->
-    <div class="modal fade whatsapp-modal" id="whatsappOrderModal" tabindex="-1">
+    <!-- MODAL COMPLET DU PANIER AMÉLIORÉ -->
+    <div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Commander via WhatsApp</h5>
+                    <h5 class="modal-title">
+                        <i class="bi bi-cart3 me-2"></i>Mon Panier
+                    </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
+                
                 <div class="modal-body">
-                    <div id="whatsapp-order-content">
-                        <!-- Contenu généré dynamiquement -->
+                    <!-- Section articles du panier -->
+                    <div id="cart-modal-items" class="cart-items-container">
+                        <!-- Les articles seront chargés dynamiquement -->
+                    </div>
+
+                    <!-- Résumé du panier -->
+                    <div id="cart-summary" class="cart-summary" style="display: none;">
+                        <div class="summary-row">
+                            <span>Sous-total</span>
+                            <span id="cart-subtotal">0 FCFA</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Remise</span>
+                            <span id="cart-discount">0 FCFA</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="cart-total-modal">0 FCFA</span>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de commande -->
+                    <div id="order-form" class="order-form" style="display: none;">
+                        <h5 class="mb-4">Informations de livraison</h5>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="clientName" placeholder="Votre nom complet" required>
+                                    <label for="clientName">
+                                        <i class="bi bi-person me-1"></i>Nom complet
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="clientPhone" placeholder="Votre numéro de téléphone" required>
+                                    <label for="clientPhone">
+                                        <i class="bi bi-phone me-1"></i>Téléphone
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="clientEmail" placeholder="Votre adresse email">
+                                    <label for="clientEmail">
+                                        <i class="bi bi-envelope me-1"></i>Email (optionnel)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="clientAddress" placeholder="Adresse de livraison complète" style="height: 100px" required></textarea>
+                                    <label for="clientAddress">
+                                        <i class="bi bi-geo-alt me-1"></i>Adresse de livraison
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-select" id="deliveryMethod">
+                                        <option value="pickup">Retrait en boutique</option>
+                                        <option value="delivery">Livraison à domicile</option>
+                                    </select>
+                                    <label for="deliveryMethod">
+                                        <i class="bi bi-truck me-1"></i>Mode de livraison
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-select" id="paymentMethod">
+                                        <option value="cod">Paiement à la livraison</option>
+                                        <option value="mobile_money">Mobile Money</option>
+                                        <option value="bank">Virement bancaire</option>
+                                    </select>
+                                    <label for="paymentMethod">
+                                        <i class="bi bi-credit-card me-1"></i>Méthode de paiement
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="order-notes">
+                                    <label class="notes-label">
+                                        <i class="bi bi-chat-text me-1"></i>Notes supplémentaires (optionnel)
+                                    </label>
+                                    <textarea id="orderNotes" class="notes-textarea" placeholder="Précisions sur la commande, instructions spéciales, etc."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                                    <label class="form-check-label" for="termsAgreement">
+                                        J'accepte les <a href="#" class="text-primary">conditions générales</a> de vente
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div id="empty-cart-state" class="text-center w-100">
+                        <div class="cart-empty-state">
+                            <i class="bi bi-cart"></i>
+                            <h5>Votre panier est vide</h5>
+                            <p class="text-muted">Ajoutez des articles pour commencer vos achats</p>
+                            <button class="btn btn-primary mt-3" data-bs-dismiss="modal">
+                                <i class="bi bi-arrow-left me-2"></i>Continuer mes achats
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="cart-actions" class="cart-actions w-100" style="display: none;">
+                        <button class="btn btn-continue-shopping" data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left me-2"></i>Continuer les achats
+                        </button>
+                        <button class="btn btn-checkout" onclick="proceedToCheckout()">
+                            <i class="bi bi-credit-card me-2"></i>Passer la commande
+                        </button>
+                    </div>
+                    
+                    <div id="checkout-actions" class="cart-actions w-100" style="display: none;">
+                        <button class="btn btn-continue-shopping" onclick="backToCart()">
+                            <i class="bi bi-arrow-left me-2"></i>Retour au panier
+                        </button>
+                        <button class="btn btn-checkout whatsapp" onclick="submitOrder()">
+                            <i class="bi bi-whatsapp me-2"></i>Finaliser sur WhatsApp
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Notification de panier -->
+    <div id="cartNotification" class="cart-notification">
+        <div class="cart-notification-icon">
+            <i class="bi bi-check"></i>
+        </div>
+        <div class="cart-notification-content">
+            <div class="cart-notification-title" id="notificationTitle">Article ajouté</div>
+            <div class="cart-notification-message" id="notificationMessage"></div>
+        </div>
+        <button type="button" class="btn-close" onclick="hideNotification()"></button>
     </div>
 
     <!-- Footer -->
@@ -993,61 +1573,61 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Données des marques avec logos réels
+        // Données des marques avec logos
         const allBrands = [
             {
                 id: 1,
                 nom: "Ray-Ban",
-                logo: "",
+                logo: "images/marques/lunett12.jpg",
                 description: "Marque iconique de lunettes de soleil depuis 1937",
                 categorie: "soleil"
             },
             {
                 id: 2,
                 nom: "Oakley",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Oakley_logo.svg/1280px-Oakley_logo.svg.png",
+                logo: "images/marques/lunett13.jpg",
                 description: "Innovation et performance pour les sports et la vie active",
                 categorie: "sport"
             },
             {
                 id: 3,
                 nom: "Persol",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Persol_logo.svg/1280px-Persol_logo.svg.png",
+                logo: "images/marques/lunett14.jpg",
                 description: "Lunettes de soleil italiennes au design intemporel",
                 categorie: "soleil"
             },
             {
                 id: 4,
                 nom: "Prada",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Prada_logo.svg/1280px-Prada_logo.svg.png",
+                logo: "images/marques/lunett15.jpg",
                 description: "Luxe et élégance dans chaque détail",
                 categorie: "vue"
             },
             {
                 id: 5,
                 nom: "Gucci",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Gucci_logo.svg/1280px-Gucci_logo.svg.png",
+                logo: "images/marques/lunett16.jpg",
                 description: "Design audacieux et signature distinctive",
                 categorie: "vue"
             },
             {
                 id: 6,
                 nom: "Essilor",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Essilor.svg/1280px-Essilor.svg.png",
+                logo: "images/marques/lunett17.jpg",
                 description: "Leader mondial des verres correcteurs",
                 categorie: "vue"
             },
             {
                 id: 7,
                 nom: "Nike",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1280px-Logo_NIKE.svg.png",
+                logo: "images/lunettes/lunett9.jpg",
                 description: "Confort et performance pour les sportifs",
                 categorie: "sport"
             },
             {
                 id: 8,
                 nom: "Dior",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Dior_logo.svg/1280px-Dior_logo.svg.png",
+                logo: "images/lunettes/lunett10.jpg",
                 description: "Élégance française et créativité",
                 categorie: "soleil"
             }
@@ -1061,7 +1641,7 @@
                 prix: "65 000",
                 description_courte: "Lunettes de soleil iconiques avec verres teintés G-15",
                 description_longue: "Les lunettes Aviator de Ray-Ban sont un classique intemporel. Avec leur design en forme de larme et leurs branches doubles, elles offrent un style unique et une protection optimale contre les UV.",
-                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&h=600&fit=crop",
+                image: "images/lunettes/lunett11.jpg",
                 categorie: "soleil",
                 popularite: 9,
                 nouveau: true,
@@ -1187,28 +1767,6 @@
                 ]
             },
             {
-                id: 6,
-                nom: "Essilor Varilux X Series",
-                marque: "Essilor",
-                prix: "150 000",
-                description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
-                description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
-                image: "images/lunettes/lunett7.jpg",
-                categorie: "vue",
-                popularite: 6,
-                nouveau: true,
-                promotion: 0,
-                disponible: true,
-                stock: 15,
-                caracteristiques: [
-                    "Technologie Varilux X",
-                    "Protection lumière bleue",
-                    "Champ de vision étendu",
-                    "Traitement anti-reflets",
-                    "Adaptation rapide"
-                ]
-            },
-            {
                 id: 7,
                 nom: "Dior So Real Pop",
                 marque: "Dior",
@@ -1231,28 +1789,49 @@
                 ]
             },
             {
-                id: 6,
-                nom: "Essilor Varilux X Series",
-                marque: "Essilor",
-                prix: "150 000",
-                description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
-                description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
-                image: "images/lunettes/lunett8.jpg",
-                categorie: "vue",
-                popularite: 6,
+                id: 7,
+                nom: "Dior So Real Pop",
+                marque: "Dior",
+                prix: "130 000",
+                description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
+                description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
+                image: "images/marques/lunett15.jpg",
+                categorie: "soleil",
+                popularite: 8,
                 nouveau: true,
-                promotion: 0,
+                promotion: 10,
                 disponible: true,
-                stock: 15,
+                stock: 9,
                 caracteristiques: [
-                    "Technologie Varilux X",
-                    "Protection lumière bleue",
-                    "Champ de vision étendu",
-                    "Traitement anti-reflets",
-                    "Adaptation rapide"
+                    "Design géométrique unique",
+                    "Verres miroir haute définition",
+                    "Monture métal légère",
+                    "Protection UV400",
+                    "Garantie 2 ans"
+                ]
+            },
+            {
+                id: 7,
+                nom: "Dior So Real Pop",
+                marque: "Dior",
+                prix: "130 000",
+                description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
+                description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
+                image: "images/marques/lunett13.jpg",
+                categorie: "soleil",
+                popularite: 8,
+                nouveau: true,
+                promotion: 10,
+                disponible: true,
+                stock: 9,
+                caracteristiques: [
+                    "Design géométrique unique",
+                    "Verres miroir haute définition",
+                    "Monture métal légère",
+                    "Protection UV400",
+                    "Garantie 2 ans"
                 ]
             }
-            
         ];
 
         // Variables globales
@@ -1327,6 +1906,14 @@
                     block: 'start'
                 });
             };
+
+            // Ouvrir le modal du panier au clic sur l'icône panier
+            document.querySelector('.navbar .cart-badge').parentElement.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown-menu')) {
+                    openCartModal();
+                    e.preventDefault();
+                }
+            });
         }
         
         function loadBrands(brands) {
@@ -1440,6 +2027,7 @@
             
             if (existingItemIndex !== -1) {
                 cart[existingItemIndex].quantity += 1;
+                showNotification('Quantité mise à jour', `${product.nom} (x${cart[existingItemIndex].quantity})`);
             } else {
                 cart.push({
                     id: product.id,
@@ -1449,10 +2037,12 @@
                     quantity: 1,
                     promotion: product.promotion || 0
                 });
+                showNotification('Ajouté au panier', `${product.nom} a été ajouté à votre panier`);
             }
             
             localStorage.setItem('senvision-cart', JSON.stringify(cart));
             updateCartDisplay();
+            updateCartDropdown();
             
             // Mettre à jour le bouton
             const buttons = document.querySelectorAll(`.btn-cart[onclick="addToCart(${productId})"]`);
@@ -1461,8 +2051,6 @@
                 button.innerHTML = '<i class="bi bi-check me-1"></i>Au panier';
                 button.disabled = true;
             });
-            
-            showNotification(`${product.nom} ajouté au panier !`, 'success');
         }
         
         function updateCartDisplay() {
@@ -1481,13 +2069,6 @@
             document.querySelectorAll('.cart-badge').forEach(badge => {
                 badge.textContent = itemCount;
             });
-            
-            // Mettre à jour le total dans le dropdown
-            const cartTotal = document.getElementById('cart-total');
-            if (cartTotal) cartTotal.textContent = `${Math.round(total).toLocaleString()} FCFA`;
-            
-            // Mettre à jour le contenu du panier dropdown
-            updateCartDropdown();
         }
         
         function updateCartDropdown() {
@@ -1508,31 +2089,23 @@
             
             cart.forEach(item => {
                 const itemPrice = item.promotion > 0 ? 
-                    item.price * (1 - item.promotion/100) : 
+                    Math.round(item.price * (1 - item.promotion/100)) : 
                     item.price;
                 const itemTotal = itemPrice * item.quantity;
                 subtotal += itemTotal;
                 
                 itemsHTML += `
-                    <div class="cart-dropdown-item p-2 border-bottom">
-                        <div class="d-flex align-items-center">
-                            <div style="width: 40px; height: 40px; overflow: hidden; border-radius: 6px; margin-right: 10px;">
-                                <img src="${item.image}" 
-                                     alt="${item.name}" 
-                                     style="width: 100%; height: 100%; object-fit: cover;"
-                                     onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:#f5f7fa;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#666\'>${item.name.substring(0,5)}</div>'">
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-0" style="font-size: 0.85rem;">${item.name}</h6>
-                                    <small class="text-muted">x${item.quantity}</small>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">${Math.round(itemPrice).toLocaleString()} FCFA</small>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
+                    <div class="dropdown-cart-item">
+                        <div class="dropdown-cart-item-image">
+                            <img src="${item.image}" 
+                                 alt="${item.name}" 
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:#f5f7fa;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#666\'>${item.name.substring(0,5)}</div>'">
+                        </div>
+                        <div class="dropdown-cart-item-details">
+                            <div class="dropdown-cart-item-title">${item.name}</div>
+                            <div class="dropdown-cart-item-info">
+                                <span class="dropdown-cart-item-price">${itemTotal.toLocaleString()} FCFA</span>
+                                <span class="dropdown-cart-item-quantity">x${item.quantity}</span>
                             </div>
                         </div>
                     </div>
@@ -1540,12 +2113,37 @@
             });
             
             cartItems.innerHTML = itemsHTML;
+            
+            // Mettre à jour le footer du dropdown
+            const cartDropdownFooter = document.querySelector('.cart-dropdown-footer');
+            if (cartDropdownFooter) {
+                cartDropdownFooter.innerHTML = `
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total:</span>
+                        <strong>${subtotal.toLocaleString()} FCFA</strong>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-sm" onclick="openCartModal()" data-bs-dismiss="dropdown">
+                            <i class="bi bi-cart-check me-1"></i>Voir le panier
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="orderViaWhatsApp()" data-bs-dismiss="dropdown">
+                            <i class="bi bi-whatsapp me-1"></i>Commander
+                        </button>
+                    </div>
+                `;
+            }
         }
         
         function removeFromCart(productId) {
+            const item = cart.find(item => item.id === productId);
             cart = cart.filter(item => item.id !== productId);
             localStorage.setItem('senvision-cart', JSON.stringify(cart));
             updateCartDisplay();
+            updateCartModal();
+            
+            if (item) {
+                showNotification('Retiré du panier', `${item.name} a été retiré de votre panier`);
+            }
             
             // Mettre à jour les boutons
             const buttons = document.querySelectorAll(`.btn-cart[onclick="addToCart(${productId})"]`);
@@ -1554,21 +2152,162 @@
                 button.innerHTML = '<i class="bi bi-cart-plus me-1"></i>Ajouter';
                 button.disabled = false;
             });
-            
-            showNotification('Article retiré du panier', 'info');
         }
         
-        // FONCTIONNALITÉ WHATSAPP - AMÉLIORÉE
-        function orderViaWhatsApp() {
+        // FONCTIONNALITÉS DU MODAL PANIER AMÉLIORÉ
+        function openCartModal() {
+            const modal = new bootstrap.Modal(document.getElementById('cartModal'));
+            updateCartModal();
+            modal.show();
+        }
+
+        function updateCartModal() {
+            const cartItemsContainer = document.getElementById('cart-modal-items');
+            const emptyCartState = document.getElementById('empty-cart-state');
+            const cartActions = document.getElementById('cart-actions');
+            const checkoutActions = document.getElementById('checkout-actions');
+            const cartSummary = document.getElementById('cart-summary');
+            const orderForm = document.getElementById('order-form');
+
             if (cart.length === 0) {
-                showNotification('Votre panier est vide. Ajoutez des articles avant de commander.', 'warning');
+                emptyCartState.style.display = 'block';
+                cartActions.style.display = 'none';
+                checkoutActions.style.display = 'none';
+                cartSummary.style.display = 'none';
+                orderForm.style.display = 'none';
                 return;
             }
+
+            emptyCartState.style.display = 'none';
+            cartActions.style.display = 'flex';
+            checkoutActions.style.display = 'none';
+            orderForm.style.display = 'none';
             
+            let itemsHTML = '';
+            let subtotal = 0;
+            let totalDiscount = 0;
+
+            cart.forEach((item, index) => {
+                const itemPrice = item.promotion > 0 ? 
+                    Math.round(item.price * (1 - item.promotion/100)) : 
+                    item.price;
+                const itemTotal = itemPrice * item.quantity;
+                const originalTotal = item.price * item.quantity;
+                const itemDiscount = originalTotal - itemTotal;
+                
+                subtotal += itemTotal;
+                totalDiscount += itemDiscount;
+
+                itemsHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" 
+                                 alt="${item.name}"
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#666\'>${item.name.substring(0,10)}</div>'">
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">
+                                ${itemTotal.toLocaleString()} FCFA
+                                ${item.promotion > 0 ? 
+                                    `<span class="cart-item-promo">(-${item.promotion}%)</span>` : 
+                                    ''}
+                            </div>
+                            <div class="cart-item-actions">
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+                                    <span class="quantity-value">${item.quantity}</span>
+                                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                                <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = itemsHTML;
+            cartSummary.style.display = 'block';
+            
+            document.getElementById('cart-subtotal').textContent = `${subtotal.toLocaleString()} FCFA`;
+            document.getElementById('cart-discount').textContent = `-${totalDiscount.toLocaleString()} FCFA`;
+            document.getElementById('cart-total-modal').textContent = `${subtotal.toLocaleString()} FCFA`;
+        }
+
+        function updateQuantity(productId, change) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (itemIndex !== -1) {
+                const newQuantity = cart[itemIndex].quantity + change;
+                
+                if (newQuantity < 1) {
+                    removeFromCart(productId);
+                    return;
+                }
+                
+                cart[itemIndex].quantity = newQuantity;
+                localStorage.setItem('senvision-cart', JSON.stringify(cart));
+                updateCartDisplay();
+                updateCartModal();
+                
+                showNotification(
+                    `Quantité mise à jour : ${cart[itemIndex].name} (${newQuantity})`,
+                    'info'
+                );
+            }
+        }
+
+        function proceedToCheckout() {
+            document.getElementById('cart-actions').style.display = 'none';
+            document.getElementById('checkout-actions').style.display = 'flex';
+            document.getElementById('order-form').style.display = 'block';
+            
+            // Faire défiler vers le formulaire
+            document.querySelector('.order-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function backToCart() {
+            document.getElementById('cart-actions').style.display = 'flex';
+            document.getElementById('checkout-actions').style.display = 'none';
+            document.getElementById('order-form').style.display = 'none';
+        }
+
+        function submitOrder() {
+            // Validation du formulaire
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientPhone = document.getElementById('clientPhone').value.trim();
+            const clientAddress = document.getElementById('clientAddress').value.trim();
+            const termsAgreement = document.getElementById('termsAgreement').checked;
+
+            if (!clientName || !clientPhone || !clientAddress) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'warning');
+                return;
+            }
+
+            if (!termsAgreement) {
+                showNotification('Veuillez accepter les conditions générales', 'warning');
+                return;
+            }
+
+            // Récupérer les informations du formulaire
+            const clientEmail = document.getElementById('clientEmail').value.trim();
+            const deliveryMethod = document.getElementById('deliveryMethod').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const orderNotes = document.getElementById('orderNotes').value.trim();
+
             // Calculer le total
             let total = 0;
-            let orderDetails = '';
-            
+            let orderDetails = "📦 **DÉTAILS DE LA COMMANDE**\n\n";
+
             cart.forEach((item, index) => {
                 const itemPrice = item.promotion > 0 ? 
                     Math.round(item.price * (1 - item.promotion/100)) : 
@@ -1576,22 +2315,87 @@
                 const itemTotal = itemPrice * item.quantity;
                 total += itemTotal;
                 
-                orderDetails += `${index + 1}. ${item.name} (x${item.quantity}) - ${itemTotal.toLocaleString()} FCFA\n`;
+                orderDetails += `${index + 1}. ${item.name}\n`;
+                orderDetails += `   Quantité: ${item.quantity}\n`;
+                orderDetails += `   Prix unitaire: ${itemPrice.toLocaleString()} FCFA\n`;
+                if (item.promotion > 0) {
+                    orderDetails += `   Remise: ${item.promotion}%\n`;
+                }
+                orderDetails += `   Total: ${itemTotal.toLocaleString()} FCFA\n\n`;
             });
-            
-            // Message WhatsApp formaté
-            const message = `Bonjour SenVision ! 👓\n\nJe souhaite commander les articles suivants :\n\n${orderDetails}\n──────────────\n💰 Total: ${total.toLocaleString()} FCFA\n\n📋 Mes informations :\n• Nom : _________\n• Téléphone : _________\n• Adresse : _________\n\n📝 Notes : _________\n\nMerci !`;
-            
-            // Encoder le message pour URL
+
+            // Créer le message WhatsApp
+            const message = `🚀 **NOUVELLE COMMANDE - SenVision**\n\n` +
+                          `👤 **INFORMATIONS CLIENT**\n` +
+                          `• Nom: ${clientName}\n` +
+                          `• Téléphone: ${clientPhone}\n` +
+                          `${clientEmail ? `• Email: ${clientEmail}\n` : ''}` +
+                          `• Adresse: ${clientAddress}\n\n` +
+                          `${orderDetails}` +
+                          `📊 **RÉSUMÉ DE LA COMMANDE**\n` +
+                          `• Sous-total: ${total.toLocaleString()} FCFA\n` +
+                          `• Livraison: ${deliveryMethod === 'delivery' ? 'À domicile' : 'Retrait boutique'}\n` +
+                          `• Paiement: ${getPaymentMethodText(paymentMethod)}\n\n` +
+                          `💰 **TOTAL: ${total.toLocaleString()} FCFA**\n\n` +
+                          `📝 **NOTES:**\n${orderNotes || 'Aucune note'}\n\n` +
+                          `🕒 **DATE:** ${new Date().toLocaleString('fr-FR')}`;
+
+            // Encoder le message
             const encodedMessage = encodeURIComponent(message);
             
             // Ouvrir WhatsApp
             window.open(`https://wa.me/781970844?text=${encodedMessage}`, '_blank');
             
-            // Afficher une confirmation
-            showNotification('WhatsApp ouvert ! Remplissez vos informations et envoyez le message.', 'success');
+            // Fermer le modal
+            bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+            
+            // Vider le panier
+            cart = [];
+            localStorage.setItem('senvision-cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartDropdown();
+            
+            // Afficher une notification de succès
+            showNotification('Commande envoyée sur WhatsApp !', 'success');
         }
-        
+
+        function getPaymentMethodText(method) {
+            switch(method) {
+                case 'cod': return 'Paiement à la livraison';
+                case 'mobile_money': return 'Mobile Money';
+                case 'bank': return 'Virement bancaire';
+                default: return method;
+            }
+        }
+
+        function showNotification(title, message) {
+            const notification = document.getElementById('cartNotification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function hideNotification() {
+            document.getElementById('cartNotification').classList.remove('show');
+        }
+
+        function orderViaWhatsApp() {
+            if (cart.length === 0) {
+                showNotification('Panier vide', 'Ajoutez des articles avant de commander');
+                return;
+            }
+            openCartModal();
+        }
+
+        // FONCTIONS EXISTANTES POUR LA PAGE
         function showProductDetails(productId) {
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
@@ -1688,22 +2492,6 @@
             
             window.open(`https://wa.me/781970844?text=${encodedMessage}`, '_blank');
             showNotification('WhatsApp ouvert ! Commandez directement.', 'success');
-        }
-        
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-            notification.style.cssText = 'top: 90px; right: 20px; z-index: 9999; max-width: 350px; border-radius: var(--border-radius);';
-            notification.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
         }
         
         function initAnimations() {
