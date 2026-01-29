@@ -22,6 +22,9 @@
             --accent-light: #ff8e8e;
             --success-color: #25D366;
             --success-dark: #128C7E;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
             --dark-color: #1a1a2e;
             --light-color: #f8f9fa;
             --light-gray: #f5f7fa;
@@ -35,6 +38,9 @@
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             --gradient-accent: linear-gradient(135deg, var(--accent-color), #ff8e53);
+            --gradient-success: linear-gradient(135deg, var(--success-color), var(--success-dark));
+            --gradient-warning: linear-gradient(135deg, var(--warning-color), #ff9800);
+            --gradient-danger: linear-gradient(135deg, var(--danger-color), #bd2130);
         }
 
         [data-theme="dark"] {
@@ -44,6 +50,11 @@
             --secondary-color: #1a7bb9;
             --accent-color: #ff8585;
             --accent-light: #ffa8a8;
+            --success-color: #25D366;
+            --success-dark: #128C7E;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
             --dark-color: #0f1419;
             --light-color: #1e2a3a;
             --light-gray: #2c3e50;
@@ -108,6 +119,10 @@
             transition: all 0.4s ease;
         }
         
+        [data-theme="dark"] .navbar {
+            background: rgba(30, 42, 58, 0.95) !important;
+        }
+        
         .navbar.scrolled {
             padding: 8px 0;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -117,6 +132,10 @@
             font-size: 2rem;
             font-weight: 800;
             color: var(--dark-color) !important;
+        }
+        
+        [data-theme="dark"] .navbar-brand {
+            color: white !important;
         }
         
         .navbar-brand span {
@@ -136,6 +155,10 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+        }
+        
+        [data-theme="dark"] .nav-link {
+            color: white !important;
         }
         
         .nav-link::before {
@@ -185,39 +208,6 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-
-        /* Bouton WhatsApp flottant */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: var(--success-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.2rem;
-            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
-            z-index: 1000;
-            transition: var(--transition);
-            text-decoration: none;
-            animation: pulse 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            background: var(--success-dark);
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
-            50% { box-shadow: 0 6px 35px rgba(37, 211, 102, 0.8); }
-            100% { box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
         }
 
         /* Hero Section */
@@ -559,6 +549,11 @@
 
         .badge-promo {
             background: var(--gradient-primary);
+            color: white;
+        }
+
+        .badge-bestseller {
+            background: var(--gradient-success);
             color: white;
         }
 
@@ -1092,6 +1087,18 @@
             color: var(--text-light);
         }
 
+        /* Bouton Admin */
+        .admin-badge {
+            background: var(--gradient-warning);
+            color: black;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -1145,14 +1152,6 @@
                 height: 120px;
             }
             
-            .whatsapp-float {
-                width: 60px;
-                height: 60px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 1.8rem;
-            }
-
             .cart-item {
                 flex-direction: column;
                 text-align: center;
@@ -1250,6 +1249,14 @@
                         </a>
                     </li>
                     
+                    <!-- LIEN ADMIN VERS LE DASHBOARD COMPLET -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-dashboard-complet.html">
+                            <i class="bi bi-speedometer2 me-1"></i>Admin
+                            <span class="admin-badge">Dashboard</span>
+                        </a>
+                    </li>
+                    
                     <!-- Panier -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCart" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1277,11 +1284,6 @@
         </div>
     </nav>
 
-    <!-- Bouton WhatsApp flottant -->
-    <a href="https://wa.me/781970844" class="whatsapp-float" target="_blank" title="Commander via WhatsApp">
-        <i class="bi bi-whatsapp"></i>
-    </a>
-
     <!-- Hero Section -->
     <section class="page-hero">
         <div class="container">
@@ -1297,7 +1299,7 @@
         </div>
     </section>
 
-    <!-- SECTION MARQUES PARTENAIRES -->
+    <!-- SECTION MARQUES PARTENAires -->
     <section class="brands-section">
         <div class="container">
             <h2 class="section-title animate-on-scroll">Nos Marques Partenaires</h2>
@@ -1332,6 +1334,9 @@
                             <button class="btn filter-btn m-1" data-filter="sport">
                                 <i class="bi bi-lightning me-2"></i>Lunettes sport
                             </button>
+                            <button class="btn filter-btn m-1" data-filter="bestseller">
+                                <i class="bi bi-star me-2"></i>Meilleures ventes
+                            </button>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -1355,6 +1360,10 @@
                     <i class="bi bi-whatsapp"></i> Commander via WhatsApp
                 </button>
                 <p class="text-muted mt-2">Cliquez pour commander directement via WhatsApp</p>
+                <small class="text-muted">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Toutes les commandes sont enregistrées dans le dashboard admin
+                </small>
             </div>
         </div>
     </section>
@@ -1386,6 +1395,10 @@
                             <span>Remise</span>
                             <span id="cart-discount">0 FCFA</span>
                         </div>
+                        <div class="summary-row">
+                            <span>Livraison</span>
+                            <span id="cart-shipping">Gratuite</span>
+                        </div>
                         <div class="summary-row total">
                             <span>Total</span>
                             <span id="cart-total-modal">0 FCFA</span>
@@ -1394,14 +1407,17 @@
 
                     <!-- Formulaire de commande -->
                     <div id="order-form" class="order-form" style="display: none;">
-                        <h5 class="mb-4">Informations de livraison</h5>
+                        <h5 class="mb-4">
+                            <i class="bi bi-truck me-2"></i>Informations de livraison
+                            <small class="text-muted ms-2">(Ces informations seront sauvegardées dans le dashboard)</small>
+                        </h5>
                         
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="clientName" placeholder="Votre nom complet" required>
                                     <label for="clientName">
-                                        <i class="bi bi-person me-1"></i>Nom complet
+                                        <i class="bi bi-person me-1"></i>Nom complet *
                                     </label>
                                 </div>
                             </div>
@@ -1410,7 +1426,7 @@
                                 <div class="form-floating">
                                     <input type="tel" class="form-control" id="clientPhone" placeholder="Votre numéro de téléphone" required>
                                     <label for="clientPhone">
-                                        <i class="bi bi-phone me-1"></i>Téléphone
+                                        <i class="bi bi-phone me-1"></i>Téléphone *
                                     </label>
                                 </div>
                             </div>
@@ -1428,16 +1444,16 @@
                                 <div class="form-floating">
                                     <textarea class="form-control" id="clientAddress" placeholder="Adresse de livraison complète" style="height: 100px" required></textarea>
                                     <label for="clientAddress">
-                                        <i class="bi bi-geo-alt me-1"></i>Adresse de livraison
+                                        <i class="bi bi-geo-alt me-1"></i>Adresse de livraison *
                                     </label>
                                 </div>
                             </div>
                             
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <select class="form-select" id="deliveryMethod">
                                         <option value="pickup">Retrait en boutique</option>
-                                        <option value="delivery">Livraison à domicile</option>
+                                        <option value="delivery">Livraison à domicile (+5 000 FCFA)</option>
                                     </select>
                                     <label for="deliveryMethod">
                                         <i class="bi bi-truck me-1"></i>Mode de livraison
@@ -1445,7 +1461,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <select class="form-select" id="paymentMethod">
                                         <option value="cod">Paiement à la livraison</option>
@@ -1472,6 +1488,13 @@
                                     <input class="form-check-input" type="checkbox" id="termsAgreement" required>
                                     <label class="form-check-label" for="termsAgreement">
                                         J'accepte les <a href="#" class="text-primary">conditions générales</a> de vente
+                                        et autorise l'enregistrement de ma commande dans le système
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                                    <label class="form-check-label" for="newsletter">
+                                        Je souhaite recevoir les offres spéciales et nouveautés par email/SMS
                                     </label>
                                 </div>
                             </div>
@@ -1532,15 +1555,25 @@
                 <div class="col-lg-4 mb-4">
                     <h3 class="mb-4">Sen<span style="color: #3498db">Vision</span></h3>
                     <p>Votre boutique de lunettes à Saint-Louis, Sénégal. Nous vous proposons des lunettes de qualité, un service personnalisé et des conseils d'experts.</p>
+                    <div class="mt-3">
+                        <!-- LIEN VERS LE DASHBOARD COMPLET -->
+                        <a href="admin-dashboard-complet.html" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-speedometer2 me-1"></i>Accès Admin
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="col-lg-4 mb-4">
                     <h4 class="mb-4">Liens rapides</h4>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="index.html">Accueil</a></li>
-                        <li class="mb-2"><a href="services.html">Services</a></li>
-                        <li class="mb-2"><a href="marques.html">Marques</a></li>
-                        <li class="mb-2"><a href="contact.html">Contact</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-white-50">Accueil</a></li>
+                        <li class="mb-2"><a href="services.html" class="text-white-50">Services</a></li>
+                        <li class="mb-2"><a href="marques.html" class="text-white-50">Marques</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50">Contact</a></li>
+                        <!-- LIEN VERS LE DASHBOARD COMPLET -->
+                        <li class="mb-2"><a href="admin-dashboard-complet.html" class="text-white-50">
+                            <i class="bi bi-shield-lock me-1"></i>Tableau de bord
+                        </a></li>
                     </ul>
                 </div>
                 
@@ -1564,6 +1597,10 @@
             <div class="row">
                 <div class="col-12 text-center copyright">
                     <p>&copy; 2023 SenVision. Tous droits réservés.</p>
+                    <small class="text-white-50">
+                        <i class="bi bi-shield-check me-1"></i>
+                        Système de commande intégré avec dashboard admin
+                    </small>
                 </div>
             </div>
         </div>
@@ -1578,259 +1615,310 @@
             {
                 id: 1,
                 nom: "Ray-Ban",
-                logo: "images/marques/lunett12.jpg",
+                logo: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop",
                 description: "Marque iconique de lunettes de soleil depuis 1937",
-                categorie: "soleil"
+                categorie: "soleil",
+                popularite: 10
             },
             {
                 id: 2,
                 nom: "Oakley",
-                logo: "images/marques/lunett13.jpg",
+                logo: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=400&fit=crop",
                 description: "Innovation et performance pour les sports et la vie active",
-                categorie: "sport"
+                categorie: "sport",
+                popularite: 9
             },
             {
                 id: 3,
                 nom: "Persol",
-                logo: "images/marques/lunett14.jpg",
+                logo: "https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?w=400&h=400&fit=crop",
                 description: "Lunettes de soleil italiennes au design intemporel",
-                categorie: "soleil"
+                categorie: "soleil",
+                popularite: 8
             },
             {
                 id: 4,
                 nom: "Prada",
-                logo: "images/marques/lunett15.jpg",
+                logo: "https://images.unsplash.com/photo-1545127398-5aae47194b22?w=400&h=400&fit=crop",
                 description: "Luxe et élégance dans chaque détail",
-                categorie: "vue"
+                categorie: "vue",
+                popularite: 9
             },
             {
                 id: 5,
                 nom: "Gucci",
-                logo: "images/marques/lunett16.jpg",
+                logo: "https://images.unsplash.com/photo-1556306510-31ca015374b0?w=400&h=400&fit=crop",
                 description: "Design audacieux et signature distinctive",
-                categorie: "vue"
+                categorie: "vue",
+                popularite: 9
             },
             {
                 id: 6,
                 nom: "Essilor",
-                logo: "images/marques/lunett17.jpg",
+                logo: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=400&fit=crop",
                 description: "Leader mondial des verres correcteurs",
-                categorie: "vue"
+                categorie: "vue",
+                popularite: 8
             },
             {
                 id: 7,
                 nom: "Nike",
-                logo: "images/lunettes/lunett9.jpg",
+                logo: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=400&h=400&fit=crop",
                 description: "Confort et performance pour les sportifs",
-                categorie: "sport"
+                categorie: "sport",
+                popularite: 7
             },
             {
                 id: 8,
                 nom: "Dior",
-                logo: "images/lunettes/lunett10.jpg",
+                logo: "https://images.unsplash.com/photo-1545293527-951f66b2e7c0?w=400&h=400&fit=crop",
                 description: "Élégance française et créativité",
-                categorie: "soleil"
+                categorie: "soleil",
+                popularite: 9
             }
         ];
 
+        // Données des produits
         const allProducts = [
             {
                 id: 1,
                 nom: "Ray-Ban Aviator Classic Gold",
                 marque: "Ray-Ban",
-                prix: "65 000",
+                prix: 65000,
                 description_courte: "Lunettes de soleil iconiques avec verres teintés G-15",
                 description_longue: "Les lunettes Aviator de Ray-Ban sont un classique intemporel. Avec leur design en forme de larme et leurs branches doubles, elles offrent un style unique et une protection optimale contre les UV.",
-                image: "images/lunettes/lunett11.jpg",
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&h=600&fit=crop",
                 categorie: "soleil",
                 popularite: 9,
                 nouveau: true,
                 promotion: 15,
                 disponible: true,
                 stock: 12,
+                bestseller: true,
                 caracteristiques: [
                     "Verres G-15 anti-reflets",
                     "Protection UV 100%",
                     "Monture métal doré",
                     "Branches doubles",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 156
             },
             {
                 id: 2,
                 nom: "Oakley Radar EV Path Prizm",
                 marque: "Oakley",
-                prix: "85 000",
+                prix: 85000,
                 description_courte: "Lunettes de sport hautes performances avec écran large",
                 description_longue: "Conçues pour les athlètes exigeants, les Radar EV Path offrent une vision panoramique et une protection optimale. La technologie Prizm™ améliore les contrastes.",
-                image: "images/lunettes/lunett2.jpg",
+                image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&h=600&fit=crop",
                 categorie: "sport",
                 popularite: 8,
                 nouveau: true,
                 promotion: 20,
                 disponible: true,
                 stock: 8,
+                bestseller: true,
                 caracteristiques: [
                     "Technologie Prizm™",
                     "Écran large panoramique",
                     "Protection UV 100%",
                     "Monture O Matter™",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 89
             },
             {
                 id: 3,
                 nom: "Gucci GG0284O Gold",
                 marque: "Gucci",
-                prix: "120 000",
+                prix: 120000,
                 description_courte: "Monture rectangulaire avec logo GG signature",
                 description_longue: "Cette monture Gucci allie élégance et modernité avec son design rectangulaire et ses branches ornées du logo GG emblématique.",
-                image: "images/lunettes/lunett3.jpg",
+                image: "https://images.unsplash.com/photo-1556306510-31ca015374b0?w=800&h=600&fit=crop",
                 categorie: "vue",
                 popularite: 7,
                 nouveau: false,
                 promotion: 25,
                 disponible: true,
                 stock: 5,
+                bestseller: true,
                 caracteristiques: [
                     "Monture acétate de haute qualité",
                     "Logo GG sur les branches",
                     "Charnières ressort",
                     "Forme rectangulaire moderne",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 67
             },
             {
                 id: 4,
                 nom: "Prada Linea Rossa Sport",
                 marque: "Prada",
-                prix: "95 000",
+                prix: 95000,
                 description_courte: "Design sportif avec ligne rouge signature",
                 description_longue: "La collection Linea Rossa de Prada combine technologie et style avec une ligne rouge distinctive.",
-                image: "images/lunettes/lunett4.jpg",
+                image: "https://images.unsplash.com/photo-1545127398-5aae47194b22?w=800&h=600&fit=crop",
                 categorie: "sport",
                 popularite: 8,
                 nouveau: true,
                 promotion: 0,
                 disponible: true,
                 stock: 10,
+                bestseller: false,
                 caracteristiques: [
                     "Ligne rouge signature",
                     "Verres polarisés",
                     "Monture légère en TR90",
                     "Protection UV400",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 42
             },
             {
                 id: 5,
                 nom: "Persol PO3249S Vintage",
                 marque: "Persol",
-                prix: "78 000",
+                prix: 78000,
                 description_courte: "Design italien classique avec charnière à flèche",
                 description_longue: "Les lunettes Persol sont réputées pour leur qualité artisanale et leur design intemporel.",
-                image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&h=600&fit=crop",
+                image: "https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?w=800&h=600&fit=crop",
                 categorie: "soleil",
                 popularite: 9,
                 nouveau: false,
                 promotion: 30,
                 disponible: true,
                 stock: 7,
+                bestseller: true,
                 caracteristiques: [
                     "Charnière à flèche signature",
                     "Verres teintés gradés",
                     "Monture acétate Meflecto",
                     "Protection UV 100%",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 103
             },
             {
                 id: 6,
                 nom: "Essilor Varilux X Series",
                 marque: "Essilor",
-                prix: "150 000",
+                prix: 150000,
                 description_courte: "Verres progressifs haut de gamme avec technologie Eyezen",
                 description_longue: "Les verres Varilux X d'Essilor offrent une vision nette à toutes les distances avec une adaptation rapide.",
-                image: "images/lunettes/lunett5.jpg",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop",
                 categorie: "vue",
                 popularite: 6,
                 nouveau: true,
                 promotion: 0,
                 disponible: true,
                 stock: 15,
+                bestseller: false,
                 caracteristiques: [
                     "Technologie Varilux X",
                     "Protection lumière bleue",
                     "Champ de vision étendu",
                     "Traitement anti-reflets",
                     "Adaptation rapide"
-                ]
+                ],
+                ventes: 28
             },
             {
                 id: 7,
                 nom: "Dior So Real Pop",
                 marque: "Dior",
-                prix: "130 000",
+                prix: 130000,
                 description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
                 description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
-                image: "images/lunettes/lunett9.jpg",
+                image: "https://images.unsplash.com/photo-1545293527-951f66b2e7c0?w=800&h=600&fit=crop",
                 categorie: "soleil",
                 popularite: 8,
                 nouveau: true,
                 promotion: 10,
                 disponible: true,
                 stock: 9,
+                bestseller: true,
                 caracteristiques: [
                     "Design géométrique unique",
                     "Verres miroir haute définition",
                     "Monture métal légère",
                     "Protection UV400",
                     "Garantie 2 ans"
-                ]
+                ],
+                ventes: 74
             },
             {
-                id: 7,
-                nom: "Dior So Real Pop",
-                marque: "Dior",
-                prix: "130 000",
-                description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
-                description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
-                image: "images/marques/lunett15.jpg",
-                categorie: "soleil",
-                popularite: 8,
+                id: 8,
+                nom: "Nike Flight",
+                marque: "Nike",
+                prix: 55000,
+                description_courte: "Lunettes de sport légères et respirantes",
+                description_longue: "Conçues pour les athlètes, les Nike Flight offrent un confort optimal et une vision claire même pendant les efforts intenses.",
+                image: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&h=600&fit=crop",
+                categorie: "sport",
+                popularite: 7,
                 nouveau: true,
-                promotion: 10,
+                promotion: 15,
                 disponible: true,
-                stock: 9,
+                stock: 14,
+                bestseller: false,
                 caracteristiques: [
-                    "Design géométrique unique",
-                    "Verres miroir haute définition",
-                    "Monture métal légère",
+                    "Monture légère en TR90",
+                    "Verres interchangeable",
                     "Protection UV400",
-                    "Garantie 2 ans"
-                ]
+                    "Confort optimisé",
+                    "Garantie 1 an"
+                ],
+                ventes: 51
             },
             {
-                id: 7,
-                nom: "Dior So Real Pop",
-                marque: "Dior",
-                prix: "130 000",
-                description_courte: "Lunettes de soleil avant-gardistes avec design géométrique",
-                description_longue: "Les lunettes So Real de Dior se distinguent par leur design unique et futuriste, parfaites pour ceux qui veulent se démarquer.",
-                image: "images/marques/lunett13.jpg",
+                id: 9,
+                nom: "Ray-Ban Wayfarer Classic",
+                marque: "Ray-Ban",
+                prix: 70000,
+                description_courte: "Le classique indémodable en acétate",
+                description_longue: "Les Wayfarer de Ray-Ban sont devenues une icône du style depuis les années 50. Leur design reconnaissable traverse les décennies.",
+                image: "https://images.unsplash.com/photo-1571066811602-716d7d6f8e89?w=800&h=600&fit=crop",
                 categorie: "soleil",
+                popularite: 10,
+                nouveau: false,
+                promotion: 0,
+                disponible: true,
+                stock: 18,
+                bestseller: true,
+                caracteristiques: [
+                    "Monture acétate classique",
+                    "Verres teintés gradés",
+                    "Protection UV 100%",
+                    "Design intemporel",
+                    "Garantie 2 ans"
+                ],
+                ventes: 213
+            },
+            {
+                id: 10,
+                nom: "Essilor Crizal Prevencia",
+                marque: "Essilor",
+                prix: 85000,
+                description_courte: "Verres anti-lumière bleue avec protection UV",
+                description_longue: "Les verres Crizal Prevencia protègent vos yeux de la lumière bleue nocive des écrans tout en offrant une vision nette.",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop",
+                categorie: "vue",
                 popularite: 8,
                 nouveau: true,
-                promotion: 10,
+                promotion: 20,
                 disponible: true,
-                stock: 9,
+                stock: 22,
+                bestseller: true,
                 caracteristiques: [
-                    "Design géométrique unique",
-                    "Verres miroir haute définition",
-                    "Monture métal légère",
-                    "Protection UV400",
-                    "Garantie 2 ans"
-                ]
+                    "Protection lumière bleue",
+                    "Anti-reflets",
+                    "Anti-rayures",
+                    "Anti-salissures",
+                    "Protection UV"
+                ],
+                ventes: 95
             }
         ];
 
@@ -1838,9 +1926,14 @@
         let currentFilter = 'all';
         let currentSearch = '';
         let cart = JSON.parse(localStorage.getItem('senvision-cart')) || [];
+        let allOrders = JSON.parse(localStorage.getItem('senvision-orders')) || [];
+        let productsData = JSON.parse(localStorage.getItem('senvision-products')) || allProducts;
 
         // Initialiser la page
         document.addEventListener('DOMContentLoaded', function() {
+            // Sauvegarder les produits dans le localStorage pour le dashboard
+            localStorage.setItem('senvision-products', JSON.stringify(productsData));
+            
             // Cacher le préchargeur
             setTimeout(() => {
                 const preloader = document.getElementById('preloader');
@@ -1853,11 +1946,16 @@
             // Initialiser
             updateCartDisplay();
             loadBrands(allBrands);
-            loadProducts(allProducts);
+            loadProducts(productsData);
             setupEventListeners();
             initNavbarScroll();
             initAnimations();
             loadTheme();
+            
+            // Initialiser les commandes si vide
+            if (allOrders.length === 0) {
+                localStorage.setItem('senvision-orders', JSON.stringify([]));
+            }
         });
         
         function initNavbarScroll() {
@@ -1925,17 +2023,27 @@
                 col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-6 animate-on-scroll';
                 col.style.animationDelay = `${index * 0.1}s`;
                 
+                // Générer une couleur basée sur la popularité
+                const hue = (brand.popularite / 10) * 120; // 0-120 (rouge-vert)
+                const color = `hsl(${hue}, 70%, 50%)`;
+                
                 col.innerHTML = `
                     <div class="brand-card">
                         <div class="brand-logo-container">
                             <img src="${brand.logo}" 
                                  alt="${brand.nom}" 
                                  class="brand-logo"
-                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold;font-size:1.2rem\'>${brand.nom}</div>'">
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold;font-size:1.2rem;background:${color};color:white;border-radius:50%\">${brand.nom}</div>'">
                         </div>
                         <h4 class="brand-name">${brand.nom}</h4>
                         <p class="brand-description">${brand.description}</p>
-                        <span class="brand-category">${brand.categorie}</span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="brand-category">${brand.categorie}</span>
+                            <div class="text-warning">
+                                ${'★'.repeat(Math.round(brand.popularite/2))}
+                                ${'☆'.repeat(5 - Math.round(brand.popularite/2))}
+                            </div>
+                        </div>
                     </div>
                 `;
                 
@@ -1947,12 +2055,28 @@
             const catalog = document.getElementById('products-catalog');
             catalog.innerHTML = '';
             
-            const filteredProducts = products.filter(product => 
-                (currentFilter === 'all' || product.categorie === currentFilter) &&
-                (currentSearch === '' || 
-                 product.nom.toLowerCase().includes(currentSearch) ||
-                 product.marque.toLowerCase().includes(currentSearch))
-            );
+            let filteredProducts = products.filter(product => {
+                // Filtre par catégorie
+                const categoryMatch = currentFilter === 'all' || 
+                                     (currentFilter === 'bestseller' ? product.bestseller : 
+                                      product.categorie === currentFilter);
+                
+                // Filtre par recherche
+                const searchMatch = currentSearch === '' || 
+                    product.nom.toLowerCase().includes(currentSearch) ||
+                    product.marque.toLowerCase().includes(currentSearch) ||
+                    product.description_courte.toLowerCase().includes(currentSearch);
+                
+                return categoryMatch && searchMatch;
+            });
+            
+            // Trier par popularité/ventes
+            filteredProducts.sort((a, b) => {
+                if (currentFilter === 'bestseller') {
+                    return (b.ventes || 0) - (a.ventes || 0);
+                }
+                return b.popularite - a.popularite;
+            });
             
             if (filteredProducts.length === 0) {
                 catalog.innerHTML = `
@@ -1972,8 +2096,14 @@
                 
                 const inCart = cart.find(item => item.id === product.id);
                 const originalPrice = product.promotion > 0 ? 
-                    Math.round(parseInt(product.prix.replace(/\s/g, '')) / (1 - product.promotion/100)) : 
+                    Math.round(product.prix / (1 - product.promotion/100)) : 
                     null;
+                
+                // Déterminer les badges
+                let badges = '';
+                if (product.nouveau) badges += '<span class="product-badge badge-new">Nouveau</span>';
+                if (product.promotion > 0) badges += `<span class="product-badge badge-promo">-${product.promotion}%</span>`;
+                if (product.bestseller) badges += '<span class="product-badge badge-bestseller">Best-seller</span>';
                 
                 col.innerHTML = `
                     <div class="product-card">
@@ -1981,19 +2111,34 @@
                             <img src="${product.image}" 
                                  class="card-img-top" 
                                  alt="${product.nom}"
-                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:280px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold\'>${product.nom}</div>'">
-                            ${product.nouveau ? '<span class="product-badge badge-new">Nouveau</span>' : ''}
-                            ${product.promotion > 0 ? `<span class="product-badge badge-promo">-${product.promotion}%</span>` : ''}
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:280px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold;padding:20px;text-align:center\'>${product.nom}</div>'">
+                            ${badges}
                         </div>
                         <div class="product-card-body">
                             <h4 class="product-title">${product.nom}</h4>
                             <p class="product-brand">
                                 <i class="bi bi-tag me-1"></i>${product.marque}
+                                ${product.bestseller ? '<span class="badge bg-warning text-dark ms-2"><i class="bi bi-star-fill me-1"></i>Top vente</span>' : ''}
                             </p>
                             <p class="product-description">${product.description_courte}</p>
-                            <div class="product-price">
-                                ${product.prix} FCFA
-                                ${originalPrice ? `<span class="original-price">${originalPrice.toLocaleString()} FCFA</span>` : ''}
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="product-price">
+                                    ${product.prix.toLocaleString()} FCFA
+                                    ${originalPrice ? `<span class="original-price">${originalPrice.toLocaleString()} FCFA</span>` : ''}
+                                </div>
+                                <div class="text-muted small">
+                                    <i class="bi bi-bar-chart me-1"></i>${product.ventes || 0} ventes
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="text-warning small">
+                                    ${'★'.repeat(Math.round(product.popularite/2))}
+                                    ${'☆'.repeat(5 - Math.round(product.popularite/2))}
+                                    <span class="text-muted ms-1">(${product.popularite}/10)</span>
+                                </div>
+                                <div class="text-success small">
+                                    <i class="bi bi-check-circle me-1"></i>En stock: ${product.stock}
+                                </div>
                             </div>
                             <div class="product-actions">
                                 <button class="btn btn-details" onclick="showProductDetails(${product.id})">
@@ -2001,9 +2146,9 @@
                                 </button>
                                 <button class="btn btn-cart ${inCart ? 'in-cart' : ''}" 
                                         onclick="addToCart(${product.id})"
-                                        ${inCart ? 'disabled' : ''}>
-                                    <i class="bi ${inCart ? 'bi-check' : 'bi-cart-plus'} me-1"></i>
-                                    ${inCart ? 'Au panier' : 'Ajouter'}
+                                        ${product.stock <= 0 ? 'disabled' : inCart ? 'disabled' : ''}>
+                                    <i class="bi ${inCart ? 'bi-check' : product.stock <= 0 ? 'bi-x' : 'bi-cart-plus'} me-1"></i>
+                                    ${inCart ? 'Au panier' : product.stock <= 0 ? 'Rupture' : 'Ajouter'}
                                 </button>
                             </div>
                         </div>
@@ -2016,28 +2161,35 @@
         
         function filterProducts(filter) {
             currentFilter = filter;
-            loadProducts(allProducts);
+            loadProducts(productsData);
         }
         
         function addToCart(productId) {
-            const product = allProducts.find(p => p.id === productId);
+            const product = productsData.find(p => p.id === productId);
             if (!product) return;
+            
+            if (product.stock <= 0) {
+                showNotification('Rupture de stock', `Désolé, ${product.nom} n'est plus disponible`, 'warning');
+                return;
+            }
             
             const existingItemIndex = cart.findIndex(item => item.id === productId);
             
             if (existingItemIndex !== -1) {
                 cart[existingItemIndex].quantity += 1;
-                showNotification('Quantité mise à jour', `${product.nom} (x${cart[existingItemIndex].quantity})`);
+                showNotification('Quantité mise à jour', `${product.nom} (x${cart[existingItemIndex].quantity})`, 'info');
             } else {
                 cart.push({
                     id: product.id,
                     name: product.nom,
-                    price: parseInt(product.prix.replace(/\s/g, '')),
+                    price: product.prix,
                     image: product.image,
                     quantity: 1,
-                    promotion: product.promotion || 0
+                    promotion: product.promotion || 0,
+                    marque: product.marque,
+                    stock: product.stock
                 });
-                showNotification('Ajouté au panier', `${product.nom} a été ajouté à votre panier`);
+                showNotification('Ajouté au panier', `${product.nom} a été ajouté à votre panier`, 'success');
             }
             
             localStorage.setItem('senvision-cart', JSON.stringify(cart));
@@ -2059,7 +2211,7 @@
             
             cart.forEach(item => {
                 const itemPrice = item.promotion > 0 ? 
-                    item.price * (1 - item.promotion/100) : 
+                    Math.round(item.price * (1 - item.promotion/100)) : 
                     item.price;
                 total += itemPrice * item.quantity;
                 itemCount += item.quantity;
@@ -2107,6 +2259,7 @@
                                 <span class="dropdown-cart-item-price">${itemTotal.toLocaleString()} FCFA</span>
                                 <span class="dropdown-cart-item-quantity">x${item.quantity}</span>
                             </div>
+                            ${item.promotion > 0 ? `<small class="text-success">-${item.promotion}%</small>` : ''}
                         </div>
                     </div>
                 `;
@@ -2142,7 +2295,7 @@
             updateCartModal();
             
             if (item) {
-                showNotification('Retiré du panier', `${item.name} a été retiré de votre panier`);
+                showNotification('Retiré du panier', `${item.name} a été retiré de votre panier`, 'info');
             }
             
             // Mettre à jour les boutons
@@ -2203,7 +2356,7 @@
                         <div class="cart-item-image">
                             <img src="${item.image}" 
                                  alt="${item.name}"
-                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#666\'>${item.name.substring(0,10)}</div>'">
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#666;text-align:center;padding:5px\'>${item.name}</div>'">
                         </div>
                         <div class="cart-item-details">
                             <div class="cart-item-title">${item.name}</div>
@@ -2219,7 +2372,7 @@
                                         <i class="bi bi-dash"></i>
                                     </button>
                                     <span class="quantity-value">${item.quantity}</span>
-                                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)" ${item.quantity >= item.stock ? 'disabled' : ''}>
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
@@ -2235,9 +2388,14 @@
             cartItemsContainer.innerHTML = itemsHTML;
             cartSummary.style.display = 'block';
             
+            // Calculer les frais de livraison
+            const deliveryMethod = document.getElementById('deliveryMethod');
+            const shippingCost = deliveryMethod && deliveryMethod.value === 'delivery' ? 5000 : 0;
+            
             document.getElementById('cart-subtotal').textContent = `${subtotal.toLocaleString()} FCFA`;
             document.getElementById('cart-discount').textContent = `-${totalDiscount.toLocaleString()} FCFA`;
-            document.getElementById('cart-total-modal').textContent = `${subtotal.toLocaleString()} FCFA`;
+            document.getElementById('cart-shipping').textContent = shippingCost > 0 ? `${shippingCost.toLocaleString()} FCFA` : 'Gratuite';
+            document.getElementById('cart-total-modal').textContent = `${(subtotal + shippingCost).toLocaleString()} FCFA`;
         }
 
         function updateQuantity(productId, change) {
@@ -2248,6 +2406,13 @@
                 
                 if (newQuantity < 1) {
                     removeFromCart(productId);
+                    return;
+                }
+                
+                // Vérifier le stock
+                const product = productsData.find(p => p.id === productId);
+                if (product && newQuantity > product.stock) {
+                    showNotification('Stock insuffisant', `Seulement ${product.stock} unités disponibles`, 'warning');
                     return;
                 }
                 
@@ -2268,6 +2433,15 @@
             document.getElementById('checkout-actions').style.display = 'flex';
             document.getElementById('order-form').style.display = 'block';
             
+            // Remplir les champs si déjà sauvegardés
+            const savedInfo = JSON.parse(localStorage.getItem('senvision-client-info'));
+            if (savedInfo) {
+                document.getElementById('clientName').value = savedInfo.name || '';
+                document.getElementById('clientPhone').value = savedInfo.phone || '';
+                document.getElementById('clientEmail').value = savedInfo.email || '';
+                document.getElementById('clientAddress').value = savedInfo.address || '';
+            }
+            
             // Faire défiler vers le formulaire
             document.querySelector('.order-form').scrollIntoView({
                 behavior: 'smooth',
@@ -2279,6 +2453,47 @@
             document.getElementById('cart-actions').style.display = 'flex';
             document.getElementById('checkout-actions').style.display = 'none';
             document.getElementById('order-form').style.display = 'none';
+        }
+
+        // FONCTION IMPORTANTE : Sauvegarde la commande dans le dashboard
+        function saveOrder(orderData) {
+            // Récupérer les commandes existantes
+            let allOrders = JSON.parse(localStorage.getItem('senvision-orders')) || [];
+            
+            // Générer un ID unique pour la commande
+            const timestamp = Date.now();
+            const orderId = 'SV' + timestamp.toString().slice(-6);
+            
+            // Créer l'objet commande complet
+            const order = {
+                id: orderId,
+                clientName: orderData.clientName,
+                clientPhone: orderData.clientPhone,
+                clientEmail: orderData.clientEmail,
+                clientAddress: orderData.clientAddress,
+                products: orderData.products,
+                total: orderData.total,
+                date: new Date().toISOString(),
+                status: 'new', // Statut initial
+                deliveryMethod: orderData.deliveryMethod,
+                paymentMethod: orderData.paymentMethod,
+                notes: orderData.notes,
+                timestamp: timestamp
+            };
+            
+            // Ajouter la commande
+            allOrders.push(order);
+            localStorage.setItem('senvision-orders', JSON.stringify(allOrders));
+            
+            // Sauvegarder les infos client pour future utilisation
+            localStorage.setItem('senvision-client-info', JSON.stringify({
+                name: orderData.clientName,
+                phone: orderData.clientPhone,
+                email: orderData.clientEmail,
+                address: orderData.clientAddress
+            }));
+            
+            return order;
         }
 
         function submitOrder() {
@@ -2304,41 +2519,70 @@
             const paymentMethod = document.getElementById('paymentMethod').value;
             const orderNotes = document.getElementById('orderNotes').value.trim();
 
-            // Calculer le total
-            let total = 0;
-            let orderDetails = "📦 **DÉTAILS DE LA COMMANDE**\n\n";
-
-            cart.forEach((item, index) => {
+            // Calculer le total avec frais de livraison
+            let subtotal = 0;
+            cart.forEach(item => {
                 const itemPrice = item.promotion > 0 ? 
                     Math.round(item.price * (1 - item.promotion/100)) : 
                     item.price;
-                const itemTotal = itemPrice * item.quantity;
-                total += itemTotal;
-                
-                orderDetails += `${index + 1}. ${item.name}\n`;
-                orderDetails += `   Quantité: ${item.quantity}\n`;
-                orderDetails += `   Prix unitaire: ${itemPrice.toLocaleString()} FCFA\n`;
-                if (item.promotion > 0) {
-                    orderDetails += `   Remise: ${item.promotion}%\n`;
-                }
-                orderDetails += `   Total: ${itemTotal.toLocaleString()} FCFA\n\n`;
+                subtotal += itemPrice * item.quantity;
             });
+            
+            const shippingCost = deliveryMethod === 'delivery' ? 5000 : 0;
+            const total = subtotal + shippingCost;
+
+            // Préparer les données de la commande
+            const orderData = {
+                clientName,
+                clientPhone,
+                clientEmail,
+                clientAddress,
+                products: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.promotion > 0 ? 
+                        Math.round(item.price * (1 - item.promotion/100)) : 
+                        item.price,
+                    originalPrice: item.price,
+                    promotion: item.promotion || 0,
+                    quantity: item.quantity,
+                    marque: item.marque
+                })),
+                subtotal: subtotal,
+                shipping: shippingCost,
+                total: total,
+                deliveryMethod,
+                paymentMethod,
+                notes: orderNotes
+            };
+
+            // SAUVEGARDER LA COMMANDE DANS LE DASHBOARD
+            const savedOrder = saveOrder(orderData);
 
             // Créer le message WhatsApp
             const message = `🚀 **NOUVELLE COMMANDE - SenVision**\n\n` +
+                          `📋 **RÉFÉRENCE : #${savedOrder.id}**\n\n` +
                           `👤 **INFORMATIONS CLIENT**\n` +
                           `• Nom: ${clientName}\n` +
                           `• Téléphone: ${clientPhone}\n` +
                           `${clientEmail ? `• Email: ${clientEmail}\n` : ''}` +
                           `• Adresse: ${clientAddress}\n\n` +
-                          `${orderDetails}` +
+                          `🛒 **DÉTAILS DE LA COMMANDE**\n\n` +
+                          `${cart.map((item, index) => {
+                              const itemPrice = item.promotion > 0 ? 
+                                  Math.round(item.price * (1 - item.promotion/100)) : 
+                                  item.price;
+                              const itemTotal = itemPrice * item.quantity;
+                              return `${index + 1}. ${item.name}\n   Quantité: ${item.quantity} × ${itemPrice.toLocaleString()} FCFA\n   Total: ${itemTotal.toLocaleString()} FCFA\n`;
+                          }).join('\n')}\n\n` +
                           `📊 **RÉSUMÉ DE LA COMMANDE**\n` +
-                          `• Sous-total: ${total.toLocaleString()} FCFA\n` +
-                          `• Livraison: ${deliveryMethod === 'delivery' ? 'À domicile' : 'Retrait boutique'}\n` +
+                          `• Sous-total: ${subtotal.toLocaleString()} FCFA\n` +
+                          `• Livraison: ${deliveryMethod === 'delivery' ? 'À domicile (+5 000 FCFA)' : 'Retrait boutique (Gratuit)'}\n` +
                           `• Paiement: ${getPaymentMethodText(paymentMethod)}\n\n` +
                           `💰 **TOTAL: ${total.toLocaleString()} FCFA**\n\n` +
                           `📝 **NOTES:**\n${orderNotes || 'Aucune note'}\n\n` +
-                          `🕒 **DATE:** ${new Date().toLocaleString('fr-FR')}`;
+                          `🕒 **DATE:** ${new Date().toLocaleString('fr-FR')}\n\n` +
+                          `✅ **Cette commande a été enregistrée sous la référence #${savedOrder.id}**`;
 
             // Encoder le message
             const encodedMessage = encodeURIComponent(message);
@@ -2356,7 +2600,17 @@
             updateCartDropdown();
             
             // Afficher une notification de succès
-            showNotification('Commande envoyée sur WhatsApp !', 'success');
+            showNotification(
+                `Commande #${savedOrder.id} enregistrée et envoyée sur WhatsApp !`, 
+                'success'
+            );
+            
+            // Réinitialiser les boutons
+            document.querySelectorAll('.btn-cart').forEach(button => {
+                button.classList.remove('in-cart');
+                button.innerHTML = '<i class="bi bi-cart-plus me-1"></i>Ajouter';
+                button.disabled = false;
+            });
         }
 
         function getPaymentMethodText(method) {
@@ -2368,11 +2622,20 @@
             }
         }
 
-        function showNotification(title, message) {
+        function showNotification(title, message, type = 'info') {
             const notification = document.getElementById('cartNotification');
             const notificationTitle = document.getElementById('notificationTitle');
             const notificationMessage = document.getElementById('notificationMessage');
             
+            // Changer la couleur selon le type
+            const colors = {
+                'success': '#25D366',
+                'warning': '#ffc107',
+                'error': '#dc3545',
+                'info': '#17a2b8'
+            };
+            
+            notification.style.borderLeftColor = colors[type] || colors.info;
             notificationTitle.textContent = title;
             notificationMessage.textContent = message;
             
@@ -2389,7 +2652,7 @@
 
         function orderViaWhatsApp() {
             if (cart.length === 0) {
-                showNotification('Panier vide', 'Ajoutez des articles avant de commander');
+                showNotification('Panier vide', 'Ajoutez des articles avant de commander', 'warning');
                 return;
             }
             openCartModal();
@@ -2397,12 +2660,12 @@
 
         // FONCTIONS EXISTANTES POUR LA PAGE
         function showProductDetails(productId) {
-            const product = allProducts.find(p => p.id === productId);
+            const product = productsData.find(p => p.id === productId);
             if (!product) return;
             
             const inCart = cart.find(item => item.id === product.id);
             const originalPrice = product.promotion > 0 ? 
-                Math.round(parseInt(product.prix.replace(/\s/g, '')) / (1 - product.promotion/100)) : 
+                Math.round(product.prix / (1 - product.promotion/100)) : 
                 null;
             
             const modalContent = `
@@ -2413,44 +2676,62 @@
                                  class="img-fluid" 
                                  alt="${product.nom}"
                                  style="width: 100%; height: 300px; object-fit: cover;"
-                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:300px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold\'>${product.nom}</div>'">
+                                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:300px;background:linear-gradient(45deg,#f5f7fa,#c3cfe2);display:flex;align-items:center;justify-content:center;color:#666;font-weight:bold;padding:20px\'>${product.nom}</div>'">
                         </div>
-                        <div class="d-flex justify-content-center gap-2">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-primary">${product.marque}</span>
                             <span class="badge bg-secondary">${product.categorie}</span>
                             ${product.nouveau ? '<span class="badge bg-success">Nouveau</span>' : ''}
                             ${product.promotion > 0 ? `<span class="badge bg-danger">Promotion -${product.promotion}%</span>` : ''}
+                            ${product.bestseller ? '<span class="badge bg-warning text-dark">Best-seller</span>' : ''}
+                            <span class="badge bg-info">${product.stock} en stock</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h3 class="mb-3">${product.nom}</h3>
                         <div class="mb-4">
-                            <h2 class="text-primary fw-bold">${product.prix} FCFA</h2>
-                            ${originalPrice ? `<p class="text-muted"><del>${originalPrice.toLocaleString()} FCFA</del></p>` : ''}
+                            <h2 class="text-primary fw-bold">${product.prix.toLocaleString()} FCFA</h2>
+                            ${originalPrice ? `<p class="text-muted"><del>${originalPrice.toLocaleString()} FCFA</del> Économisez ${(originalPrice - product.prix).toLocaleString()} FCFA!</p>` : ''}
                         </div>
+                        
+                        <div class="mb-3">
+                            <div class="text-warning mb-2">
+                                ${'★'.repeat(Math.round(product.popularite/2))}
+                                ${'☆'.repeat(5 - Math.round(product.popularite/2))}
+                                <span class="text-muted ms-2">(${product.popularite}/10) - ${product.ventes || 0} ventes</span>
+                            </div>
+                        </div>
+                        
                         <p class="mb-4">${product.description_longue}</p>
+                        
                         <div class="mb-4">
                             <h5>Caractéristiques :</h5>
                             <ul class="list-unstyled">
                                 ${product.caracteristiques.map(c => `<li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>${c}</li>`).join('')}
                             </ul>
                         </div>
+                        
                         <div class="mb-4">
                             <h5>Disponibilité :</h5>
                             <p class="${product.disponible ? 'text-success' : 'text-danger'}">
                                 <i class="bi ${product.disponible ? 'bi-check-circle' : 'bi-x-circle'} me-2"></i>
                                 ${product.disponible ? 'En stock' : 'Rupture de stock'}
-                                ${product.disponible && product.stock ? `(${product.stock} disponibles)` : ''}
+                                (${product.stock} disponibles)
                             </p>
                         </div>
+                        
                         <div class="d-grid gap-2">
                             <button class="btn ${inCart ? 'btn-success' : 'btn-primary'} btn-lg" 
-                                    onclick="addToCart(${product.id}); bootstrap.Modal.getInstance(document.querySelector('#productModal')).hide();">
-                                <i class="bi ${inCart ? 'bi-check' : 'bi-cart-plus'} me-2"></i>
-                                ${inCart ? 'Déjà au panier' : 'Ajouter au panier'}
+                                    onclick="addToCart(${product.id}); bootstrap.Modal.getInstance(document.querySelector('#productModal')).hide();"
+                                    ${product.stock <= 0 ? 'disabled' : ''}>
+                                <i class="bi ${inCart ? 'bi-check' : product.stock <= 0 ? 'bi-x' : 'bi-cart-plus'} me-2"></i>
+                                ${inCart ? 'Déjà au panier' : product.stock <= 0 ? 'Rupture de stock' : 'Ajouter au panier'}
                             </button>
-                            <button class="btn btn-success btn-lg" onclick="orderSingleProduct(${product.id})">
+                            <button class="btn btn-success btn-lg" onclick="orderSingleProduct(${product.id})" ${product.stock <= 0 ? 'disabled' : ''}>
                                 <i class="bi bi-whatsapp me-2"></i>Commander via WhatsApp
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="bootstrap.Modal.getInstance(document.querySelector('#productModal')).hide();">
+                                <i class="bi bi-arrow-left me-2"></i>Retour aux produits
                             </button>
                         </div>
                     </div>
@@ -2465,7 +2746,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">${product.nom}</h5>
+                            <h5 class="modal-title">${product.nom} - ${product.marque}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
@@ -2484,14 +2765,19 @@
         }
         
         function orderSingleProduct(productId) {
-            const product = allProducts.find(p => p.id === productId);
+            const product = productsData.find(p => p.id === productId);
             if (!product) return;
             
-            const message = `Bonjour SenVision ! 👓\n\nJe souhaite commander :\n\n1. ${product.nom} - ${product.prix} FCFA\n\n──────────────\n💰 Total: ${product.prix}\n\n📋 Mes informations :\n• Nom : _________\n• Téléphone : _________\n• Adresse : _________\n\n📝 Notes : _________\n\nMerci !`;
+            if (product.stock <= 0) {
+                showNotification('Rupture de stock', 'Ce produit n\'est plus disponible', 'warning');
+                return;
+            }
+            
+            const message = `Bonjour SenVision ! 👓\n\nJe souhaite commander :\n\n1. ${product.nom} - ${product.prix.toLocaleString()} FCFA\n\n──────────────\n💰 Total: ${product.prix.toLocaleString()} FCFA\n\n📋 Mes informations :\n• Nom : _________\n• Téléphone : _________\n• Adresse : _________\n\n📝 Notes : _________\n\nMerci !`;
             const encodedMessage = encodeURIComponent(message);
             
             window.open(`https://wa.me/781970844?text=${encodedMessage}`, '_blank');
-            showNotification('WhatsApp ouvert ! Commandez directement.', 'success');
+            showNotification('WhatsApp ouvert ! Commandez directement.', 'info');
         }
         
         function initAnimations() {
@@ -2536,10 +2822,41 @@
             }
         }
         
-        // Initialiser le panier
+        // Initialiser les données
         if (!localStorage.getItem('senvision-cart')) {
             localStorage.setItem('senvision-cart', JSON.stringify([]));
         }
+        if (!localStorage.getItem('senvision-orders')) {
+            localStorage.setItem('senvision-orders', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('senvision-products')) {
+            localStorage.setItem('senvision-products', JSON.stringify(productsData));
+        }
+
+        // Fonction pour tester le système
+        window.testOrderSystem = function() {
+            // Ajouter quelques produits au panier
+            addToCart(1);
+            addToCart(2);
+            
+            setTimeout(() => {
+                openCartModal();
+                setTimeout(() => {
+                    proceedToCheckout();
+                }, 1000);
+            }, 500);
+            
+            showNotification('Système de test activé', '2 produits ajoutés au panier', 'info');
+        };
+
+        // Afficher un message de bienvenue
+        setTimeout(() => {
+            showNotification(
+                'Bienvenue sur SenVision !',
+                'Découvrez nos marques et passez commande. Toutes les commandes sont enregistrées dans le dashboard admin.',
+                'info'
+            );
+        }, 2000);
     </script>
 </body>
 </html>

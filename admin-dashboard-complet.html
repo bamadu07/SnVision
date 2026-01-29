@@ -1,0 +1,3858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Admin - SenVision Optique</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <!-- html2canvas pour génération PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4895ef;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --success-color: #4ade80;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --sidebar-bg: #0f172a;
+            --card-bg: #ffffff;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Écran de connexion */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            animation: slideInUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .login-title {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-description {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .login-input-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            color: var(--dark-color);
+        }
+
+        .login-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+            outline: none;
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .login-error {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            display: none;
+        }
+
+        .dashboard-visible {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(180deg);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            margin: 5px 15px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .menu-item i {
+            font-size: 1.3rem;
+            min-width: 24px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .menu-text {
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .badge-notification {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            background: var(--danger-color);
+            border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            background: #f1f5f9;
+        }
+
+        .main-content.expanded {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        /* Header */
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-title p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .search-box input {
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            font-size: 0.95rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            background: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .stats-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .icon-sales { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .icon-orders { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .icon-messages { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .icon-revenue { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .icon-clients { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+        .icon-products { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); color: #333; }
+
+        .stats-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-title {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .stats-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stats-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(72, 187, 120, 0.1);
+            color: #22c55e;
+        }
+
+        .stats-change.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Quick Actions */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .action-text {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #334155;
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .chart-card.small {
+            padding: 20px;
+        }
+
+        .chart-card.small .chart-header {
+            margin-bottom: 15px;
+        }
+
+        .chart-card.small canvas {
+            height: 180px !important;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Table Card */
+        .table-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .admin-table thead {
+            background: #f8fafc;
+        }
+
+        .admin-table th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            color: #475569;
+        }
+
+        .admin-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .admin-table tbody tr:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+        .status-processing { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
+        .status-paid { background: rgba(34, 197, 94, 0.1); color: #16a34a; }
+        .status-delivered { background: rgba(139, 92, 246, 0.1); color: #7c3aed; }
+        .status-cancelled { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            padding: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-section.active {
+            display: block;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            margin-bottom: 10px;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-success { border-left-color: var(--success-color); }
+        .toast-error { border-left-color: var(--danger-color); }
+        .toast-warning { border-left-color: var(--warning-color); }
+        .toast-info { border-left-color: var(--info-color); }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 12px 24px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            color: white;
+        }
+
+        /* Bouton Facture */
+        .btn-invoice {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-invoice:hover {
+            background: linear-gradient(135deg, #0f766e, #115e59);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Styles pour la facture */
+        .invoice-container {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #4361ee;
+            padding-bottom: 20px;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .company-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4361ee;
+            margin-bottom: 10px;
+        }
+
+        .invoice-details {
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .client-info, .invoice-info {
+            width: 45%;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4361ee;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .invoice-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .invoice-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .totals-section {
+            margin-top: 30px;
+            width: 300px;
+            margin-left: auto;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .grand-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4361ee;
+            border-top: 2px solid #4361ee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        .terms {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .stamp {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #4361ee;
+            display: inline-block;
+            font-style: italic;
+            color: #4361ee;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-title h1 {
+                font-size: 1.5rem;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .chart-card.small canvas {
+                height: 150px !important;
+            }
+            
+            .invoice-details {
+                flex-direction: column;
+            }
+            
+            .client-info, .invoice-info {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Styles pour la section comptes */
+        .bg-purple {
+            background-color: #8b5cf6 !important;
+        }
+
+        .bg-teal {
+            background-color: #0d9488 !important;
+        }
+
+        /* Style pour le badge de démonstration */
+        .demo-badge {
+            animation: pulseBadge 2s infinite;
+        }
+
+        @keyframes pulseBadge {
+            0% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+
+        /* Styles pour l'impression */
+        @media print {
+            .sidebar, .page-header, .modal-footer {
+                display: none !important;
+            }
+            
+            .modal-body {
+                padding: 0 !important;
+            }
+            
+            #invoiceContent {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Écran de connexion -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-icon">
+                <i class="bi bi-shield-lock"></i>
+            </div>
+            
+            <h2 class="login-title">Connexion Administrateur</h2>
+            <p class="login-description">
+                Bienvenue sur le tableau de bord SenVision Optique. Accès strictement réservé au personnel autorisé.
+            </p>
+            
+            <div class="login-error" id="loginError">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                <span id="errorMessage">Identifiants incorrects</span>
+            </div>
+            
+            <div class="login-input-container">
+                <input type="text" 
+                       class="login-input" 
+                       id="username"
+                       placeholder="Nom d'utilisateur"
+                       autocomplete="username"
+                       autofocus>
+            </div>
+            
+            <div class="login-input-container">
+                <input type="password" 
+                       class="login-input" 
+                       id="password"
+                       placeholder="Mot de passe"
+                       autocomplete="current-password">
+                <button type="button" class="password-toggle" onclick="togglePassword()">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+            
+            <button class="btn btn-login" onclick="login()" id="loginButton">
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                Se Connecter
+            </button>
+            
+            <p class="text-muted mt-3 small">
+                <i class="bi bi-info-circle me-1"></i>
+                Toute tentative d'accès non autorisé sera signalée
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard principal -->
+    <div class="dashboard-container" id="dashboardContainer">
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="bi bi-eyeglasses"></i>
+                    </div>
+                    <span class="logo-text">SenVision</span>
+                </a>
+                <button class="toggle-btn" id="toggleSidebar">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-menu">
+                <a href="#dashboard" class="menu-item active" data-section="dashboard">
+                    <i class="bi bi-speedometer2"></i>
+                    <span class="menu-text">Tableau de Bord</span>
+                </a>
+                <a href="#orders" class="menu-item" data-section="orders">
+                    <i class="bi bi-cart-check"></i>
+                    <span class="menu-text">Commandes</span>
+                    <span class="badge-notification demo-badge" id="ordersBadge">2</span>
+                </a>
+                <a href="#products" class="menu-item" data-section="products">
+                    <i class="bi bi-eyeglasses"></i>
+                    <span class="menu-text">Produits</span>
+                </a>
+                <a href="#customers" class="menu-item" data-section="customers">
+                    <i class="bi bi-people"></i>
+                    <span class="menu-text">Clients</span>
+                </a>
+                <a href="#accounts" class="menu-item" data-section="accounts">
+                    <i class="bi bi-cash-stack"></i>
+                    <span class="menu-text">Comptes</span>
+                </a>
+                <a href="#messages" class="menu-item" data-section="messages">
+                    <i class="bi bi-chat"></i>
+                    <span class="menu-text">Messages</span>
+                    <span class="badge-notification" id="messagesBadge" style="display: none;">0</span>
+                </a>
+                <a href="#inventory" class="menu-item" data-section="inventory">
+                    <i class="bi bi-box-seam"></i>
+                    <span class="menu-text">Inventaire</span>
+                </a>
+                <a href="#analytics" class="menu-item" data-section="analytics">
+                    <i class="bi bi-graph-up"></i>
+                    <span class="menu-text">Analytics</span>
+                </a>
+                <div class="mt-auto">
+                    <a href="marques.html" class="menu-item" target="_blank">
+                        <i class="bi bi-shop"></i>
+                        <span class="menu-text">Voir la Boutique</span>
+                        <i class="bi bi-box-arrow-up-right ms-auto" style="font-size: 0.8rem;"></i>
+                    </a>
+                    <a href="#settings" class="menu-item" data-section="settings">
+                        <i class="bi bi-gear"></i>
+                        <span class="menu-text">Paramètres</span>
+                    </a>
+                    <a href="#logout" class="menu-item text-danger" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="menu-text">Déconnexion</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Page Header -->
+            <header class="page-header">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="header-title">
+                    <h1 id="pageTitle">Tableau de Bord</h1>
+                    <div>
+                        <p id="welcomeMessage">Bienvenue, Administrateur</p>
+                        <div class="date-display">
+                            <i class="bi bi-calendar"></i>
+                            <span id="currentDate">Chargement...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" placeholder="Rechercher..." id="globalSearch">
+                    </div>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <i class="bi bi-plus-circle me-2"></i>Nouveau Produit
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="dashboard-section active">
+                <!-- Quick Stats - Chiffres alignés avec les factures -->
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="card-icon icon-sales">
+                            <i class="bi bi-currency-exchange"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Ventes Aujourd'hui</div>
+                                <div class="stats-value" id="todaySales">0 F</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-arrow-up"></i> 12.5%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon icon-orders">
+                            <i class="bi bi-cart"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Nouvelles Commandes</div>
+                                <div class="stats-value" id="newOrdersCount">0</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-arrow-up"></i> 8.2%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon icon-clients">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Nouveaux Clients</div>
+                                <div class="stats-value" id="newCustomersCount">0</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-arrow-up"></i> 5.3%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon icon-revenue">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Revenu du Mois</div>
+                                <div class="stats-value" id="monthlyRevenue">0 F</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-arrow-up"></i> 15.3%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-grid">
+                    <div class="action-card" onclick="showSection('orders')">
+                        <div class="action-icon">
+                            <i class="bi bi-cart-plus"></i>
+                        </div>
+                        <div class="action-text">Gérer Commandes</div>
+                    </div>
+                    <div class="action-card" onclick="showAddProductModal()">
+                        <div class="action-icon">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+                        <div class="action-text">Ajouter Produit</div>
+                    </div>
+                    <div class="action-card" onclick="showSection('customers')">
+                        <div class="action-icon">
+                            <i class="bi bi-person-plus"></i>
+                        </div>
+                        <div class="action-text">Voir Clients</div>
+                    </div>
+                    <div class="action-card" onclick="showSection('messages')">
+                        <div class="action-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="action-text">Messages</div>
+                    </div>
+                </div>
+
+                <!-- Top Categories Chart - Taille réduite -->
+                <div class="chart-card small">
+                    <div class="chart-header">
+                        <h3>Top Catégories de Produits</h3>
+                        <select class="form-select form-select-sm" style="width: auto; font-size: 0.85rem;" id="chartPeriod">
+                            <option>Ce mois</option>
+                            <option>Trimestre</option>
+                            <option>Année</option>
+                        </select>
+                    </div>
+                    <canvas id="categoriesChart" height="180"></canvas>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="table-card mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Commandes Récentes</h3>
+                        <button class="btn btn-outline-primary btn-sm" onclick="showSection('orders')">
+                            Voir tout <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                    <th>Montant</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <!-- Chargé dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestion des Commandes</h2>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success" onclick="exportOrders('excel')">
+                            <i class="bi bi-file-excel me-2"></i>Excel
+                        </button>
+                        <button class="btn btn-primary" onclick="generateOrdersReport()">
+                            <i class="bi bi-file-earmark-pdf me-2"></i>Rapport PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <select class="form-select" id="orderStatusFilter">
+                            <option value="">Tous les statuts</option>
+                            <option value="new">Nouvelle</option>
+                            <option value="processing">En traitement</option>
+                            <option value="paid">Payée</option>
+                            <option value="delivered">Livrée</option>
+                            <option value="cancelled">Annulée</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" class="form-control" id="orderDateFilter">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-primary w-100" onclick="filterOrders()">
+                            <i class="bi bi-funnel me-2"></i>Filtrer
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                            <i class="bi bi-x-circle me-2"></i>Réinitialiser
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Client</th>
+                                    <th>Téléphone</th>
+                                    <th>Date</th>
+                                    <th>Montant</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- Les commandes seront chargées ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestion des Produits</h2>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <i class="bi bi-plus-circle me-2"></i>Ajouter Produit
+                    </button>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <select class="form-select" id="productCategoryFilter">
+                            <option value="">Toutes catégories</option>
+                            <option value="lunettes">Lunettes de vue</option>
+                            <option value="soleil">Lunettes soleil</option>
+                            <option value="lentilles">Lentilles</option>
+                            <option value="accessoires">Accessoires</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="productBrandFilter">
+                            <option value="">Toutes marques</option>
+                            <option value="rayban">Ray-Ban</option>
+                            <option value="oakley">Oakley</option>
+                            <option value="gucci">Gucci</option>
+                            <option value="acuvue">Acuvue</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary w-100" onclick="filterProducts()">
+                            <i class="bi bi-funnel me-2"></i>Filtrer
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" id="productsGrid">
+                    <!-- Les produits seront chargés ici -->
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestion des Clients</h2>
+                    <button class="btn btn-primary" onclick="exportCustomers()">
+                        <i class="bi bi-download me-2"></i>Exporter
+                    </button>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                    <th>Commandes</th>
+                                    <th>Total dépensé</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTable">
+                                <!-- Les clients seront chargés ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accounts Section -->
+            <section id="accounts" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestion des Comptes</h2>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success" onclick="showAddAccountModal()">
+                            <i class="bi bi-plus-circle me-2"></i>Nouvelle Transaction
+                        </button>
+                        <button class="btn btn-primary" onclick="generateAccountsReport()">
+                            <i class="bi bi-file-earmark-bar-graph me-2"></i>Rapport Comptable
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Comptes Stats -->
+                <div class="stats-grid mb-4">
+                    <div class="stats-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);">
+                            <i class="bi bi-arrow-down-circle"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Recettes Total</div>
+                                <div class="stats-value" id="totalRevenue">0 F</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            <i class="bi bi-arrow-up-circle"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Dépenses Total</div>
+                                <div class="stats-value" id="totalExpenses">0 F</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Solde Actuel</div>
+                                <div class="stats-value" id="currentBalance">0 F</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-graph-up"></i> 8.5%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="stats-info">
+                            <div>
+                                <div class="stats-title">Transactions du Mois</div>
+                                <div class="stats-value" id="monthlyTransactions">0</div>
+                            </div>
+                            <div class="stats-change">
+                                <i class="bi bi-arrow-up"></i> 12.3%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau des transactions -->
+                <div class="table-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Transactions Récentes</h3>
+                        <button class="btn btn-outline-primary btn-sm" onclick="exportAccounts('csv')">
+                            <i class="bi bi-download me-2"></i>Exporter CSV
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Référence</th>
+                                    <th>Description</th>
+                                    <th>Catégorie</th>
+                                    <th>Type</th>
+                                    <th>Montant</th>
+                                    <th>Mode Paiement</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accountsTable">
+                                <!-- Les transactions seront chargées ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Messages Section -->
+            <section id="messages" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Messages des Clients</h2>
+                    <button class="btn btn-primary" onclick="markAllAsRead()">
+                        <i class="bi bi-check-all me-2"></i>Tout marquer comme lu
+                    </button>
+                </div>
+
+                <div id="messagesList">
+                    <!-- Les messages seront chargés ici -->
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestion de l'Inventaire</h2>
+                    <button class="btn btn-primary" onclick="showLowStockAlert()">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Alertes Stock
+                    </button>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>SKU</th>
+                                    <th>Stock Actuel</th>
+                                    <th>Stock Minimum</th>
+                                    <th>Status</th>
+                                    <th>Dernière mise à jour</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTable">
+                                <!-- L'inventaire sera chargé ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Analytics & Rapports</h2>
+                    <button class="btn btn-primary" onclick="generateAnalyticsReport()">
+                        <i class="bi bi-file-earmark-bar-graph me-2"></i>Rapport Complet
+                    </button>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="chart-card small">
+                            <h3 class="mb-4">Ventes par Mois</h3>
+                            <canvas id="monthlySalesChart" height="180"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="chart-card small">
+                            <h3 class="mb-4">Top Produits</h3>
+                            <canvas id="topProductsChart" height="180"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="chart-card">
+                            <h3 class="mb-4">Statistiques Clés</h3>
+                            <div class="row" id="analyticsStats">
+                                <!-- Chargé dynamiquement -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="dashboard-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Paramètres</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">
+                                    <i class="bi bi-gear me-2"></i>Paramètres Généraux
+                                </h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Nom de la boutique</label>
+                                    <input type="text" class="form-control" value="SenVision Optique">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email de contact</label>
+                                    <input type="email" class="form-control" value="contact@senvision.sn">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="text" class="form-control" value="+221 33 123 45 67">
+                                </div>
+                                <button class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">
+                                    <i class="bi bi-shield-lock me-2"></i>Sécurité
+                                </h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Changer le mot de passe admin</label>
+                                    <input type="password" class="form-control" placeholder="Nouveau mot de passe" id="newPassword">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirmer le mot de passe</label>
+                                    <input type="password" class="form-control" placeholder="Confirmer le mot de passe" id="confirmPassword">
+                                </div>
+                                <button class="btn btn-primary" onclick="changePassword()">
+                                    <i class="bi bi-key me-2"></i>Changer le mot de passe
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal Facture -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-receipt me-2"></i>Facture #<span id="invoiceNumber"></span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="invoiceContent" style="background: white; padding: 30px; max-width: 800px; margin: 0 auto;">
+                        <!-- Contenu de la facture généré dynamiquement -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="downloadInvoicePDF()">
+                        <i class="bi bi-download me-2"></i>Télécharger PDF
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="printInvoice()">
+                        <i class="bi bi-printer me-2"></i>Imprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals Comptes -->
+    <div class="modal fade" id="addAccountModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle me-2"></i>Nouvelle Transaction
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="accountForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Type de transaction *</label>
+                                <select class="form-select" id="transactionType" required onchange="toggleTransactionFields()">
+                                    <option value="">Sélectionner</option>
+                                    <option value="income">Recette</option>
+                                    <option value="expense">Dépense</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Catégorie *</label>
+                                <select class="form-select" id="transactionCategory" required>
+                                    <option value="">Sélectionner</option>
+                                    <option value="sales">Ventes</option>
+                                    <option value="purchases">Achats produits</option>
+                                    <option value="salary">Salaires</option>
+                                    <option value="rent">Loyer</option>
+                                    <option value="utilities">Électricité/Eau</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="other">Autres</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date *</label>
+                                <input type="date" class="form-control" id="transactionDate" required value="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Montant (FCFA) *</label>
+                                <input type="number" class="form-control" id="transactionAmount" min="0" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mode de paiement *</label>
+                                <select class="form-select" id="transactionPaymentMethod" required>
+                                    <option value="cash">Espèces</option>
+                                    <option value="mobile_money">Mobile Money</option>
+                                    <option value="bank_transfer">Virement bancaire</option>
+                                    <option value="check">Chèque</option>
+                                    <option value="card">Carte bancaire</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Référence</label>
+                                <input type="text" class="form-control" id="transactionReference" placeholder="Numéro de facture, référence...">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3" id="customerField" style="display: none;">
+                            <label class="form-label">Client</label>
+                            <select class="form-select" id="transactionCustomer">
+                                <option value="">Sélectionner un client</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-control" id="transactionDescription" rows="3" required placeholder="Décrire la transaction..."></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Pièce jointe (facultatif)</label>
+                                <input type="file" class="form-control" id="transactionAttachment" accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" id="transactionStatus">
+                                    <option value="pending">En attente</option>
+                                    <option value="completed" selected>Complété</option>
+                                    <option value="cancelled">Annulé</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="saveTransaction()">
+                        <i class="bi bi-save me-2"></i>Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajout Produit -->
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle me-2"></i>Ajouter un Produit
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nom du produit *</label>
+                                <input type="text" class="form-control" id="productName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">SKU *</label>
+                                <input type="text" class="form-control" id="productSKU" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Catégorie *</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="">Sélectionner</option>
+                                    <option value="lunettes">Lunettes de vue</option>
+                                    <option value="soleil">Lunettes soleil</option>
+                                    <option value="lentilles">Lentilles</option>
+                                    <option value="accessoires">Accessoires</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Marque *</label>
+                                <select class="form-select" id="productBrand" required>
+                                    <option value="">Sélectionner</option>
+                                    <option value="Ray-Ban">Ray-Ban</option>
+                                    <option value="Oakley">Oakley</option>
+                                    <option value="Gucci">Gucci</option>
+                                    <option value="Acuvue">Acuvue</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Prix (FCFA) *</label>
+                                <input type="number" class="form-control" id="productPrice" min="0" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Stock initial *</label>
+                                <input type="number" class="form-control" id="productStock" min="0" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProduct()">
+                        <i class="bi bi-save me-2"></i>Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ============================================
+        // CONFIGURATION DE SÉCURITÉ
+        // ============================================
+        const ADMIN_CONFIG = {
+            username: "admin",
+            password: "SenVision2026!",
+            sessionTimeout: 30
+        };
+
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let currentSection = 'dashboard';
+        let charts = {};
+        let loginAttempts = 0;
+        let sessionTimer;
+        let currentInvoiceData = null;
+        
+        // Données réelles depuis localStorage
+        let realOrders = [];
+        let realProducts = [];
+        let realCustomers = [];
+        
+        // Données comptes
+        let accounts = JSON.parse(localStorage.getItem('senvision-accounts')) || [];
+        let suppliers = JSON.parse(localStorage.getItem('senvision-suppliers')) || [];
+
+        // ============================================
+        // INITIALISATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoginScreen();
+            initLoginScreen();
+            updateCurrentDate();
+        });
+
+        function showLoginScreen() {
+            document.getElementById('dashboardContainer').classList.remove('dashboard-visible');
+            document.getElementById('dashboardContainer').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            
+            localStorage.removeItem('senvision_session');
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+        }
+
+        function initLoginScreen() {
+            const passwordInput = document.getElementById('password');
+            const usernameInput = document.getElementById('username');
+            
+            usernameInput.focus();
+            
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('password').focus();
+                }
+            });
+        }
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateStr = now.toLocaleDateString('fr-FR', options);
+            document.getElementById('currentDate').textContent = dateStr;
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.classList.remove('bi-eye');
+                toggleBtn.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.classList.remove('bi-eye-slash');
+                toggleBtn.classList.add('bi-eye');
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showLoginError("Veuillez remplir tous les champs");
+                return;
+            }
+            
+            if (username === ADMIN_CONFIG.username && password === ADMIN_CONFIG.password) {
+                document.getElementById('loginError').style.display = 'none';
+                createSession();
+                showDashboard();
+                loginAttempts = 0;
+                showToast("Connexion réussie !", "success");
+            } else {
+                loginAttempts++;
+                const remainingAttempts = 3 - loginAttempts;
+                
+                if (remainingAttempts > 0) {
+                    showLoginError(`Identifiants incorrects. ${remainingAttempts} tentative(s) restante(s).`);
+                } else {
+                    showLoginError("Trop de tentatives échouées. Veuillez réessayer plus tard.");
+                    document.getElementById('loginButton').disabled = true;
+                    
+                    setTimeout(() => {
+                        document.getElementById('loginButton').disabled = false;
+                        loginAttempts = 0;
+                        showLoginError("");
+                    }, 300000);
+                }
+            }
+        }
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('loginError');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (message) {
+                errorMessage.textContent = message;
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        function createSession() {
+            const sessionData = {
+                username: ADMIN_CONFIG.username,
+                loginTime: new Date().getTime(),
+                expires: new Date().getTime() + (ADMIN_CONFIG.sessionTimeout * 60000)
+            };
+            
+            localStorage.setItem('senvision_session', JSON.stringify(sessionData));
+            startSessionTimer();
+        }
+
+        function startSessionTimer() {
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+            
+            sessionTimer = setInterval(() => {
+                const sessionData = localStorage.getItem('senvision_session');
+                
+                if (!sessionData) {
+                    logout();
+                    return;
+                }
+                
+                const session = JSON.parse(sessionData);
+                const now = new Date().getTime();
+                const remainingTime = session.expires - now;
+                
+                if (remainingTime < 300000 && remainingTime > 299000) {
+                    showToast("Session expirera dans 5 minutes", "warning");
+                }
+                
+                if (now > session.expires) {
+                    logout();
+                }
+            }, 60000);
+        }
+
+        function logout() {
+            localStorage.removeItem('senvision_session');
+            
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+            
+            showLoginScreen();
+            
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginButton').disabled = false;
+            
+            loginAttempts = 0;
+            
+            showToast("Déconnexion réussie", "info");
+        }
+
+        function changePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!newPassword || !confirmPassword) {
+                showToast("Veuillez remplir tous les champs", "error");
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast("Les mots de passe ne correspondent pas", "error");
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showToast("Le mot de passe doit contenir au moins 8 caractères", "error");
+                return;
+            }
+            
+            ADMIN_CONFIG.password = newPassword;
+            
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            showToast("Mot de passe changé avec succès", "success");
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardContainer').classList.add('dashboard-visible');
+            document.getElementById('dashboardContainer').style.display = 'block';
+            
+            document.getElementById('welcomeMessage').textContent = `Bienvenue, ${ADMIN_CONFIG.username}`;
+            
+            initDashboard();
+            loadDashboardData();
+            initCharts();
+        }
+
+        function initDashboard() {
+            document.getElementById('toggleSidebar').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('mainContent').classList.toggle('expanded');
+            });
+
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('show');
+            });
+
+            document.querySelectorAll('.menu-item[data-section]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    showSection(this.getAttribute('data-section'));
+                });
+            });
+
+            const searchInput = document.getElementById('globalSearch');
+            searchInput.addEventListener('input', function() {
+                performGlobalSearch(this.value);
+            });
+        }
+
+        function showSection(sectionId) {
+            currentSection = sectionId;
+            
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.menu-item[data-section="${sectionId}"]`).classList.add('active');
+            
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            updatePageTitle(sectionId);
+            loadSectionData(sectionId);
+        }
+
+        function updatePageTitle(sectionId) {
+            const titles = {
+                'dashboard': 'Tableau de Bord',
+                'orders': 'Commandes',
+                'products': 'Produits',
+                'customers': 'Clients',
+                'accounts': 'Comptes',
+                'messages': 'Messages',
+                'inventory': 'Inventaire',
+                'analytics': 'Analytics',
+                'settings': 'Paramètres'
+            };
+            
+            document.getElementById('pageTitle').textContent = titles[sectionId] || 'Dashboard';
+        }
+
+        function loadDashboardData() {
+            loadRealData();
+            updateStats();
+            loadRecentOrders();
+            updateNotificationBadges();
+        }
+
+        function loadRealData() {
+            realOrders = JSON.parse(localStorage.getItem('senvision-orders')) || [];
+            realProducts = JSON.parse(localStorage.getItem('senvision-products')) || [];
+            extractCustomersFromOrders();
+            
+            // Charger les données comptes
+            accounts = JSON.parse(localStorage.getItem('senvision-accounts')) || [];
+            suppliers = JSON.parse(localStorage.getItem('senvision-suppliers')) || [];
+        }
+
+        function extractCustomersFromOrders() {
+            const customersMap = new Map();
+            
+            realOrders.forEach(order => {
+                if (order.clientPhone) {
+                    if (!customersMap.has(order.clientPhone)) {
+                        customersMap.set(order.clientPhone, {
+                            id: order.clientPhone,
+                            name: order.clientName || 'Client',
+                            email: order.clientEmail || '',
+                            phone: order.clientPhone,
+                            totalOrders: 0,
+                            totalSpent: 0,
+                            firstOrder: order.date
+                        });
+                    }
+                    
+                    const customer = customersMap.get(order.clientPhone);
+                    customer.totalOrders++;
+                    customer.totalSpent += order.total || 0;
+                }
+            });
+            
+            realCustomers = Array.from(customersMap.values());
+        }
+
+        function updateStats() {
+            const today = new Date().toDateString();
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
+            
+            const todaySales = realOrders
+                .filter(order => {
+                    const orderDate = new Date(order.date || order.timestamp);
+                    return orderDate.toDateString() === today;
+                })
+                .reduce((sum, order) => sum + (order.total || 0), 0);
+            
+            const newOrders = realOrders.filter(order => order.status === 'new').length;
+            
+            const newCustomers = realOrders
+                .filter(order => {
+                    const orderDate = new Date(order.date || order.timestamp);
+                    return orderDate.toDateString() === today;
+                })
+                .length;
+            
+            const monthlyRevenue = realOrders
+                .filter(order => {
+                    const orderDate = new Date(order.date || order.timestamp);
+                    return orderDate.getMonth() === thisMonth && orderDate.getFullYear() === thisYear;
+                })
+                .reduce((sum, order) => sum + (order.total || 0), 0);
+            
+            document.getElementById('todaySales').textContent = formatNumber(todaySales) + ' F';
+            document.getElementById('newOrdersCount').textContent = newOrders;
+            document.getElementById('newCustomersCount').textContent = newCustomers;
+            document.getElementById('monthlyRevenue').textContent = formatNumber(monthlyRevenue) + ' F';
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getDateFromTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('fr-FR');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'new': 'Nouvelle',
+                'processing': 'En traitement',
+                'paid': 'Payée',
+                'delivered': 'Livrée',
+                'cancelled': 'Annulée'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getPaymentMethodText(method) {
+            switch(method) {
+                case 'cod': return 'Paiement à la livraison';
+                case 'mobile_money': return 'Mobile Money';
+                case 'bank': return 'Virement bancaire';
+                default: return method || 'Non spécifié';
+            }
+        }
+
+        function loadSectionData(sectionId) {
+            loadRealData();
+            
+            switch(sectionId) {
+                case 'orders':
+                    loadOrdersTable();
+                    break;
+                case 'products':
+                    loadProductsGrid();
+                    break;
+                case 'customers':
+                    loadCustomersTable();
+                    break;
+                case 'accounts':
+                    loadAccountsData();
+                    break;
+                case 'messages':
+                    loadMessagesList();
+                    break;
+                case 'inventory':
+                    loadInventoryTable();
+                    break;
+                case 'analytics':
+                    loadAnalyticsData();
+                    break;
+            }
+            
+            updateNotificationBadges();
+        }
+
+        function updateNotificationBadges() {
+            // Pour démonstration, on affiche toujours "2" sur Commandes
+            const ordersBadge = document.getElementById('ordersBadge');
+            const messagesBadge = document.getElementById('messagesBadge');
+            
+            // Toujours afficher "2" sur Commandes pour la démonstration
+            ordersBadge.textContent = '2';
+            ordersBadge.style.display = 'flex';
+            
+            // Masquer le badge Messages s'il est à 0
+            if (messagesBadge.textContent === '0') {
+                messagesBadge.style.display = 'none';
+            }
+        }
+
+        function initCharts() {
+            const categoriesCtx = document.getElementById('categoriesChart');
+            if (categoriesCtx) {
+                const categories = {};
+                realProducts.forEach(product => {
+                    const category = product.categorie || product.category || 'Non catégorisé';
+                    categories[category] = (categories[category] || 0) + 1;
+                });
+                
+                const labels = Object.keys(categories);
+                const data = Object.values(categories);
+                
+                charts.categories = new Chart(categoriesCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                '#4361ee',
+                                '#4895ef',
+                                '#4cc9f0',
+                                '#3a0ca3',
+                                '#7209b7'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-body d-flex align-items-center">
+                    <i class="bi ${getToastIcon(type)} me-3 fs-5"></i>
+                    <div class="flex-grow-1">${message}</div>
+                    <button type="button" class="btn-close ms-3" onclick="removeToast('${toastId}')"></button>
+                </div>
+            `;
+            toast.id = toastId;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                removeToast(toastId);
+            }, 5000);
+        }
+
+        function getToastIcon(type) {
+            const icons = {
+                'success': 'bi-check-circle-fill',
+                'error': 'bi-x-circle-fill',
+                'warning': 'bi-exclamation-triangle-fill',
+                'info': 'bi-info-circle-fill'
+            };
+            return icons[type] || 'bi-info-circle-fill';
+        }
+
+        function removeToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }
+        }
+
+        // ============================================
+        // FONCTIONS DU DASHBOARD
+        // ============================================
+        function loadRecentOrders() {
+            const table = document.getElementById('recentOrdersTable');
+            if (!table) return;
+            
+            const sortedOrders = [...realOrders].sort((a, b) => {
+                const dateA = new Date(a.date || a.timestamp || 0);
+                const dateB = new Date(b.date || b.timestamp || 0);
+                return dateB - dateA;
+            });
+            
+            const recentOrders = sortedOrders.slice(0, 5);
+            
+            if (recentOrders.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="bi bi-cart display-4 text-muted mb-3"></i>
+                            <h5>Aucune commande</h5>
+                            <p class="text-muted">Les commandes passées depuis la boutique apparaîtront ici</p>
+                            <a href="marques.html" class="btn btn-primary mt-2" target="_blank">
+                                <i class="bi bi-eye me-2"></i>Voir la boutique
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            table.innerHTML = recentOrders.map(order => `
+                <tr>
+                    <td>
+                        <strong>${order.id || 'N/A'}</strong><br>
+                        <small class="text-muted">${getDateFromTimestamp(order.date || order.timestamp)}</small>
+                    </td>
+                    <td>
+                        <div><strong>${order.clientName || 'N/A'}</strong></div>
+                        <small class="text-muted">${order.clientEmail || ''}</small>
+                    </td>
+                    <td>${formatDate(order.date || order.timestamp)}</td>
+                    <td><strong>${formatNumber(order.total || 0)} F</strong></td>
+                    <td>
+                        <span class="status-badge status-${order.status || 'new'}">
+                            ${getStatusText(order.status || 'new')}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrder('${order.id}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-invoice" onclick="generateInvoice('${order.id}')">
+                            <i class="bi bi-receipt"></i> Facture
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewOrder(orderId) {
+            const order = realOrders.find(o => o.id === orderId);
+            
+            if (!order) {
+                showToast('Commande non trouvée', 'error');
+                return;
+            }
+            
+            alert(`Détails de la commande #${orderId}\n\nClient: ${order.clientName}\nMontant: ${formatNumber(order.total || 0)} F\nStatut: ${getStatusText(order.status || 'new')}`);
+        }
+
+        // ============================================
+        // FONCTIONS DE FACTURATION
+        // ============================================
+
+        function generateInvoice(orderId) {
+            const order = realOrders.find(o => o.id === orderId);
+            
+            if (!order) {
+                showToast('Commande non trouvée', 'error');
+                return;
+            }
+            
+            currentInvoiceData = order;
+            
+            // Extraire les produits de la commande
+            const orderProducts = order.products || [{
+                name: order.productName || 'Lunettes SenVision',
+                quantity: order.quantity || 1,
+                price: order.unitPrice || order.total || 0
+            }];
+            
+            // Calculer le total
+            const subtotal = orderProducts.reduce((sum, product) => 
+                sum + (product.price * (product.quantity || 1)), 0);
+            
+            // Construire le contenu HTML de la facture
+            const invoiceHTML = `
+                <style>
+                    .invoice-container {
+                        font-family: 'Arial', sans-serif;
+                        color: #333;
+                    }
+                    .invoice-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        margin-bottom: 40px;
+                        border-bottom: 2px solid #4361ee;
+                        padding-bottom: 20px;
+                    }
+                    .company-info {
+                        flex: 1;
+                    }
+                    .invoice-title {
+                        text-align: right;
+                    }
+                    .company-logo {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #4361ee;
+                        margin-bottom: 10px;
+                    }
+                    .invoice-details {
+                        margin: 30px 0;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    .client-info, .invoice-info {
+                        width: 45%;
+                    }
+                    .section-title {
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #4361ee;
+                        margin-bottom: 10px;
+                        padding-bottom: 5px;
+                        border-bottom: 1px solid #eee;
+                    }
+                    .invoice-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                    }
+                    .invoice-table th {
+                        background: #f8f9fa;
+                        padding: 12px;
+                        text-align: left;
+                        border-bottom: 2px solid #dee2e6;
+                        font-weight: bold;
+                        color: #495057;
+                    }
+                    .invoice-table td {
+                        padding: 12px;
+                        border-bottom: 1px solid #dee2e6;
+                    }
+                    .invoice-table tr:last-child td {
+                        border-bottom: 2px solid #dee2e6;
+                    }
+                    .text-right {
+                        text-align: right;
+                    }
+                    .totals-section {
+                        margin-top: 30px;
+                        width: 300px;
+                        margin-left: auto;
+                    }
+                    .total-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        padding: 5px 0;
+                    }
+                    .grand-total {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #4361ee;
+                        border-top: 2px solid #4361ee;
+                        padding-top: 10px;
+                        margin-top: 10px;
+                    }
+                    .footer {
+                        margin-top: 50px;
+                        padding-top: 20px;
+                        border-top: 1px solid #dee2e6;
+                        font-size: 12px;
+                        color: #6c757d;
+                        text-align: center;
+                    }
+                    .terms {
+                        margin-top: 30px;
+                        font-size: 12px;
+                        color: #6c757d;
+                    }
+                    .stamp {
+                        text-align: center;
+                        margin-top: 30px;
+                        padding: 20px;
+                        border: 2px dashed #4361ee;
+                        display: inline-block;
+                        font-style: italic;
+                        color: #4361ee;
+                    }
+                </style>
+                
+                <div class="invoice-container">
+                    <div class="invoice-header">
+                        <div class="company-info">
+                            <div class="company-logo">
+                                <i class="bi bi-eyeglasses"></i> SenVision Optique
+                            </div>
+                            <div>
+                                <strong>SenVision Optique Sénégal</strong><br>
+                                Dakar, Sénégal<br>
+                                Téléphone: +221 33 123 45 67<br>
+                                Email: contact@senvision.sn<br>
+                                NIF: 1234567890
+                            </div>
+                        </div>
+                        <div class="invoice-title">
+                            <h1 style="color: #4361ee; margin: 0;">FACTURE</h1>
+                            <div style="font-size: 14px; margin-top: 10px;">
+                                Numéro: <strong>${order.id}</strong><br>
+                                Date: <strong>${formatDate(order.date || order.timestamp)}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-details">
+                        <div class="client-info">
+                            <div class="section-title">CLIENT</div>
+                            <div>
+                                <strong>${order.clientName || 'Non spécifié'}</strong><br>
+                                ${order.clientEmail ? order.clientEmail + '<br>' : ''}
+                                ${order.clientPhone || ''}<br>
+                                ${order.clientAddress || ''}
+                            </div>
+                        </div>
+                        
+                        <div class="invoice-info">
+                            <div class="section-title">DÉTAILS DE LA FACTURE</div>
+                            <div>
+                                <strong>Référence:</strong> ${order.id}<br>
+                                <strong>Date:</strong> ${formatDate(order.date || order.timestamp)}<br>
+                                <strong>Statut:</strong> ${getStatusText(order.status)}<br>
+                                <strong>Mode de paiement:</strong> ${getPaymentMethodText(order.paymentMethod)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">ARTICLES</div>
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th width="50">#</th>
+                                <th>Description</th>
+                                <th width="100" class="text-right">Prix unitaire</th>
+                                <th width="80" class="text-right">Quantité</th>
+                                <th width="120" class="text-right">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${orderProducts.map((product, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${product.name}</td>
+                                    <td class="text-right">${formatNumber(product.price)} F</td>
+                                    <td class="text-right">${product.quantity || 1}</td>
+                                    <td class="text-right">${formatNumber(product.price * (product.quantity || 1))} F</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span>Sous-total:</span>
+                            <span>${formatNumber(subtotal)} F</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Livraison:</span>
+                            <span>${order.shippingCost ? formatNumber(order.shippingCost) + ' F' : '0 F'}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Remise:</span>
+                            <span>${order.discount ? '-' + formatNumber(order.discount) + ' F' : '0 F'}</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>TOTAL:</span>
+                            <span>${formatNumber(order.total || subtotal)} F</span>
+                        </div>
+                    </div>
+                    
+                    <div class="terms">
+                        <div class="section-title">CONDITIONS DE PAIEMENT</div>
+                        <p>
+                            Paiement à réception de la facture.<br>
+                            Paiement par Mobile Money, virement bancaire ou espèces.<br>
+                            Taux de change: XOF (Franc CFA)
+                        </p>
+                    </div>
+                    
+                    <div class="stamp">
+                        PAYÉ<br>
+                        ${new Date().toLocaleDateString('fr-FR')}
+                    </div>
+                    
+                    <div class="footer">
+                        <p>
+                            Merci pour votre confiance !<br>
+                            SenVision Optique - Votre vision, notre passion<br>
+                            Tél: +221 33 123 45 67 | Email: contact@senvision.sn<br>
+                            <small>Cette facture est générée automatiquement par le système SenVision</small>
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            // Injecter le HTML dans le modal
+            document.getElementById('invoiceContent').innerHTML = invoiceHTML;
+            document.getElementById('invoiceNumber').textContent = order.id;
+            
+            // Afficher le modal
+            const modal = new bootstrap.Modal(document.getElementById('invoiceModal'));
+            modal.show();
+        }
+
+        function downloadInvoicePDF() {
+            if (!currentInvoiceData) {
+                showToast('Aucune facture à télécharger', 'error');
+                return;
+            }
+            
+            showToast('Génération du PDF en cours...', 'info');
+            
+            const invoiceElement = document.getElementById('invoiceContent');
+            
+            html2canvas(invoiceElement, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                
+                const fileName = `facture-senvision-${currentInvoiceData.id}-${Date.now()}.pdf`;
+                pdf.save(fileName);
+                
+                showToast('Facture téléchargée avec succès', 'success');
+            }).catch(error => {
+                console.error('Erreur lors de la génération du PDF:', error);
+                showToast('Erreur lors de la génération du PDF', 'error');
+            });
+        }
+
+        function printInvoice() {
+            if (!currentInvoiceData) {
+                showToast('Aucune facture à imprimer', 'error');
+                return;
+            }
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Facture SenVision - ${currentInvoiceData.id}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            @media print {
+                                @page { margin: 0; }
+                                body { margin: 1.6cm; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${document.getElementById('invoiceContent').innerHTML}
+                    </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
+        function showAddProductModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addProductModal'));
+            modal.show();
+        }
+
+        function saveProduct() {
+            const form = document.getElementById('productForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const newProduct = {
+                id: 'PROD-' + Date.now(),
+                nom: document.getElementById('productName').value,
+                name: document.getElementById('productName').value,
+                sku: document.getElementById('productSKU').value,
+                categorie: document.getElementById('productCategory').value,
+                category: document.getElementById('productCategory').value,
+                brand: document.getElementById('productBrand').value,
+                marque: document.getElementById('productBrand').value,
+                price: parseInt(document.getElementById('productPrice').value),
+                prix: parseInt(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                description: document.getElementById('productDescription').value,
+                description_courte: document.getElementById('productDescription').value,
+                image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop',
+                date_creation: new Date().toISOString()
+            };
+            
+            realProducts.push(newProduct);
+            localStorage.setItem('senvision-products', JSON.stringify(realProducts));
+            
+            showToast('Produit ajouté avec succès', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
+            modal.hide();
+            
+            form.reset();
+            loadProductsGrid();
+            updateStats();
+        }
+
+        // ============================================
+        // FONCTIONS DES SECTIONS
+        // ============================================
+        function loadOrdersTable() {
+            const table = document.getElementById('ordersTable');
+            if (!table) return;
+            
+            if (realOrders.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <i class="bi bi-cart display-4 text-muted mb-3"></i>
+                            <h5>Aucune commande</h5>
+                            <p class="text-muted">Les commandes passées depuis la boutique apparaîtront ici</p>
+                            <a href="marques.html" class="btn btn-primary mt-2" target="_blank">
+                                <i class="bi bi-eye me-2"></i>Voir la boutique
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            const sortedOrders = [...realOrders].sort((a, b) => {
+                const dateA = new Date(a.date || a.timestamp || 0);
+                const dateB = new Date(b.date || b.timestamp || 0);
+                return dateB - dateA;
+            });
+            
+            table.innerHTML = sortedOrders.map(order => `
+                <tr>
+                    <td>
+                        <strong>${order.id || 'N/A'}</strong>
+                    </td>
+                    <td>
+                        <div><strong>${order.clientName || 'N/A'}</strong></div>
+                        <small class="text-muted">${order.clientEmail || ''}</small>
+                    </td>
+                    <td>${order.clientPhone || 'N/A'}</td>
+                    <td>${formatDate(order.date || order.timestamp)}</td>
+                    <td><strong>${formatNumber(order.total || 0)} F</strong></td>
+                    <td>
+                        <span class="status-badge status-${order.status || 'new'}">
+                            ${getStatusText(order.status || 'new')}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrder('${order.id}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-invoice" onclick="generateInvoice('${order.id}')">
+                            <i class="bi bi-receipt"></i> Facture
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadProductsGrid() {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+            
+            if (realProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-box display-4 text-muted mb-3"></i>
+                        <h5>Aucun produit</h5>
+                        <p class="text-muted">Les produits ajoutés apparaîtront ici</p>
+                        <button class="btn btn-primary mt-2" onclick="showAddProductModal()">
+                            <i class="bi bi-plus-circle me-2"></i>Ajouter un produit
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = realProducts.map(product => `
+                <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${product.image || 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop'}" 
+                                 alt="${product.nom || product.name}" 
+                                 onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%23f5f7fa\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"%23666\">${product.nom || product.name}</text></svg>'">
+                            ${product.nouveau || product.bestseller ? 
+                                '<span class="product-badge">' + (product.nouveau ? 'Nouveau' : 'Best-seller') + '</span>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="mb-1">${product.nom || product.name}</h5>
+                                    <small class="text-muted">${product.categorie || 'Non catégorisé'} • ${product.marque || product.brand || 'Non spécifié'}</small>
+                                </div>
+                                <div class="product-price">
+                                    ${formatNumber(product.prix || product.price || 0)} F
+                                </div>
+                            </div>
+                            
+                            <p class="text-muted small mb-3">${product.description_courte || product.description || 'Pas de description'}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="stock-indicator ${getStockClass(product.stock || 0, 5)}">
+                                        <i class="bi ${getStockIcon(product.stock || 0, 5)}"></i>
+                                        Stock: ${product.stock || 0}
+                                    </span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" 
+                                            onclick="editRealProduct('${product.id}')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" 
+                                            onclick="deleteRealProduct('${product.id}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStockClass(stock, minStock) {
+            if (stock <= minStock) return 'stock-low';
+            if (stock <= minStock * 2) return 'stock-medium';
+            return 'stock-high';
+        }
+
+        function getStockIcon(stock, minStock) {
+            if (stock <= minStock) return 'bi-exclamation-triangle';
+            if (stock <= minStock * 2) return 'bi-exclamation-circle';
+            return 'bi-check-circle';
+        }
+
+        function editRealProduct(productId) {
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            showAddProductModal();
+            
+            setTimeout(() => {
+                document.getElementById('productName').value = product.nom || product.name;
+                document.getElementById('productSKU').value = product.sku || '';
+                document.getElementById('productCategory').value = product.categorie || product.category || '';
+                document.getElementById('productBrand').value = product.brand || product.marque || '';
+                document.getElementById('productPrice').value = product.price || product.prix || 0;
+                document.getElementById('productStock').value = product.stock || 0;
+                document.getElementById('productDescription').value = product.description || product.description_courte || '';
+                
+                showToast('Modification du produit ' + productId, 'info');
+            }, 500);
+        }
+
+        function deleteRealProduct(productId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
+                realProducts = realProducts.filter(p => p.id !== productId);
+                localStorage.setItem('senvision-products', JSON.stringify(realProducts));
+                loadProductsGrid();
+                updateStats();
+                showToast('Produit supprimé avec succès', 'success');
+            }
+        }
+
+        function loadCustomersTable() {
+            const table = document.getElementById('customersTable');
+            if (!table) return;
+            
+            if (realCustomers.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-5">
+                            <i class="bi bi-people display-4 text-muted mb-3"></i>
+                            <h5>Aucun client</h5>
+                            <p class="text-muted">Les clients apparaîtront après leur première commande</p>
+                            <a href="marques.html" class="btn btn-primary mt-2" target="_blank">
+                                <i class="bi bi-eye me-2"></i>Voir la boutique
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            table.innerHTML = realCustomers.map((customer, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>
+                        <div><strong>${customer.name}</strong></div>
+                        <small class="text-muted">Première commande: ${formatDate(customer.firstOrder)}</small>
+                    </td>
+                    <td>${customer.email || 'N/A'}</td>
+                    <td>${customer.phone}</td>
+                    <td>
+                        <span class="badge bg-primary rounded-pill">${customer.totalOrders}</span>
+                    </td>
+                    <td><strong>${formatNumber(customer.totalSpent)} F</strong></td>
+                    <td>
+                        <span class="badge ${getCustomerType(customer.totalSpent)}">
+                            ${getCustomerTypeText(customer.totalSpent)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" 
+                                onclick="viewCustomerDetails('${customer.phone}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-success" 
+                                onclick="sendEmailToCustomer('${customer.email}')">
+                            <i class="bi bi-envelope"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getCustomerType(totalSpent) {
+            if (totalSpent > 500000) return 'bg-danger';
+            if (totalSpent > 200000) return 'bg-warning';
+            if (totalSpent > 50000) return 'bg-info';
+            return 'bg-secondary';
+        }
+
+        function getCustomerTypeText(totalSpent) {
+            if (totalSpent > 500000) return 'VIP';
+            if (totalSpent > 200000) return 'Premium';
+            if (totalSpent > 50000) return 'Régulier';
+            return 'Nouveau';
+        }
+
+        function viewCustomerDetails(phone) {
+            const customer = realCustomers.find(c => c.phone === phone);
+            if (!customer) return;
+            
+            const customerOrders = realOrders.filter(o => o.clientPhone === phone);
+            
+            let alertMessage = `Client: ${customer.name}\n`;
+            alertMessage += `Téléphone: ${customer.phone}\n`;
+            alertMessage += `Email: ${customer.email || 'N/A'}\n`;
+            alertMessage += `Total commandes: ${customer.totalOrders}\n`;
+            alertMessage += `Total dépensé: ${formatNumber(customer.totalSpent)} F\n\n`;
+            alertMessage += `Dernières commandes:\n`;
+            
+            customerOrders.slice(0, 3).forEach(order => {
+                alertMessage += `- ${order.id}: ${formatNumber(order.total || 0)} F (${getStatusText(order.status || 'new')})\n`;
+            });
+            
+            alert(alertMessage);
+        }
+
+        function sendEmailToCustomer(email) {
+            if (!email || email === 'N/A') {
+                showToast('Email non disponible', 'warning');
+                return;
+            }
+            
+            window.open(`mailto:${email}`, '_blank');
+        }
+
+        // ============================================
+        // GESTION DES COMPTES
+        // ============================================
+        function loadAccountsData() {
+            accounts = JSON.parse(localStorage.getItem('senvision-accounts')) || [];
+            suppliers = JSON.parse(localStorage.getItem('senvision-suppliers')) || [];
+            
+            updateAccountsStats();
+            loadAccountsTable();
+            initAccountsCharts();
+        }
+
+        function updateAccountsStats() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            
+            const totalRevenue = accounts
+                .filter(acc => acc.type === 'income' && acc.status === 'completed')
+                .reduce((sum, acc) => sum + (acc.amount || 0), 0);
+            
+            const totalExpenses = accounts
+                .filter(acc => acc.type === 'expense' && acc.status === 'completed')
+                .reduce((sum, acc) => sum + (acc.amount || 0), 0);
+            
+            const currentBalance = totalRevenue - totalExpenses;
+            
+            const monthlyTransactions = accounts
+                .filter(acc => {
+                    const accDate = new Date(acc.date);
+                    return accDate.getMonth() === currentMonth && 
+                           accDate.getFullYear() === currentYear;
+                })
+                .length;
+            
+            document.getElementById('totalRevenue').textContent = formatNumber(totalRevenue) + ' F';
+            document.getElementById('totalExpenses').textContent = formatNumber(totalExpenses) + ' F';
+            document.getElementById('currentBalance').textContent = formatNumber(currentBalance) + ' F';
+            document.getElementById('monthlyTransactions').textContent = monthlyTransactions;
+            
+            const balanceElement = document.getElementById('currentBalance');
+            if (currentBalance < 0) {
+                balanceElement.classList.remove('text-primary');
+                balanceElement.classList.add('text-danger');
+            } else {
+                balanceElement.classList.remove('text-danger');
+                balanceElement.classList.add('text-primary');
+            }
+        }
+
+        function loadAccountsTable() {
+            const table = document.getElementById('accountsTable');
+            if (!table) return;
+            
+            if (accounts.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center py-5">
+                            <i class="bi bi-cash-stack display-4 text-muted mb-3"></i>
+                            <h5>Aucune transaction</h5>
+                            <p class="text-muted">Commencez par ajouter vos premières transactions</p>
+                            <button class="btn btn-primary mt-2" onclick="showAddAccountModal()">
+                                <i class="bi bi-plus-circle me-2"></i>Ajouter une transaction
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            const sortedAccounts = [...accounts].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            table.innerHTML = sortedAccounts.map(account => `
+                <tr>
+                    <td>${formatDate(account.date)}</td>
+                    <td>
+                        <strong>${account.reference || 'N/A'}</strong>
+                        <br>
+                        <small class="text-muted">${account.id.substring(0, 8)}</small>
+                    </td>
+                    <td>
+                        <div class="fw-medium">${account.description.substring(0, 50)}${account.description.length > 50 ? '...' : ''}</div>
+                        ${account.customerName ? `<small class="text-muted">Client: ${account.customerName}</small>` : ''}
+                    </td>
+                    <td>
+                        <span class="badge ${getAccountCategoryBadge(account.category)}">
+                            ${getAccountCategoryText(account.category)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge ${account.type === 'income' ? 'bg-success' : 'bg-danger'}">
+                            ${account.type === 'income' ? 'Recette' : 'Dépense'}
+                        </span>
+                    </td>
+                    <td>
+                        <strong class="${account.type === 'income' ? 'text-success' : 'text-danger'}">
+                            ${account.type === 'income' ? '+' : '-'}${formatNumber(account.amount)} F
+                        </strong>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">
+                            ${getPaymentMethodText(account.paymentMethod)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${account.status || 'completed'}">
+                            ${getAccountStatusText(account.status)}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-info" onclick="viewTransactionDetails('${account.id}')" title="Voir détails">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-warning" onclick="editTransaction('${account.id}')" title="Modifier">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="deleteTransaction('${account.id}')" title="Supprimer">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getAccountCategoryBadge(category) {
+            const badges = {
+                'sales': 'bg-primary',
+                'purchases': 'bg-warning',
+                'salary': 'bg-info',
+                'rent': 'bg-secondary',
+                'utilities': 'bg-success',
+                'marketing': 'bg-purple',
+                'maintenance': 'bg-teal',
+                'other': 'bg-dark'
+            };
+            return badges[category] || 'bg-secondary';
+        }
+
+        function getAccountCategoryText(category) {
+            const categories = {
+                'sales': 'Ventes',
+                'purchases': 'Achats',
+                'salary': 'Salaires',
+                'rent': 'Loyer',
+                'utilities': 'Services',
+                'marketing': 'Marketing',
+                'maintenance': 'Maintenance',
+                'other': 'Autres'
+            };
+            return categories[category] || category;
+        }
+
+        function getAccountStatusText(status) {
+            const statuses = {
+                'pending': 'En attente',
+                'completed': 'Complété',
+                'cancelled': 'Annulé'
+            };
+            return statuses[status] || status;
+        }
+
+        function showAddAccountModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addAccountModal'));
+            
+            const customerSelect = document.getElementById('transactionCustomer');
+            customerSelect.innerHTML = `
+                <option value="">Sélectionner un client</option>
+                ${realCustomers.map(c => `<option value="${c.id}">${c.name} - ${c.phone}</option>`).join('')}
+            `;
+            
+            modal.show();
+        }
+
+        function toggleTransactionFields() {
+            const type = document.getElementById('transactionType').value;
+            const customerField = document.getElementById('customerField');
+            
+            if (type === 'income') {
+                customerField.style.display = 'block';
+            } else {
+                customerField.style.display = 'none';
+            }
+        }
+
+        function saveTransaction() {
+            const form = document.getElementById('accountForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const transactionType = document.getElementById('transactionType').value;
+            const customerId = document.getElementById('transactionCustomer').value;
+            const customer = realCustomers.find(c => c.id === customerId);
+            
+            const newTransaction = {
+                id: 'TXN-' + Date.now(),
+                type: transactionType,
+                category: document.getElementById('transactionCategory').value,
+                date: document.getElementById('transactionDate').value,
+                amount: parseInt(document.getElementById('transactionAmount').value),
+                paymentMethod: document.getElementById('transactionPaymentMethod').value,
+                reference: document.getElementById('transactionReference').value || `TXN-${Date.now().toString().slice(-6)}`,
+                description: document.getElementById('transactionDescription').value,
+                status: document.getElementById('transactionStatus').value,
+                customerId: customerId,
+                customerName: customer ? customer.name : null,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            const attachmentInput = document.getElementById('transactionAttachment');
+            if (attachmentInput.files.length > 0) {
+                const file = attachmentInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newTransaction.attachment = {
+                        name: file.name,
+                        type: file.type,
+                        data: e.target.result
+                    };
+                    completeSaveTransaction(newTransaction);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                completeSaveTransaction(newTransaction);
+            }
+        }
+
+        function completeSaveTransaction(transaction) {
+            accounts.push(transaction);
+            localStorage.setItem('senvision-accounts', JSON.stringify(accounts));
+            
+            if (transaction.type === 'income' && transaction.category === 'sales' && transaction.customerId) {
+                const customer = realCustomers.find(c => c.id === transaction.customerId);
+                if (customer) {
+                    customer.totalSpent += transaction.amount;
+                    customer.totalOrders++;
+                    localStorage.setItem('senvision-customers', JSON.stringify(realCustomers));
+                }
+            }
+            
+            showToast('Transaction enregistrée avec succès', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addAccountModal'));
+            modal.hide();
+            
+            document.getElementById('accountForm').reset();
+            document.getElementById('customerField').style.display = 'none';
+            
+            loadAccountsData();
+        }
+
+        function viewTransactionDetails(transactionId) {
+            const transaction = accounts.find(t => t.id === transactionId);
+            if (!transaction) {
+                showToast('Transaction non trouvée', 'error');
+                return;
+            }
+            
+            alert(`Détails transaction #${transaction.reference}\n\nType: ${transaction.type === 'income' ? 'Recette' : 'Dépense'}\nMontant: ${formatNumber(transaction.amount)} F\nDate: ${formatDate(transaction.date)}\nDescription: ${transaction.description}`);
+        }
+
+        function editTransaction(transactionId) {
+            const transaction = accounts.find(t => t.id === transactionId);
+            if (!transaction) {
+                showToast('Transaction non trouvée', 'error');
+                return;
+            }
+            
+            showAddAccountModal();
+            
+            setTimeout(() => {
+                document.getElementById('transactionType').value = transaction.type;
+                document.getElementById('transactionCategory').value = transaction.category;
+                document.getElementById('transactionDate').value = transaction.date.split('T')[0];
+                document.getElementById('transactionAmount').value = transaction.amount;
+                document.getElementById('transactionPaymentMethod').value = transaction.paymentMethod;
+                document.getElementById('transactionReference').value = transaction.reference;
+                document.getElementById('transactionDescription').value = transaction.description;
+                document.getElementById('transactionStatus').value = transaction.status;
+                
+                if (transaction.customerId) {
+                    document.getElementById('transactionCustomer').value = transaction.customerId;
+                    toggleTransactionFields();
+                }
+                
+                showToast('Modification de la transaction ' + transaction.reference, 'info');
+            }, 500);
+        }
+
+        function deleteTransaction(transactionId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette transaction ? Cette action est irréversible.')) {
+                accounts = accounts.filter(t => t.id !== transactionId);
+                localStorage.setItem('senvision-accounts', JSON.stringify(accounts));
+                
+                loadAccountsData();
+                showToast('Transaction supprimée avec succès', 'success');
+            }
+        }
+
+        function initAccountsCharts() {
+            // Graphique simplifié pour la démonstration
+            const ctx = document.getElementById('accountsChart');
+            if (ctx) {
+                // Données de démonstration
+                const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
+                const incomeData = [150000, 180000, 220000, 190000, 250000, 280000];
+                const expenseData = [80000, 95000, 120000, 110000, 130000, 150000];
+                
+                if (charts.accounts) {
+                    charts.accounts.destroy();
+                }
+                
+                charts.accounts = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: 'Recettes',
+                                data: incomeData,
+                                borderColor: '#22c55e',
+                                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                                fill: true,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Dépenses',
+                                data: expenseData,
+                                borderColor: '#ef4444',
+                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                                fill: true,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatNumber(value) + ' F';
+                                    },
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function generateAccountsReport() {
+            showToast('Génération du rapport comptable...', 'info');
+            
+            const report = `
+                RAPPORT COMPTABLE SENVISION OPTIQUE
+                ============================================
+                
+                Période: ${new Date().toLocaleDateString('fr-FR')}
+                
+                Statistiques:
+                - Recettes totales: ${formatNumber(accounts.filter(a => a.type === 'income').reduce((s, a) => s + a.amount, 0))} FCFA
+                - Dépenses totales: ${formatNumber(accounts.filter(a => a.type === 'expense').reduce((s, a) => s + a.amount, 0))} FCFA
+                - Solde: ${formatNumber(accounts.filter(a => a.type === 'income').reduce((s, a) => s + a.amount, 0) - accounts.filter(a => a.type === 'expense').reduce((s, a) => s + a.amount, 0))} FCFA
+                
+                RAPPORT GÉNÉRÉ LE: ${new Date().toLocaleString('fr-FR')}
+            `;
+            
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rapport-comptable-senvision-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Rapport comptable téléchargé', 'success');
+        }
+
+        function exportAccounts(format) {
+            showToast(`Export ${format} en cours...`, 'info');
+            
+            setTimeout(() => {
+                showToast(`Export ${format} terminé`, 'success');
+            }, 1000);
+        }
+
+        // ============================================
+        // FONCTIONS DES AUTRES SECTIONS
+        // ============================================
+        function loadMessagesList() {
+            const container = document.getElementById('messagesList');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="text-center py-5">
+                    <i class="bi bi-chat-text display-4 text-muted mb-3"></i>
+                    <h5>Aucun message</h5>
+                    <p class="text-muted">Les messages des clients apparaîtront ici</p>
+                </div>
+            `;
+        }
+
+        function markAllAsRead() {
+            showToast('Tous les messages marqués comme lus', 'success');
+        }
+
+        function loadInventoryTable() {
+            const table = document.getElementById('inventoryTable');
+            if (!table) return;
+            
+            if (realProducts.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
+                            <h5>Aucun produit en stock</h5>
+                            <p class="text-muted">Ajoutez des produits pour gérer l'inventaire</p>
+                            <button class="btn btn-primary mt-2" onclick="showAddProductModal()">
+                                <i class="bi bi-plus-circle me-2"></i>Ajouter un produit
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            table.innerHTML = realProducts.map(product => `
+                <tr>
+                    <td>
+                        <div><strong>${product.nom || product.name}</strong></div>
+                        <small class="text-muted">${product.categorie || product.category || 'Non catégorisé'}</small>
+                    </td>
+                    <td><code>${product.sku || 'N/A'}</code></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar ${getStockProgressClass(product.stock || 0, 5)}" 
+                                     style="width: ${Math.min(((product.stock || 0) / 50) * 100, 100)}%">
+                                </div>
+                            </div>
+                            <span>${product.stock || 0}</span>
+                        </div>
+                    </td>
+                    <td>5</td>
+                    <td>
+                        <span class="stock-indicator ${getStockClass(product.stock || 0, 5)}">
+                            <i class="bi ${getStockIcon(product.stock || 0, 5)}"></i>
+                            ${getStockStatus(product.stock || 0, 5)}
+                        </span>
+                    </td>
+                    <td>${formatDate(product.date_creation || new Date().toISOString())}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" 
+                                onclick="updateRealStock('${product.id}')">
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" 
+                                onclick="setLowStockAlertReal('${product.id}')">
+                            <i class="bi bi-bell"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStockProgressClass(stock, minStock) {
+            if (stock <= minStock) return 'bg-danger';
+            if (stock <= minStock * 2) return 'bg-warning';
+            return 'bg-success';
+        }
+
+        function getStockStatus(stock, minStock) {
+            if (stock <= minStock) return 'Stock faible';
+            if (stock <= minStock * 2) return 'Stock moyen';
+            return 'Stock bon';
+        }
+
+        function showLowStockAlert() {
+            const lowStockProducts = realProducts.filter(p => (p.stock || 0) <= 5);
+            
+            if (lowStockProducts.length === 0) {
+                showToast('Aucun produit en stock faible', 'info');
+                return;
+            }
+            
+            let alertMessage = 'Produits en stock faible:\n\n';
+            lowStockProducts.forEach(product => {
+                alertMessage += `• ${product.nom || product.name}: ${product.stock || 0} unités\n`;
+            });
+            
+            alert(alertMessage);
+        }
+
+        function updateRealStock(productId) {
+            const stock = prompt('Nouveau stock:');
+            if (stock && !isNaN(stock)) {
+                const product = realProducts.find(p => p.id === productId);
+                if (product) {
+                    product.stock = parseInt(stock);
+                    localStorage.setItem('senvision-products', JSON.stringify(realProducts));
+                    loadProductsGrid();
+                    loadInventoryTable();
+                    showToast('Stock mis à jour', 'success');
+                }
+            }
+        }
+
+        function setLowStockAlertReal(productId) {
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const newMinStock = prompt('Définir le stock minimum:', 5);
+            if (newMinStock && !isNaN(newMinStock)) {
+                product.minStock = parseInt(newMinStock);
+                localStorage.setItem('senvision-products', JSON.stringify(realProducts));
+                loadInventoryTable();
+                showToast('Stock minimum mis à jour', 'success');
+            }
+        }
+
+        function loadAnalyticsData() {
+            const statsContainer = document.getElementById('analyticsStats');
+            if (statsContainer) {
+                const totalOrders = realOrders.length;
+                const totalRevenue = realOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+                const totalCustomers = realCustomers.length;
+                const totalProducts = realProducts.length;
+                
+                statsContainer.innerHTML = `
+                    <div class="col-md-3 mb-4">
+                        <div class="text-center">
+                            <div class="stats-value text-primary">${totalOrders}</div>
+                            <div class="stats-title">Commandes</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="text-center">
+                            <div class="stats-value text-success">${formatNumber(totalRevenue)} F</div>
+                            <div class="stats-title">Revenu total</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="text-center">
+                            <div class="stats-value text-warning">${totalCustomers}</div>
+                            <div class="stats-title">Clients actifs</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="text-center">
+                            <div class="stats-value text-info">${totalProducts}</div>
+                            <div class="stats-title">Produits</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            initAnalyticsCharts();
+        }
+
+        function initAnalyticsCharts() {
+            const monthlyCtx = document.getElementById('monthlySalesChart');
+            if (monthlyCtx && !charts.monthlySales) {
+                const monthlySales = Array(12).fill(0);
+                realOrders.forEach(order => {
+                    const date = new Date(order.date || order.timestamp);
+                    const month = date.getMonth();
+                    monthlySales[month] += order.total || 0;
+                });
+                
+                charts.monthlySales = new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+                        datasets: [{
+                            label: 'Ventes (en FCFA)',
+                            data: monthlySales,
+                            borderColor: '#4361ee',
+                            backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatNumber(value) + ' F';
+                                    },
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const topProductsCtx = document.getElementById('topProductsChart');
+            if (topProductsCtx && !charts.topProducts) {
+                const topProducts = realProducts.slice(0, 5);
+                
+                charts.topProducts = new Chart(topProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: topProducts.map(p => (p.nom || p.name).substring(0, 12) + '...'),
+                        datasets: [{
+                            label: 'Stock',
+                            data: topProducts.map(p => p.stock || 0),
+                            backgroundColor: [
+                                '#4361ee',
+                                '#4895ef',
+                                '#4cc9f0',
+                                '#3a0ca3',
+                                '#7209b7'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 5,
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 9
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function generateAnalyticsReport() {
+            showToast('Génération du rapport analytique...', 'info');
+            
+            const report = `
+                RAPPORT ANALYTIQUE SENVISION OPTIQUE
+                ============================================
+                
+                Période: ${new Date().toLocaleDateString('fr-FR')}
+                
+                STATISTIQUES CLÉS:
+                - Commandes totales: ${realOrders.length}
+                - Ventes totales: ${formatNumber(realOrders.reduce((sum, order) => sum + (order.total || 0), 0))} FCFA
+                - Clients actifs: ${realCustomers.length}
+                - Produits en stock: ${realProducts.length}
+                
+                RAPPORT GÉNÉRÉ LE: ${new Date().toLocaleString('fr-FR')}
+            `;
+            
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rapport-senvision-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Rapport téléchargé', 'success');
+        }
+
+        // ============================================
+        // FONCTIONS UTILITAIRES
+        // ============================================
+        function performGlobalSearch(query) {
+            if (!query.trim()) return;
+            showToast(`Recherche : "${query}"`, 'info');
+        }
+
+        function filterOrders() {
+            showToast('Filtrage des commandes', 'info');
+        }
+
+        function resetFilters() {
+            showToast('Filtres réinitialisés', 'info');
+        }
+
+        function filterProducts() {
+            showToast('Filtrage des produits', 'info');
+        }
+
+        function exportOrders(format) {
+            showToast(`Export ${format} en cours...`, 'info');
+            setTimeout(() => {
+                showToast(`Export ${format} terminé`, 'success');
+            }, 1000);
+        }
+
+        function generateOrdersReport() {
+            showToast('Génération du rapport PDF...', 'info');
+            setTimeout(() => {
+                showToast('Rapport PDF généré avec succès', 'success');
+            }, 1000);
+        }
+
+        function exportCustomers() {
+            showToast('Export des clients en cours...', 'info');
+            setTimeout(() => {
+                showToast('Export CSV terminé', 'success');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Admin - SenVision</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-dark: #2c3e70;
+            --accent-color: #ff6b6b;
+            --secondary-color: #166088;
+            --success-color: #43e97b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Effet de particules */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Conteneurs */
+        .container-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        /* Écran d'accès principal */
+        .access-screen {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Logo et titre */
+        .brand {
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(74, 111, 165, 0.4);
+        }
+
+        .brand-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .brand-title span {
+            color: var(--accent-color);
+        }
+
+        .brand-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Formulaires */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+            background: white;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        /* Boutons */
+        .btn-access {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .btn-access:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn-access:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-access:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Alertes */
+        .alert-container {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            border-radius: 10px;
+            padding: 12px 15px;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Infos de sécurité */
+        .security-info {
+            margin-top: 25px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .security-info p {
+            margin: 0;
+            color: #1565c0;
+            font-size: 0.85rem;
+        }
+
+        /* Instructions */
+        .instructions {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* Options supplémentaires */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .forgot-link {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Mode sombre */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+
+        body.dark-mode .access-screen {
+            background: rgba(30, 30, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .brand-title {
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .brand-subtitle {
+            color: #bdc3c7;
+        }
+
+        body.dark-mode .form-label {
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .form-control {
+            background: #34495e;
+            border-color: #4a6572;
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .form-control:focus {
+            background: #405b73;
+            border-color: var(--primary-color);
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .security-info {
+            background: #1a5276;
+            border-left-color: #3498db;
+        }
+
+        body.dark-mode .security-info p {
+            color: #d1f2eb;
+        }
+
+        body.dark-mode .instructions {
+            color: #bdc3c7;
+        }
+
+        body.dark-mode .form-check-label {
+            color: #bdc3c7;
+        }
+
+        /* Bouton mode sombre */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .container-wrapper {
+                padding: 10px;
+            }
+            
+            .access-screen {
+                padding: 30px 20px;
+            }
+            
+            .brand-title {
+                font-size: 1.8rem;
+            }
+            
+            .btn-access {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation de transition */
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bouton changement de thème -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="bi bi-moon"></i>
+    </button>
+
+    <!-- Conteneur principal -->
+    <div class="container-wrapper" id="mainContainer">
+        <!-- Écran de connexion Admin -->
+        <div class="access-screen" id="screenLogin">
+            <div class="brand">
+                <div class="brand-icon" style="background: linear-gradient(135deg, var(--accent-color), #ff8e53);">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h1 class="brand-title">Connexion <span>Admin</span></h1>
+                <p class="brand-subtitle">Accès sécurisé au tableau de bord</p>
+            </div>
+
+            <div class="alert-container">
+                <div class="alert alert-danger" id="loginError">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <span id="loginErrorText">Identifiants incorrects</span>
+                </div>
+                <div class="alert alert-success" id="loginSuccess">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Connexion réussie, redirection...
+                </div>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">
+                        <i class="bi bi-person me-2"></i>Nom d'utilisateur
+                    </label>
+                    <div class="input-icon">
+                        <input type="text" 
+                               class="form-control" 
+                               id="username" 
+                               placeholder="Entrez votre nom d'utilisateur"
+                               autocomplete="off"
+                               required>
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        <i class="bi bi-key me-2"></i>Mot de passe
+                    </label>
+                    <div class="input-icon">
+                        <input type="password" 
+                               class="form-control" 
+                               id="password" 
+                               placeholder="Entrez votre mot de passe"
+                               autocomplete="off"
+                               required>
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="showPassword">
+                            <label class="form-check-label" for="showPassword">Afficher le mot de passe</label>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loginLoading">
+                    <div class="spinner"></div>
+                    <p class="mt-2">Authentification en cours...</p>
+                </div>
+
+                <button type="button" class="btn-access" id="loginBtn" onclick="handleLogin()">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Se connecter
+                </button>
+
+                <div class="instructions mt-3">
+                    <a href="#" onclick="showForgotPassword()" style="color: var(--primary-color);">
+                        <i class="bi bi-question-circle me-1"></i>Mot de passe oublié ?
+                    </a>
+                </div>
+            </form>
+
+            <div class="security-info mt-4">
+                <p>
+                    <i class="bi bi-clock-history me-1"></i>
+                    Session limitée à 8 heures d'inactivité
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal mot de passe oublié -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-key me-2"></i>Réinitialisation du mot de passe
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Pour réinitialiser votre mot de passe administrateur :</p>
+                    
+                    <ol class="mb-3">
+                        <li>Contactez le super administrateur</li>
+                        <li>Fournissez votre nom d'utilisateur</li>
+                        <li>Une nouvelle procédure d'authentification vous sera envoyée</li>
+                    </ol>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Pour des raisons de sécurité, les réinitialisations sont traitées manuellement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ============================================
+        // CONFIGURATION DE SÉCURITÉ SIMPLIFIÉE
+        // ============================================
+        const SECURITY_CONFIG = {
+            // Identifiants administrateurs
+            adminCredentials: [
+                {
+                    username: 'admin',
+                    password: 'admin123',
+                    role: 'super_admin',
+                    fullName: 'Administrateur Principal'
+                },
+                {
+                    username: 'manager',
+                    password: 'manager123',
+                    role: 'manager',
+                    fullName: 'Gestionnaire Boutique'
+                },
+                {
+                    username: 'viewer',
+                    password: 'viewer123',
+                    role: 'viewer',
+                    fullName: 'Observateur'
+                }
+            ],
+            
+            // Clés de stockage
+            storageKeys: {
+                rememberedUser: 'senvision_remembered_user',
+                theme: 'senvision_theme'
+            }
+        };
+
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let currentUser = null;
+
+        // ============================================
+        // INITIALISATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            initTheme();
+            initLoginScreen();
+            
+            // Raccourcis pour développement
+            initDevelopmentShortcuts();
+            
+            // Focus sur le champ username
+            document.getElementById('username').focus();
+        });
+
+        // ============================================
+        // FONCTIONS D'INITIALISATION
+        // ============================================
+        function initParticles() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.className = 'particles';
+            document.body.appendChild(particlesContainer);
+
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem(SECURITY_CONFIG.storageKeys.theme);
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+            }
+            
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+
+        function initLoginScreen() {
+            // Restaurer le nom d'utilisateur si mémorisé
+            const rememberedUser = localStorage.getItem(SECURITY_CONFIG.storageKeys.rememberedUser);
+            if (rememberedUser) {
+                document.getElementById('username').value = rememberedUser;
+                document.getElementById('rememberMe').checked = true;
+            }
+            
+            // Gestion de l'affichage du mot de passe
+            document.getElementById('showPassword').addEventListener('change', function() {
+                const passwordField = document.getElementById('password');
+                passwordField.type = this.checked ? 'text' : 'password';
+            });
+            
+            // Entrée pour soumettre
+            document.getElementById('password').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+        }
+
+        function initDevelopmentShortcuts() {
+            // Raccourci pour remplir les identifiants admin (Ctrl+Shift+A)
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    document.getElementById('username').value = 'admin';
+                    document.getElementById('password').value = 'admin123';
+                }
+            });
+        }
+
+        // ============================================
+        // FONCTIONS DE CONNEXION
+        // ============================================
+        function handleLogin() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Validation
+            if (!username || !password) {
+                showLoginError("Veuillez remplir tous les champs");
+                return;
+            }
+            
+            // Afficher le chargement
+            document.getElementById('loginLoading').style.display = 'block';
+            document.getElementById('loginBtn').disabled = true;
+            
+            // Simuler l'authentification
+            setTimeout(() => {
+                const user = SECURITY_CONFIG.adminCredentials.find(u => 
+                    u.username === username && u.password === password
+                );
+                
+                if (user) {
+                    // Connexion réussie
+                    loginSuccess(user, rememberMe);
+                } else {
+                    // Échec de connexion
+                    showLoginError("Nom d'utilisateur ou mot de passe incorrect");
+                    document.getElementById('loginBtn').disabled = false;
+                }
+                
+                document.getElementById('loginLoading').style.display = 'none';
+            }, 1000);
+        }
+
+        function loginSuccess(user, rememberMe) {
+            currentUser = user;
+            
+            // Sauvegarder la session
+            const sessionData = {
+                loggedIn: true,
+                username: user.username,
+                role: user.role,
+                fullName: user.fullName,
+                loginTime: new Date().toISOString(),
+                sessionId: generateSessionId()
+            };
+            
+            localStorage.setItem('senvision_admin_session', JSON.stringify(sessionData));
+            
+            // Mémoriser l'utilisateur si demandé
+            if (rememberMe) {
+                localStorage.setItem(SECURITY_CONFIG.storageKeys.rememberedUser, user.username);
+            } else {
+                localStorage.removeItem(SECURITY_CONFIG.storageKeys.rememberedUser);
+            }
+            
+            // Journaliser la connexion
+            logLoginActivity(user);
+            
+            // Afficher le succès
+            document.getElementById('loginSuccess').style.display = 'block';
+            document.getElementById('loginError').style.display = 'none';
+            
+            // Rediriger vers le dashboard
+            setTimeout(() => {
+                window.location.href = 'admin-dashboard-complet.html';
+            }, 1500);
+        }
+
+        // ============================================
+        // FONCTIONS UTILITAIRES
+        // ============================================
+        function showLoginError(message) {
+            document.getElementById('loginErrorText').textContent = message;
+            document.getElementById('loginError').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('loginError').style.display = 'none';
+            }, 3000);
+        }
+
+        function generateSessionId() {
+            return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function logLoginActivity(user) {
+            const activity = {
+                username: user.username,
+                action: 'login',
+                timestamp: new Date().toISOString(),
+                ip: getClientIP(),
+                userAgent: navigator.userAgent,
+                sessionId: generateSessionId()
+            };
+            
+            // Stocker l'activité
+            const activities = JSON.parse(localStorage.getItem('senvision_activities') || '[]');
+            activities.push(activity);
+            
+            // Garder seulement les 100 dernières activités
+            if (activities.length > 100) {
+                activities.shift();
+            }
+            
+            localStorage.setItem('senvision_activities', JSON.stringify(activities));
+        }
+
+        function getClientIP() {
+            // Dans une application réelle, vous obtiendriez l'IP du serveur
+            return '192.168.1.' + Math.floor(Math.random() * 255);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+                localStorage.setItem(SECURITY_CONFIG.storageKeys.theme, 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="bi bi-moon"></i>';
+                localStorage.setItem(SECURITY_CONFIG.storageKeys.theme, 'light');
+            }
+        }
+
+        // ============================================
+        // FONCTIONS D'INTERFACE
+        // ============================================
+        function showForgotPassword() {
+            const modal = new bootstrap.Modal(document.getElementById('forgotPasswordModal'));
+            modal.show();
+        }
+
+        // ============================================
+        // PROTECTION AVANCÉE
+        // ============================================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Bloquer les raccourcis de développement
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                showLoginError("Accès refusé pour des raisons de sécurité");
+            }
+        });
+
+        // Empêcher le retour en arrière après connexion
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
+
+

@@ -63,6 +63,28 @@
             box-shadow: none;
         }
         
+        /* Bouton Admin */
+        .btn-outline-warning {
+            border-color: #ffc107;
+            color: #ffc107;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+
+        /* Badge admin */
+        .admin-badge {
+            background: linear-gradient(45deg, #ffc107, #ff9800);
+            color: #212529;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
         /* Header avec image de fond réduit */
         .hero-section {
             position: relative;
@@ -255,6 +277,13 @@
                             <i class="bi bi-moon"></i>
                         </button>
                     </li>
+                    
+                    <!-- Bouton de connexion Admin -->
+                    <li class="nav-item ms-2">
+                        <button id="adminLoginBtn" class="btn btn-outline-warning btn-sm" title="Connexion Admin" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+                            <i class="bi bi-lock"></i> <span class="d-none d-md-inline">Admin</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -443,6 +472,72 @@
         </div>
     </section>
 
+    <!-- Modal de Connexion Admin -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-lock-fill me-2"></i>Connexion Administrateur
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="adminLoginForm">
+                        <div class="mb-3">
+                            <label for="adminUsername" class="form-label">
+                                <i class="bi bi-person-fill me-1"></i>Nom d'utilisateur
+                            </label>
+                            <input type="text" class="form-control" id="adminUsername" 
+                                   placeholder="Entrez votre nom d'utilisateur" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">
+                                <i class="bi bi-key-fill me-1"></i>Mot de passe
+                            </label>
+                            <input type="password" class="form-control" id="adminPassword" 
+                                   placeholder="Entrez votre mot de passe" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Annuler
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- État de connexion réussie (caché par défaut) -->
+                    <div id="adminLoggedInState" class="text-center" style="display: none;">
+                        <div class="mb-4">
+                            <i class="bi bi-shield-check text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="mb-3">Connexion réussie !</h5>
+                        <p class="text-muted mb-4">Vous êtes maintenant connecté en tant qu'administrateur.</p>
+                        <div class="d-grid gap-2">
+                            <a href="admin-dashboard.html" class="btn btn-success">
+                                <i class="bi bi-speedometer2 me-2"></i>Accéder au tableau de bord
+                            </a>
+                            <button class="btn btn-outline-danger" onclick="logoutAdmin()">
+                                <i class="bi bi-box-arrow-left me-2"></i>Se déconnecter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle me-1"></i>Accès réservé aux administrateurs
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -596,6 +691,7 @@
             setupEventListeners();
             initAnimations();
             initNavbarScroll();
+            setupAdminFeatures();
             
             // Restaurer le thème
             const savedTheme = localStorage.getItem('senvision-theme');
@@ -840,6 +936,147 @@
             }, { threshold: 0.1 });
             
             document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        }
+
+        // Fonctions d'administration
+        function setupAdminFeatures() {
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            const adminLoggedInState = document.getElementById('adminLoggedInState');
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            
+            if (!adminLoginForm) return;
+            
+            // Vérifier si l'admin est déjà connecté
+            const isAdminLoggedIn = localStorage.getItem('senvision-admin-loggedin') === 'true';
+            
+            if (isAdminLoggedIn) {
+                updateAdminUI(true);
+            }
+            
+            // Gestion de la soumission du formulaire de connexion
+            adminLoginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
+                
+                // Ici, vous devriez vérifier les credentials via une API
+                // Pour l'exemple, on utilise des credentials par défaut
+                const defaultUsername = 'admin';
+                const defaultPassword = 'admin123';
+                
+                if (username === defaultUsername && password === defaultPassword) {
+                    // Connexion réussie
+                    localStorage.setItem('senvision-admin-loggedin', 'true');
+                    localStorage.setItem('senvision-admin-username', username);
+                    
+                    // Afficher l'état connecté
+                    adminLoginForm.style.display = 'none';
+                    adminLoggedInState.style.display = 'block';
+                    
+                    // Mettre à jour l'UI de la navbar
+                    updateAdminUI(true);
+                    
+                    // Afficher notification
+                    showNotification('Connexion réussie', 'Bienvenue dans l\'administration SenVision!', 'success');
+                } else {
+                    // Échec de connexion
+                    showNotification('Échec de connexion', 'Nom d\'utilisateur ou mot de passe incorrect', 'danger');
+                }
+            });
+        }
+
+        function updateAdminUI(isLoggedIn) {
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            
+            if (adminLoginBtn) {
+                if (isLoggedIn) {
+                    const username = localStorage.getItem('senvision-admin-username') || 'Admin';
+                    
+                    // Mettre à jour le bouton dans la navbar
+                    adminLoginBtn.innerHTML = `
+                        <i class="bi bi-shield-check"></i> 
+                        <span class="d-none d-md-inline">${username}</span>
+                    `;
+                    adminLoginBtn.classList.remove('btn-outline-warning');
+                    adminLoginBtn.classList.add('btn-warning');
+                    adminLoginBtn.removeAttribute('data-bs-toggle');
+                    adminLoginBtn.removeAttribute('data-bs-target');
+                    adminLoginBtn.onclick = function() {
+                        window.location.href = 'admin-dashboard.html';
+                    };
+                } else {
+                    // Réinitialiser le bouton
+                    adminLoginBtn.innerHTML = '<i class="bi bi-lock"></i> <span class="d-none d-md-inline">Admin</span>';
+                    adminLoginBtn.classList.remove('btn-warning');
+                    adminLoginBtn.classList.add('btn-outline-warning');
+                    adminLoginBtn.setAttribute('data-bs-toggle', 'modal');
+                    adminLoginBtn.setAttribute('data-bs-target', '#adminLoginModal');
+                    adminLoginBtn.onclick = null;
+                }
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('senvision-admin-loggedin');
+            localStorage.removeItem('senvision-admin-username');
+            
+            // Réinitialiser le modal
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            const adminLoggedInState = document.getElementById('adminLoggedInState');
+            
+            if (adminLoginForm) {
+                adminLoginForm.style.display = 'block';
+                adminLoginForm.reset();
+            }
+            if (adminLoggedInState) {
+                adminLoggedInState.style.display = 'none';
+            }
+            
+            // Mettre à jour l'UI
+            updateAdminUI(false);
+            
+            // Fermer le modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
+            if (modal) {
+                modal.hide();
+            }
+            
+            showNotification('Déconnexion réussie', 'Vous êtes maintenant déconnecté', 'info');
+        }
+
+        // Fonction pour afficher les notifications
+        function showNotification(title, message, type = 'info') {
+            // Créer une notification toast Bootstrap
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-bg-${type} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong>${title}:</strong> ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            
+            const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+            toastContainer.appendChild(toast);
+            
+            const bsToast = new bootstrap.Toast(toast, {
+                autohide: true,
+                delay: 3000
+            });
+            bsToast.show();
+        }
+
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toastContainer';
+            container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+            return container;
         }
     </script>
 </body>
