@@ -30,7 +30,6 @@
             --light-color: #f8fafc;
             --dark-color: #1e293b;
             --sidebar-bg: #0f172a;
-            --card-bg: #ffffff;
             --sidebar-width: 280px;
             --sidebar-collapsed-width: 80px;
         }
@@ -585,7 +584,7 @@
             color: #334155;
         }
 
-        /* Chart Card */
+        /* Chart Card - Version améliorée */
         .chart-card {
             background: white;
             border-radius: 20px;
@@ -593,6 +592,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
             border: 1px solid rgba(226, 232, 240, 0.6);
+            position: relative;
+            overflow: hidden;
         }
 
         .chart-card.small {
@@ -604,7 +605,7 @@
         }
 
         .chart-card.small canvas {
-            height: 180px !important;
+            height: 280px !important; /* Augmenté pour plus de visibilité */
         }
 
         .chart-header {
@@ -612,6 +613,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .chart-header h3 {
@@ -619,6 +622,36 @@
             color: var(--dark-color);
             margin: 0;
             font-weight: 600;
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .chart-tooltip {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
         }
 
         /* Table Card */
@@ -891,64 +924,284 @@
             color: #4361ee;
         }
 
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+        /* Styles améliorés pour les cartes produits */
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-color);
+        }
+
+        .product-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            z-index: 2;
+        }
+
+        .product-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .product-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h5 {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .product-info .text-muted {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #64748b;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-info p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #64748b;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .stock-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .stock-high {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .stock-medium {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .stock-low {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        /* Overlay pour les images */
+        .product-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+            z-index: 1;
+        }
+
+        /* Effet de zoom au survol */
+        .product-image {
+            cursor: pointer;
+        }
+
+        .product-image:hover::before {
+            content: '🖱️ Voir l\'image';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-image:hover::before {
+            opacity: 1;
+        }
+
+        /* Boutons d'action sur image */
+        .product-actions {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-image-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-image-action:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Modal pour l'image en grand */
+        .product-image-modal .modal-content {
+            background: transparent;
+            border: none;
+        }
+
+        .product-image-modal .modal-body {
+            padding: 0;
+        }
+
+        .product-image-modal img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        /* Styles pour les images manquantes */
+        .product-image img:before {
+            content: "📷";
+            font-size: 3rem;
+            color: #cbd5e1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .product-image img:after {
+            content: "Image non disponible";
+            font-size: 0.9rem;
+            color: #94a3b8;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        /* Animation pour les nouvelles images */
+        @keyframes fadeInImage {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.show {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0 !important;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-box {
-                min-width: 100%;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .header-title h1 {
-                font-size: 1.5rem;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .header-actions {
-                width: 100%;
-                flex-direction: column;
-            }
-            
-            .chart-card.small canvas {
-                height: 150px !important;
-            }
-            
-            .invoice-details {
-                flex-direction: column;
-            }
-            
-            .client-info, .invoice-info {
-                width: 100%;
-                margin-bottom: 20px;
-            }
+        .product-image img {
+            animation: fadeInImage 0.5s ease-out;
+        }
+
+        /* Overlay de chargement */
+        .product-image.loading {
+            position: relative;
+        }
+
+        .product-image.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            z-index: 1;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         /* Styles pour la section comptes */
@@ -984,6 +1237,409 @@
             #invoiceContent {
                 max-width: 100% !important;
                 padding: 0 !important;
+            }
+        }
+
+        /* ==================== */
+        /* VERSION MOBILE AMÉLIORÉE */
+        /* ==================== */
+        @media (max-width: 768px) {
+            /* Sidebar mobile */
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                z-index: 1050;
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+                animation: slideInLeft 0.3s ease-out;
+            }
+            
+            @keyframes slideInLeft {
+                from {
+                    transform: translateX(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1040;
+                display: none;
+            }
+            
+            .sidebar-overlay.show {
+                display: block;
+                animation: fadeIn 0.3s ease-out;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            /* Header mobile */
+            .page-header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                position: relative;
+            }
+            
+            .header-title h1 {
+                font-size: 1.4rem;
+                margin-bottom: 5px;
+            }
+            
+            .header-title p {
+                font-size: 0.9rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+                order: 2;
+            }
+            
+            .search-box input {
+                padding: 12px 15px 12px 40px;
+            }
+            
+            /* Stats Cards mobile */
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .stats-card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .stats-card::before {
+                width: 4px;
+            }
+            
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+            
+            .stats-value {
+                font-size: 1.8rem;
+            }
+            
+            .stats-change {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
+            
+            /* Quick Actions mobile */
+            .quick-actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .action-card {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            
+            .action-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .action-text {
+                font-size: 0.9rem;
+            }
+            
+            /* Chart Card mobile - AMÉLIORÉ */
+            .chart-card {
+                padding: 20px;
+                border-radius: 16px;
+                margin-bottom: 20px;
+            }
+            
+            .chart-card.small {
+                padding: 15px;
+            }
+            
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .chart-header h3 {
+                font-size: 1.1rem;
+            }
+            
+            .chart-card.small canvas {
+                height: 280px !important; /* Augmenté pour mobile */
+            }
+            
+            /* Chart Container amélioré pour mobile */
+            .chart-container {
+                min-height: 320px;
+            }
+            
+            /* Légende améliorée pour mobile */
+            .chart-legend {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .legend-item {
+                width: 100%;
+                justify-content: space-between;
+                padding: 8px;
+                background: #f8fafc;
+                border-radius: 8px;
+            }
+            
+            /* Table Card mobile */
+            .table-card {
+                padding: 20px;
+                border-radius: 16px;
+                margin-top: 20px;
+                overflow-x: auto;
+            }
+            
+            .admin-table {
+                min-width: 600px;
+                font-size: 12px; /* Réduit pour mobile */
+            }
+            
+            .admin-table th,
+            .admin-table td {
+                padding: 12px 15px;
+                font-size: 0.85rem;
+            }
+            
+            /* Amélioration des sélecteurs de statut pour mobile */
+            .status-select {
+                font-size: 11px !important;
+                min-width: 120px !important;
+                padding: 4px 8px !important;
+            }
+            
+            /* Boutons d'action pour mobile */
+            .btn-group-sm {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .btn-group-sm .btn {
+                width: 30px;
+                height: 30px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* Amélioration des filtres pour mobile */
+            .row.mb-4 {
+                gap: 10px;
+            }
+            
+            .row.mb-4 > div {
+                margin-bottom: 10px;
+            }
+            
+            .form-select, .form-control {
+                font-size: 14px !important; /* Plus lisible sur mobile */
+            }
+            
+            /* Products Grid mobile */
+            .product-image {
+                height: 180px;
+            }
+            
+            .product-badge {
+                top: 8px;
+                right: 8px;
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .product-info {
+                padding: 15px;
+            }
+            
+            .product-info h5 {
+                font-size: 1rem;
+            }
+            
+            .product-price {
+                font-size: 1.1rem;
+            }
+            
+            .product-info p {
+                font-size: 0.85rem;
+            }
+            
+            /* Dashboard Sections mobile */
+            .dashboard-section {
+                padding: 20px 15px;
+            }
+            
+            /* Analytics mobile */
+            .row > .col-md-6 {
+                margin-bottom: 20px;
+            }
+            
+            /* Toast mobile */
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+            }
+            
+            .toast {
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            /* Invoice modal mobile */
+            .invoice-details {
+                flex-direction: column;
+            }
+            
+            .client-info, .invoice-info {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            /* Form elements mobile */
+            .form-select, .form-control {
+                font-size: 0.9rem;
+                padding: 10px 12px;
+            }
+            
+            /* Buttons mobile */
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .btn-sm {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+            
+            /* Modal mobile */
+            .modal-dialog {
+                margin: 10px;
+            }
+            
+            .modal-content {
+                border-radius: 16px;
+            }
+            
+            /* Date display mobile */
+            .date-display {
+                font-size: 0.85rem;
+            }
+            
+            /* Stats value pour mobile */
+            .stats-value {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Très petits mobiles */
+        @media (max-width: 480px) {
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-card {
+                padding: 15px;
+            }
+            
+            .stats-value {
+                font-size: 1.4rem;
+            }
+            
+            .product-image {
+                height: 150px;
+            }
+            
+            .chart-card.small canvas {
+                height: 250px !important;
+            }
+            
+            .page-header {
+                padding: 15px;
+            }
+            
+            .dashboard-section {
+                padding: 15px 10px;
+            }
+            
+            .admin-table {
+                font-size: 11px;
+            }
+        }
+
+        /* Tablettes */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 250px;
+            }
+            
+            .search-box {
+                min-width: 250px;
+            }
+            
+            .product-image {
+                height: 200px;
+            }
+            
+            .chart-card.small canvas {
+                height: 250px !important;
+            }
+        }
+
+        /* Responsive général */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -1028,7 +1684,10 @@
             
             <button class="btn btn-login" onclick="login()" id="loginButton">
                 <i class="bi bi-box-arrow-in-right me-2"></i>
-                Se Connecter
+                <span id="loginText">Se Connecter</span>
+                <span id="loginSpinner" style="display: none;">
+                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                </span>
             </button>
             
             <p class="text-muted mt-3 small">
@@ -1040,6 +1699,9 @@
 
     <!-- Dashboard principal -->
     <div class="dashboard-container" id="dashboardContainer">
+        <!-- Overlay pour sidebar mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="hideMobileSidebar()"></div>
+        
         <!-- Toast Container -->
         <div class="toast-container" id="toastContainer"></div>
 
@@ -1231,17 +1893,30 @@
                     </div>
                 </div>
 
-                <!-- Top Categories Chart - Taille réduite -->
+                <!-- Top Categories Chart - Version améliorée -->
                 <div class="chart-card small">
                     <div class="chart-header">
                         <h3>Top Catégories de Produits</h3>
-                        <select class="form-select form-select-sm" style="width: auto; font-size: 0.85rem;" id="chartPeriod">
-                            <option>Ce mois</option>
-                            <option>Trimestre</option>
-                            <option>Année</option>
-                        </select>
+                        <div class="d-flex align-items-center gap-3">
+                            <select class="form-select form-select-sm" style="width: auto; font-size: 0.85rem;" id="chartPeriod">
+                                <option>Ce mois</option>
+                                <option>Trimestre</option>
+                                <option>Année</option>
+                            </select>
+                            <button class="btn btn-sm btn-outline-primary" onclick="refreshCategoriesChart()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
                     </div>
-                    <canvas id="categoriesChart" height="180"></canvas>
+                    <div class="chart-container" style="position: relative; min-height: 280px;">
+                        <canvas id="categoriesChart" height="280"></canvas>
+                    </div>
+                    <div class="chart-legend mt-3" id="categoriesLegend">
+                        <!-- Légende générée dynamiquement -->
+                    </div>
+                    <div class="mt-3 text-end">
+                        <small class="text-muted">Total: <span id="totalCategoriesCount">0</span> produits</small>
+                    </div>
                 </div>
 
                 <!-- Recent Orders -->
@@ -1671,6 +2346,11 @@
         </div>
     </div>
 
+    <!-- Modal Image Produit -->
+    <div class="modal fade" id="productImageModal" tabindex="-1" aria-hidden="true">
+        <!-- Le contenu est généré dynamiquement -->
+    </div>
+
     <!-- Modals Comptes -->
     <div class="modal fade" id="addAccountModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -1829,6 +2509,13 @@
                                 <input type="number" class="form-control" id="productStock" min="0" required>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Image URL (facultatif)</label>
+                                <input type="url" class="form-control" id="productImage" placeholder="https://example.com/image.jpg">
+                                <small class="text-muted">Laissez vide pour utiliser une image par défaut</small>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Description</label>
                             <textarea class="form-control" id="productDescription" rows="3"></textarea>
@@ -1881,7 +2568,31 @@
             showLoginScreen();
             initLoginScreen();
             updateCurrentDate();
+            
+            // Initialiser les événements tactiles pour mobile
+            initMobileEvents();
         });
+
+        // Initialiser les événements pour mobile
+        function initMobileEvents() {
+            // Redimensionnement de l'écran
+            window.addEventListener('resize', function() {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('collapsed');
+                    document.getElementById('mainContent').classList.remove('expanded');
+                }
+            });
+            
+            // Gestion du clavier virtuel
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    setTimeout(() => {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                });
+            });
+        }
 
         function showLoginScreen() {
             document.getElementById('dashboardContainer').classList.remove('dashboard-visible');
@@ -1897,19 +2608,62 @@
         function initLoginScreen() {
             const passwordInput = document.getElementById('password');
             const usernameInput = document.getElementById('username');
+            const loginButton = document.getElementById('loginButton');
             
-            usernameInput.focus();
+            // Focus sur le champ username
+            setTimeout(() => {
+                usernameInput.focus();
+                // Pour mobile, assurez-vous que le clavier s'ouvre
+                usernameInput.setAttribute('inputmode', 'text');
+            }, 500);
             
+            // Gestion de la touche Entrée
             passwordInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
+                    e.preventDefault();
                     login();
                 }
             });
             
             usernameInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
+                    e.preventDefault();
                     document.getElementById('password').focus();
                 }
+            });
+            
+            // Événement tactile pour mobile
+            loginButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+                this.style.transition = 'transform 0.1s';
+            }, { passive: false });
+            
+            loginButton.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                this.style.transform = '';
+                login();
+            }, { passive: false });
+            
+            // Gestion du clavier mobile
+            usernameInput.addEventListener('focus', function() {
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            });
+            
+            passwordInput.addEventListener('focus', function() {
+                setTimeout(() => {
+                    const loginCard = document.querySelector('.login-card');
+                    if (loginCard) {
+                        loginCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            });
+            
+            // Debug logging
+            loginButton.addEventListener('click', function() {
+                console.log('Bouton cliqué sur mobile');
             });
         }
 
@@ -1943,44 +2697,82 @@
         function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
+            const loginButton = document.getElementById('loginButton');
+            const loginText = document.getElementById('loginText');
+            const loginSpinner = document.getElementById('loginSpinner');
             
+            // Debug pour mobile
+            console.log('Tentative de connexion mobile - Username:', username, 'Password:', password);
+            
+            // Validation des champs
             if (!username || !password) {
                 showLoginError("Veuillez remplir tous les champs");
+                // Animation pour mobile
+                if (!username) {
+                    document.getElementById('username').style.borderColor = 'var(--danger-color)';
+                    document.getElementById('username').focus();
+                } else {
+                    document.getElementById('password').style.borderColor = 'var(--danger-color)';
+                    document.getElementById('password').focus();
+                }
                 return;
             }
             
-            if (username === ADMIN_CONFIG.username && password === ADMIN_CONFIG.password) {
-                document.getElementById('loginError').style.display = 'none';
-                createSession();
-                showDashboard();
-                loginAttempts = 0;
-                showToast("Connexion réussie !", "success");
-            } else {
-                loginAttempts++;
-                const remainingAttempts = 3 - loginAttempts;
-                
-                if (remainingAttempts > 0) {
-                    showLoginError(`Identifiants incorrects. ${remainingAttempts} tentative(s) restante(s).`);
+            // Reset les bordures d'erreur
+            document.getElementById('username').style.borderColor = '';
+            document.getElementById('password').style.borderColor = '';
+            
+            // Afficher l'indicateur de chargement
+            loginButton.disabled = true;
+            loginText.textContent = 'Connexion...';
+            loginSpinner.style.display = 'inline-block';
+            
+            // Simuler un délai pour l'effet visuel (important pour mobile)
+            setTimeout(() => {
+                if (username === ADMIN_CONFIG.username && password === ADMIN_CONFIG.password) {
+                    document.getElementById('loginError').style.display = 'none';
+                    createSession();
+                    showDashboard();
+                    loginAttempts = 0;
+                    showToast("Connexion réussie !", "success");
                 } else {
-                    showLoginError("Trop de tentatives échouées. Veuillez réessayer plus tard.");
-                    document.getElementById('loginButton').disabled = true;
+                    loginButton.disabled = false;
+                    loginText.textContent = 'Se Connecter';
+                    loginSpinner.style.display = 'none';
                     
-                    setTimeout(() => {
-                        document.getElementById('loginButton').disabled = false;
-                        loginAttempts = 0;
-                        showLoginError("");
-                    }, 300000);
+                    loginAttempts++;
+                    const remainingAttempts = 3 - loginAttempts;
+                    
+                    if (remainingAttempts > 0) {
+                        showLoginError(`Identifiants incorrects. ${remainingAttempts} tentative(s) restante(s).`);
+                    } else {
+                        showLoginError("Trop de tentatives échouées. Veuillez réessayer plus tard.");
+                        loginButton.disabled = true;
+                        
+                        setTimeout(() => {
+                            loginButton.disabled = false;
+                            loginAttempts = 0;
+                            showLoginError("");
+                        }, 300000);
+                    }
                 }
-            }
+            }, 500); // Petit délai pour l'effet visuel
         }
 
         function showLoginError(message) {
             const errorDiv = document.getElementById('loginError');
             const errorMessage = document.getElementById('errorMessage');
             
+            console.log('Erreur de connexion mobile:', message); // Debug
+            
             if (message) {
                 errorMessage.textContent = message;
                 errorDiv.style.display = 'block';
+                // Animation pour mobile
+                errorDiv.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    errorDiv.style.transform = 'scale(1)';
+                }, 300);
             } else {
                 errorDiv.style.display = 'none';
             }
@@ -2080,31 +2872,64 @@
             initDashboard();
             loadDashboardData();
             initCharts();
+            
+            // Focus sur le contenu principal pour mobile
+            setTimeout(() => {
+                document.getElementById('mainContent').focus();
+            }, 100);
         }
 
         function initDashboard() {
+            // Sidebar toggle
             document.getElementById('toggleSidebar').addEventListener('click', function() {
                 document.getElementById('sidebar').classList.toggle('collapsed');
                 document.getElementById('mainContent').classList.toggle('expanded');
             });
 
+            // Mobile menu
             document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.getElementById('sidebar').classList.toggle('show');
+                showMobileSidebar();
             });
 
+            // Menu items
             document.querySelectorAll('.menu-item[data-section]').forEach(item => {
                 item.addEventListener('click', function(e) {
                     if (this.getAttribute('href') === '#') {
                         e.preventDefault();
                     }
                     showSection(this.getAttribute('data-section'));
+                    hideMobileSidebar();
                 });
             });
 
+            // Global search
             const searchInput = document.getElementById('globalSearch');
             searchInput.addEventListener('input', function() {
                 performGlobalSearch(this.value);
             });
+
+            // Click outside to close mobile sidebar
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    const sidebar = document.getElementById('sidebar');
+                    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                    if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target) && sidebar.classList.contains('show')) {
+                        hideMobileSidebar();
+                    }
+                }
+            });
+        }
+
+        function showMobileSidebar() {
+            document.getElementById('sidebar').classList.add('show');
+            document.getElementById('sidebarOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideMobileSidebar() {
+            document.getElementById('sidebar').classList.remove('show');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
         }
 
         function showSection(sectionId) {
@@ -2122,6 +2947,11 @@
             
             updatePageTitle(sectionId);
             loadSectionData(sectionId);
+            
+            // Scroll vers le haut pour mobile
+            if (window.innerWidth <= 768) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         function updatePageTitle(sectionId) {
@@ -2303,49 +3133,127 @@
         }
 
         function initCharts() {
+            initCategoriesChart();
+        }
+
+        function initCategoriesChart() {
             const categoriesCtx = document.getElementById('categoriesChart');
-            if (categoriesCtx) {
-                const categories = {};
-                realProducts.forEach(product => {
-                    const category = product.categorie || product.category || 'Non catégorisé';
-                    categories[category] = (categories[category] || 0) + 1;
-                });
-                
-                const labels = Object.keys(categories);
-                const data = Object.values(categories);
-                
-                charts.categories = new Chart(categoriesCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: [
-                                '#4361ee',
-                                '#4895ef',
-                                '#4cc9f0',
-                                '#3a0ca3',
-                                '#7209b7'
-                            ],
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
+            if (!categoriesCtx) return;
+            
+            // Données de démonstration enrichies
+            const categoriesData = {
+                'Lunettes de vue': 45,
+                'Lunettes soleil': 32,
+                'Lentilles': 18,
+                'Accessoires': 12,
+                'Montures enfants': 8,
+                'Verres progressifs': 15,
+                'Montures sport': 7
+            };
+            
+            // Calcul du total
+            const total = Object.values(categoriesData).reduce((a, b) => a + b, 0);
+            document.getElementById('totalCategoriesCount').textContent = total;
+            
+            // Couleurs pour le graphique
+            const colors = [
+                '#4361ee', '#4895ef', '#4cc9f0', '#3a0ca3', 
+                '#7209b7', '#f72585', '#4cc9f0', '#560bad'
+            ];
+            
+            // Préparation des données
+            const labels = Object.keys(categoriesData);
+            const data = Object.values(categoriesData);
+            const backgroundColors = colors.slice(0, labels.length);
+            
+            // Création du graphique
+            if (charts.categories) {
+                charts.categories.destroy();
             }
+            
+            charts.categories = new Chart(categoriesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1,
+                        borderColor: '#ffffff',
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} produits (${percentage}%)`;
+                                }
+                            },
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#1e293b',
+                            bodyColor: '#475569',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 12
+                        }
+                    },
+                    cutout: '55%', // Réduit pour plus de surface
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 1000
+                    }
+                }
+            });
+            
+            // Mettre à jour la légende
+            updateCategoriesLegend(labels, backgroundColors, data, total);
+        }
+
+        function updateCategoriesLegend(labels, colors, data, total) {
+            const legendContainer = document.getElementById('categoriesLegend');
+            if (!legendContainer) return;
+            
+            let legendHTML = '';
+            labels.forEach((label, index) => {
+                const percentage = ((data[index] / total) * 100).toFixed(1);
+                legendHTML += `
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: ${colors[index]}"></div>
+                        <span class="fw-medium">${label}</span>
+                        <span class="text-muted ms-auto">${data[index]} (${percentage}%)</span>
+                    </div>
+                `;
+            });
+            
+            legendContainer.innerHTML = legendHTML;
+        }
+
+        function refreshCategoriesChart() {
+            // Simuler un refresh avec nouvelles données
+            showToast('Graphique des catégories actualisé', 'info');
+            
+            // Animation de rotation
+            const canvas = document.getElementById('categoriesChart');
+            canvas.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                canvas.style.transform = 'rotate(0deg)';
+                canvas.style.transition = 'transform 0.5s ease';
+            }, 100);
+            
+            // Réinitialiser le graphique
+            initCategoriesChart();
         }
 
         function showToast(message, type = 'info') {
@@ -2438,17 +3346,26 @@
                     <td>${formatDate(order.date || order.timestamp)}</td>
                     <td><strong>${formatNumber(order.total || 0)} F</strong></td>
                     <td>
-                        <span class="status-badge status-${order.status || 'new'}">
-                            ${getStatusText(order.status || 'new')}
-                        </span>
+                        <select class="form-select form-select-sm status-select" 
+                                data-order-id="${order.id}" 
+                                style="min-width: 120px;"
+                                onchange="updateOrderStatus('${order.id}', this.value)">
+                            <option value="new" ${order.status === 'new' ? 'selected' : ''}>Nouvelle</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>En traitement</option>
+                            <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Payée</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Livrée</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Annulée</option>
+                        </select>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrder('${order.id}')">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-invoice" onclick="generateInvoice('${order.id}')">
-                            <i class="bi bi-receipt"></i> Facture
-                        </button>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" onclick="viewOrder('${order.id}')" title="Voir">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-invoice" onclick="generateInvoice('${order.id}')" title="Facture">
+                                <i class="bi bi-receipt"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -2814,8 +3731,10 @@
                 stock: parseInt(document.getElementById('productStock').value),
                 description: document.getElementById('productDescription').value,
                 description_courte: document.getElementById('productDescription').value,
-                image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop',
-                date_creation: new Date().toISOString()
+                image: document.getElementById('productImage').value || 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop',
+                date_creation: new Date().toISOString(),
+                nouveau: true,
+                bestseller: Math.random() > 0.7
             };
             
             realProducts.push(newProduct);
@@ -2828,6 +3747,7 @@
             form.reset();
             loadProductsGrid();
             updateStats();
+            initCategoriesChart();
         }
 
         // ============================================
@@ -2872,20 +3792,334 @@
                     <td>${formatDate(order.date || order.timestamp)}</td>
                     <td><strong>${formatNumber(order.total || 0)} F</strong></td>
                     <td>
-                        <span class="status-badge status-${order.status || 'new'}">
-                            ${getStatusText(order.status || 'new')}
-                        </span>
+                        <select class="form-select form-select-sm status-select" 
+                                data-order-id="${order.id}" 
+                                style="min-width: 150px;"
+                                onchange="updateOrderStatus('${order.id}', this.value)">
+                            <option value="new" ${order.status === 'new' ? 'selected' : ''}>Nouvelle</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>En traitement</option>
+                            <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Payée</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Livrée</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Annulée</option>
+                        </select>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrder('${order.id}')">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-invoice" onclick="generateInvoice('${order.id}')">
-                            <i class="bi bi-receipt"></i> Facture
-                        </button>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" onclick="viewOrder('${order.id}')" title="Voir">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-invoice" onclick="generateInvoice('${order.id}')" title="Facture">
+                                <i class="bi bi-receipt"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
+        }
+
+        // Fonction pour mettre à jour le statut d'une commande
+        function updateOrderStatus(orderId, newStatus) {
+            const orderIndex = realOrders.findIndex(o => o.id === orderId);
+            if (orderIndex === -1) {
+                showToast('Commande non trouvée', 'error');
+                return;
+            }
+            
+            const oldStatus = realOrders[orderIndex].status;
+            realOrders[orderIndex].status = newStatus;
+            realOrders[orderIndex].updatedAt = new Date().toISOString();
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('senvision-orders', JSON.stringify(realOrders));
+            
+            // Mettre à jour le statut dans le tableau de bord
+            const statusElement = document.querySelector(`[data-order-id="${orderId}"]`);
+            if (statusElement) {
+                statusElement.value = newStatus;
+            }
+            
+            showToast(`Statut de la commande #${orderId} mis à jour : ${getStatusText(oldStatus)} → ${getStatusText(newStatus)}`, 'success');
+            
+            // Si le statut est "paid", créer une transaction comptable automatiquement
+            if (newStatus === 'paid') {
+                createTransactionFromOrder(realOrders[orderIndex]);
+            }
+            
+            // Mettre à jour les statistiques
+            updateStats();
+            loadRecentOrders();
+        }
+
+        // Fonction pour créer une transaction comptable à partir d'une commande payée
+        function createTransactionFromOrder(order) {
+            // Vérifier si une transaction existe déjà pour cette commande
+            const existingTransaction = accounts.find(acc => 
+                acc.reference === order.id && acc.type === 'income');
+            
+            if (existingTransaction) {
+                return; // Transaction déjà existante
+            }
+            
+            const newTransaction = {
+                id: 'TXN-' + Date.now(),
+                type: 'income',
+                category: 'sales',
+                date: new Date().toISOString().split('T')[0],
+                amount: order.total || 0,
+                paymentMethod: order.paymentMethod || 'mobile_money',
+                reference: order.id,
+                description: `Vente commande #${order.id} - ${order.clientName}`,
+                status: 'completed',
+                customerId: order.clientPhone,
+                customerName: order.clientName,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            accounts.push(newTransaction);
+            localStorage.setItem('senvision-accounts', JSON.stringify(accounts));
+            
+            showToast('Transaction comptable créée automatiquement', 'info');
+        }
+
+        // Fonction pour exporter en Excel
+        function exportOrders(format) {
+            if (realOrders.length === 0) {
+                showToast('Aucune commande à exporter', 'warning');
+                return;
+            }
+            
+            showToast(`Génération du fichier ${format.toUpperCase()}...`, 'info');
+            
+            if (format === 'excel') {
+                exportToExcel();
+            } else if (format === 'pdf') {
+                exportOrdersToPDF();
+            }
+        }
+
+        // Fonction pour exporter en Excel
+        function exportToExcel() {
+            try {
+                // Préparer les données
+                const headers = ['ID', 'Client', 'Email', 'Téléphone', 'Date', 'Montant', 'Statut', 'Méthode Paiement'];
+                const data = realOrders.map(order => [
+                    order.id || 'N/A',
+                    order.clientName || 'N/A',
+                    order.clientEmail || '',
+                    order.clientPhone || '',
+                    formatDate(order.date || order.timestamp),
+                    `${order.total || 0} F`,
+                    getStatusText(order.status || 'new'),
+                    getPaymentMethodText(order.paymentMethod)
+                ]);
+                
+                // Créer le contenu CSV
+                const csvContent = [
+                    headers.join(','),
+                    ...data.map(row => row.map(cell => `"${cell}"`).join(','))
+                ].join('\n');
+                
+                // Créer le fichier Blob
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                
+                // Créer le nom de fichier
+                const date = new Date();
+                const fileName = `commandes_senvision_${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}.csv`;
+                
+                // Télécharger le fichier
+                if (navigator.msSaveBlob) { // Pour IE
+                    navigator.msSaveBlob(blob, fileName);
+                } else {
+                    link.href = URL.createObjectURL(blob);
+                    link.setAttribute('download', fileName);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                
+                showToast('Export Excel terminé avec succès', 'success');
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'export Excel:', error);
+                showToast('Erreur lors de l\'export Excel', 'error');
+            }
+        }
+
+        // Fonction pour exporter en PDF
+        function exportOrdersToPDF() {
+            if (realOrders.length === 0) {
+                showToast('Aucune commande à exporter', 'warning');
+                return;
+            }
+            
+            showToast('Génération du rapport PDF...', 'info');
+            
+            try {
+                // Créer un nouvel objet jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                
+                // Titre du document
+                doc.setFontSize(20);
+                doc.setTextColor(67, 97, 238); // Couleur primaire
+                doc.text('Rapport des Commandes - SenVision Optique', 20, 20);
+                
+                // Informations de génération
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Généré le: ${new Date().toLocaleDateString('fr-FR')}`, 20, 30);
+                doc.text(`Total commandes: ${realOrders.length}`, 20, 35);
+                
+                // Calcul des statistiques
+                const totalRevenue = realOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+                const paidOrders = realOrders.filter(order => order.status === 'paid').length;
+                const pendingOrders = realOrders.filter(order => order.status === 'new' || order.status === 'processing').length;
+                
+                doc.text(`Chiffre d'affaires total: ${formatNumber(totalRevenue)} FCFA`, 20, 40);
+                doc.text(`Commandes payées: ${paidOrders}`, 20, 45);
+                doc.text(`Commandes en attente: ${pendingOrders}`, 20, 50);
+                
+                // Tableau des commandes
+                doc.autoTable({
+                    startY: 60,
+                    head: [['ID', 'Client', 'Date', 'Montant', 'Statut', 'Paiement']],
+                    body: realOrders.map(order => [
+                        order.id || 'N/A',
+                        (order.clientName || 'N/A').substring(0, 20),
+                        new Date(order.date || order.timestamp).toLocaleDateString('fr-FR'),
+                        `${formatNumber(order.total || 0)} F`,
+                        getStatusText(order.status || 'new'),
+                        getPaymentMethodText(order.paymentMethod).substring(0, 15)
+                    ]),
+                    theme: 'striped',
+                    headStyles: {
+                        fillColor: [67, 97, 238], // Couleur primaire
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold'
+                    },
+                    margin: { top: 60 },
+                    didDrawPage: function(data) {
+                        // Pied de page
+                        doc.setFontSize(8);
+                        doc.setTextColor(128, 128, 128);
+                        doc.text('SenVision Optique - Rapport généré automatiquement', 
+                            data.settings.margin.left, 
+                            doc.internal.pageSize.height - 10);
+                        doc.text(`Page ${data.pageNumber}`, 
+                            doc.internal.pageSize.width - 20, 
+                            doc.internal.pageSize.height - 10, 
+                            { align: 'right' });
+                    }
+                });
+                
+                // Sauvegarder le PDF
+                const fileName = `rapport_commandes_senvision_${Date.now()}.pdf`;
+                doc.save(fileName);
+                
+                showToast('Rapport PDF généré avec succès', 'success');
+                
+            } catch (error) {
+                console.error('Erreur lors de la génération PDF:', error);
+                showToast('Erreur lors de la génération du PDF', 'error');
+            }
+        }
+
+        // Fonction pour générer le rapport complet des commandes
+        function generateOrdersReport() {
+            exportOrdersToPDF();
+        }
+
+        // Fonction de filtrage des commandes
+        function filterOrders() {
+            const statusFilter = document.getElementById('orderStatusFilter').value;
+            const dateFilter = document.getElementById('orderDateFilter').value;
+            
+            let filteredOrders = [...realOrders];
+            
+            // Filtrer par statut
+            if (statusFilter) {
+                filteredOrders = filteredOrders.filter(order => order.status === statusFilter);
+            }
+            
+            // Filtrer par date
+            if (dateFilter) {
+                filteredOrders = filteredOrders.filter(order => {
+                    const orderDate = new Date(order.date || order.timestamp).toISOString().split('T')[0];
+                    return orderDate === dateFilter;
+                });
+            }
+            
+            // Afficher les résultats filtrés
+            displayFilteredOrders(filteredOrders);
+            
+            showToast(`${filteredOrders.length} commande(s) trouvée(s)`, 'info');
+        }
+
+        function displayFilteredOrders(filteredOrders) {
+            const table = document.getElementById('ordersTable');
+            if (!table) return;
+            
+            if (filteredOrders.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <i class="bi bi-search display-4 text-muted mb-3"></i>
+                            <h5>Aucune commande correspondante</h5>
+                            <button class="btn btn-outline-primary mt-2" onclick="resetFilters()">
+                                <i class="bi bi-arrow-counterclockwise me-2"></i>Réinitialiser les filtres
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            table.innerHTML = filteredOrders.map(order => `
+                <tr>
+                    <td>
+                        <strong>${order.id || 'N/A'}</strong>
+                    </td>
+                    <td>
+                        <div><strong>${order.clientName || 'N/A'}</strong></div>
+                        <small class="text-muted">${order.clientEmail || ''}</small>
+                    </td>
+                    <td>${order.clientPhone || 'N/A'}</td>
+                    <td>${formatDate(order.date || order.timestamp)}</td>
+                    <td><strong>${formatNumber(order.total || 0)} F</strong></td>
+                    <td>
+                        <select class="form-select form-select-sm status-select" 
+                                data-order-id="${order.id}" 
+                                style="min-width: 150px;"
+                                onchange="updateOrderStatus('${order.id}', this.value)">
+                            <option value="new" ${order.status === 'new' ? 'selected' : ''}>Nouvelle</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>En traitement</option>
+                            <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Payée</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Livrée</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Annulée</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" onclick="viewOrder('${order.id}')" title="Voir">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-invoice" onclick="generateInvoice('${order.id}')" title="Facture">
+                                <i class="bi bi-receipt"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function resetFilters() {
+            document.getElementById('orderStatusFilter').value = '';
+            document.getElementById('orderDateFilter').value = '';
+            loadOrdersTable();
+            showToast('Filtres réinitialisés', 'info');
         }
 
         function loadProductsGrid() {
@@ -2909,13 +4143,24 @@
             grid.innerHTML = realProducts.map(product => `
                 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
                     <div class="product-card">
-                        <div class="product-image">
+                        <div class="product-image" onclick="viewProductImage('${product.id}')">
                             <img src="${product.image || 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop'}" 
                                  alt="${product.nom || product.name}" 
-                                 onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%23f5f7fa\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"%23666\">${product.nom || product.name}</text></svg>'">
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%23f5f7fa\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"%23666\">${(product.nom || product.name).substring(0, 20)}</text></svg>'">
                             ${product.nouveau || product.bestseller ? 
                                 '<span class="product-badge">' + (product.nouveau ? 'Nouveau' : 'Best-seller') + '</span>' : ''}
+                            
+                            <!-- Boutons d'action sur l'image -->
+                            <div class="product-actions">
+                                <button class="btn-image-action" onclick="viewProductImage('${product.id}')" title="Agrandir">
+                                    <i class="bi bi-zoom-in"></i>
+                                </button>
+                                <button class="btn-image-action" onclick="shareProduct('${product.id}')" title="Partager">
+                                    <i class="bi bi-share"></i>
+                                </button>
+                            </div>
                         </div>
+                        
                         <div class="product-info">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div>
@@ -2965,6 +4210,116 @@
             return 'bi-check-circle';
         }
 
+        // ============================================
+        // FONCTIONS POUR LES IMAGES PRODUITS
+        // ============================================
+        function viewProductImage(productId) {
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const imageUrl = product.image || 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&h=600&fit=crop';
+            
+            // Créer un modal pour afficher l'image en grand
+            const modalHTML = `
+                <div class="modal fade product-image-modal" id="productImageModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header border-0">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="${imageUrl}" 
+                                     alt="${product.nom || product.name}"
+                                     class="img-fluid"
+                                     onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\"><rect width=\"800\" height=\"600\" fill=\"%23f5f7fa\"/><text x=\"400\" y=\"300\" font-family=\"Arial\" font-size=\"24\" text-anchor=\"middle\" dy=\".3em\" fill=\"%23666\">${(product.nom || product.name).substring(0, 40)}</text></svg>'">
+                                <div class="mt-3">
+                                    <h5>${product.nom || product.name}</h5>
+                                    <p class="text-muted">${product.marque || product.brand || ''} • ${product.categorie || ''}</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 justify-content-center">
+                                <button type="button" class="btn btn-primary" onclick="downloadProductImage('${productId}')">
+                                    <i class="bi bi-download me-2"></i>Télécharger
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" onclick="shareProduct('${productId}')">
+                                    <i class="bi bi-share me-2"></i>Partager
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Ajouter le modal au DOM
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Afficher le modal
+            const modal = new bootstrap.Modal(document.getElementById('productImageModal'));
+            modal.show();
+            
+            // Nettoyer après fermeture
+            document.getElementById('productImageModal').addEventListener('hidden.bs.modal', function () {
+                this.remove();
+            });
+        }
+
+        function downloadProductImage(productId) {
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const imageUrl = product.image || 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&h=600&fit=crop';
+            const fileName = `senvision-${(product.nom || product.name).replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.jpg`;
+            
+            fetch(imageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    showToast('Image téléchargée avec succès', 'success');
+                })
+                .catch(error => {
+                    console.error('Erreur lors du téléchargement:', error);
+                    showToast('Erreur lors du téléchargement', 'error');
+                });
+        }
+
+        function shareProduct(productId) {
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const shareData = {
+                title: product.nom || product.name,
+                text: `Découvrez ${product.nom || product.name} sur SenVision Optique`,
+                url: window.location.origin
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => showToast('Produit partagé avec succès', 'success'))
+                    .catch(error => console.log('Erreur de partage:', error));
+            } else {
+                // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
+                navigator.clipboard.writeText(`${shareData.text}: ${shareData.url}`)
+                    .then(() => showToast('Lien copié dans le presse-papier', 'success'))
+                    .catch(() => {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = `${shareData.text}: ${shareData.url}`;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showToast('Lien copié dans le presse-papier', 'success');
+                    });
+            }
+        }
+
         function editRealProduct(productId) {
             const product = realProducts.find(p => p.id === productId);
             if (!product) return;
@@ -2978,6 +4333,7 @@
                 document.getElementById('productBrand').value = product.brand || product.marque || '';
                 document.getElementById('productPrice').value = product.price || product.prix || 0;
                 document.getElementById('productStock').value = product.stock || 0;
+                document.getElementById('productImage').value = product.image || '';
                 document.getElementById('productDescription').value = product.description || product.description_courte || '';
                 
                 showToast('Modification du produit ' + productId, 'info');
@@ -2990,6 +4346,7 @@
                 localStorage.setItem('senvision-products', JSON.stringify(realProducts));
                 loadProductsGrid();
                 updateStats();
+                initCategoriesChart();
                 showToast('Produit supprimé avec succès', 'success');
             }
         }
@@ -3098,7 +4455,6 @@
             
             updateAccountsStats();
             loadAccountsTable();
-            initAccountsCharts();
         }
 
         function updateAccountsStats() {
@@ -3391,118 +4747,6 @@
             }
         }
 
-        function initAccountsCharts() {
-            // Graphique simplifié pour la démonstration
-            const ctx = document.getElementById('accountsChart');
-            if (ctx) {
-                // Données de démonstration
-                const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
-                const incomeData = [150000, 180000, 220000, 190000, 250000, 280000];
-                const expenseData = [80000, 95000, 120000, 110000, 130000, 150000];
-                
-                if (charts.accounts) {
-                    charts.accounts.destroy();
-                }
-                
-                charts.accounts = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: months,
-                        datasets: [
-                            {
-                                label: 'Recettes',
-                                data: incomeData,
-                                borderColor: '#22c55e',
-                                backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                                fill: true,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Dépenses',
-                                data: expenseData,
-                                borderColor: '#ef4444',
-                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                fill: true,
-                                tension: 0.4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return formatNumber(value) + ' F';
-                                    },
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        function generateAccountsReport() {
-            showToast('Génération du rapport comptable...', 'info');
-            
-            const report = `
-                RAPPORT COMPTABLE SENVISION OPTIQUE
-                ============================================
-                
-                Période: ${new Date().toLocaleDateString('fr-FR')}
-                
-                Statistiques:
-                - Recettes totales: ${formatNumber(accounts.filter(a => a.type === 'income').reduce((s, a) => s + a.amount, 0))} FCFA
-                - Dépenses totales: ${formatNumber(accounts.filter(a => a.type === 'expense').reduce((s, a) => s + a.amount, 0))} FCFA
-                - Solde: ${formatNumber(accounts.filter(a => a.type === 'income').reduce((s, a) => s + a.amount, 0) - accounts.filter(a => a.type === 'expense').reduce((s, a) => s + a.amount, 0))} FCFA
-                
-                RAPPORT GÉNÉRÉ LE: ${new Date().toLocaleString('fr-FR')}
-            `;
-            
-            const blob = new Blob([report], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `rapport-comptable-senvision-${Date.now()}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('Rapport comptable téléchargé', 'success');
-        }
-
-        function exportAccounts(format) {
-            showToast(`Export ${format} en cours...`, 'info');
-            
-            setTimeout(() => {
-                showToast(`Export ${format} terminé`, 'success');
-            }, 1000);
-        }
-
         // ============================================
         // FONCTIONS DES AUTRES SECTIONS
         // ============================================
@@ -3611,16 +4855,16 @@
         }
 
         function updateRealStock(productId) {
-            const stock = prompt('Nouveau stock:');
-            if (stock && !isNaN(stock)) {
-                const product = realProducts.find(p => p.id === productId);
-                if (product) {
-                    product.stock = parseInt(stock);
-                    localStorage.setItem('senvision-products', JSON.stringify(realProducts));
-                    loadProductsGrid();
-                    loadInventoryTable();
-                    showToast('Stock mis à jour', 'success');
-                }
+            const product = realProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const stock = prompt('Nouveau stock:', product.stock || 0);
+            if (stock !== null && !isNaN(stock)) {
+                product.stock = parseInt(stock);
+                localStorage.setItem('senvision-products', JSON.stringify(realProducts));
+                loadProductsGrid();
+                loadInventoryTable();
+                showToast('Stock mis à jour', 'success');
             }
         }
 
@@ -3628,8 +4872,8 @@
             const product = realProducts.find(p => p.id === productId);
             if (!product) return;
             
-            const newMinStock = prompt('Définir le stock minimum:', 5);
-            if (newMinStock && !isNaN(newMinStock)) {
+            const newMinStock = prompt('Définir le stock minimum:', product.minStock || 5);
+            if (newMinStock !== null && !isNaN(newMinStock)) {
                 product.minStock = parseInt(newMinStock);
                 localStorage.setItem('senvision-products', JSON.stringify(realProducts));
                 loadInventoryTable();
@@ -3821,36 +5065,28 @@
             showToast(`Recherche : "${query}"`, 'info');
         }
 
-        function filterOrders() {
-            showToast('Filtrage des commandes', 'info');
-        }
-
-        function resetFilters() {
-            showToast('Filtres réinitialisés', 'info');
-        }
-
         function filterProducts() {
             showToast('Filtrage des produits', 'info');
-        }
-
-        function exportOrders(format) {
-            showToast(`Export ${format} en cours...`, 'info');
-            setTimeout(() => {
-                showToast(`Export ${format} terminé`, 'success');
-            }, 1000);
-        }
-
-        function generateOrdersReport() {
-            showToast('Génération du rapport PDF...', 'info');
-            setTimeout(() => {
-                showToast('Rapport PDF généré avec succès', 'success');
-            }, 1000);
         }
 
         function exportCustomers() {
             showToast('Export des clients en cours...', 'info');
             setTimeout(() => {
                 showToast('Export CSV terminé', 'success');
+            }, 1000);
+        }
+
+        function exportAccounts(format) {
+            showToast(`Export ${format} des comptes en cours...`, 'info');
+            setTimeout(() => {
+                showToast(`Export ${format} terminé`, 'success');
+            }, 1000);
+        }
+
+        function generateAccountsReport() {
+            showToast('Génération du rapport comptable...', 'info');
+            setTimeout(() => {
+                showToast('Rapport comptable généré avec succès', 'success');
             }, 1000);
         }
     </script>
